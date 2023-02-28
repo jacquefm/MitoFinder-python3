@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/groups/looger/home/loogerl/ORFFinder/Turtle_Transcriptome/Jackie/Assembly_stats_py_virtenv/bin/python
 #Version: 1.0
 #Author: Alex Schomaker - alexschomaker@ufrj.br
 #LAMPADA - IBQM - UFRJ
@@ -47,9 +47,9 @@ def circularizationCheck(resultFile, circularSize, circularOffSet, blastFolder):
 		formatDB = Popen(args, stdout=open(os.devnull, 'wb'))
 		formatDB.wait()
 	except:
-		print ''
-		print "formatDB during circularization check failed..."
-		print ''
+		print('')
+		print("formatDB during circularization check failed...")
+		print('')
 		return (False,-1,-1)
 		
 	with open("circularization_check.blast.xml",'w') as blastResultFile:
@@ -85,7 +85,7 @@ def circularizationCheck(resultFile, circularSize, circularOffSet, blastFolder):
 
 if __name__ == '__main__':
 	if sys.argv[1] == '-h' or sys.argv[1] == '--help':
-		print 'Usage: fasta_file'
+		print('Usage: fasta_file')
 	else:
 		module_dir = os.path.dirname(__file__)
 		module_dir = os.path.abspath(module_dir)
@@ -101,4 +101,4 @@ if __name__ == '__main__':
 		if blastFolder.lower() == 'default':
 			blastFolder = os.path.join(module_dir, 'blast/bin/')
 
-		print(circularizationCheck(sys.argv[1], int(sys.argv[2]), int(sys.argv[3]), blastFolder))
+		print((circularizationCheck(sys.argv[1], int(sys.argv[2]), int(sys.argv[3]), blastFolder)))

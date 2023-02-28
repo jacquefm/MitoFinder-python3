@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/groups/looger/home/loogerl/ORFFinder/Turtle_Transcriptome/Jackie/Assembly_stats_py_virtenv/bin/python
 #Version: 1.4
 #Authors: Allio Remi & Schomaker-Bastos Alex
 #ISEM - CNRS - LAMPADA - IBQM - UFRJ
@@ -82,7 +82,7 @@ class Assembly():
 							tRNAintronBegin = 0
 							tRNAintronEnd = 0
 							if tRNAintronBegin > 0:
-								print '	WARNING: %s found with an intron. Strange result, check .trnascan file' % tRNAtype
+								print('	WARNING: %s found with an intron. Strange result, check .trnascan file' % tRNAtype)
 							tRNAscore = float(tRNAinfos[3])
 							thisRNA = self.tRNA(self, tRNAnumber, tRNAcoordinates, tRNAtype, tRNAcodon, tRNAscore, tRNAintronBegin, tRNAintronEnd)
 							self.tRNAs.append(thisRNA)
@@ -107,7 +107,7 @@ class Assembly():
 							tRNAintronBegin = int(tRNAinfos[6])
 							tRNAintronEnd = int(tRNAinfos[7])
 							if tRNAintronBegin > 0:
-								print '	WARNING: %s found with an intron. Strange result, check .trnascan file' % tRNAtype
+								print('	WARNING: %s found with an intron. Strange result, check .trnascan file' % tRNAtype)
 							tRNAscore = float(tRNAinfos[8])
 							thisRNA = self.tRNA(self, tRNAnumber, tRNAcoordinates, tRNAtype, tRNAcodon, tRNAscore, tRNAintronBegin, tRNAintronEnd)
 							self.tRNAs.append(thisRNA)
@@ -238,7 +238,7 @@ def tRNAscanCheck(resultFile = None, hasCircularized = False, skipTRNA = False, 
 			except KeyError:
 				pass
 			except:
-				print 'MitFi path is not correct. Change it in Mitofinder.config'
+				print('MitFi path is not correct. Change it in Mitofinder.config')
 		elif tRNAscan == "trnascan":	
 			try:
 				os.environ["PATH"] += os.pathsep + tRNAscanFolder
@@ -246,7 +246,7 @@ def tRNAscanCheck(resultFile = None, hasCircularized = False, skipTRNA = False, 
 			except KeyError:
 				pass
 			except:
-				print 'tRNAscan path is not correct. Change it in Mitofinder.config'
+				print('tRNAscan path is not correct. Change it in Mitofinder.config')
 		elif tRNAscan == "arwen":	
 			try:
 				os.environ["PATH"] += os.pathsep + ArwenFolder
@@ -254,7 +254,7 @@ def tRNAscanCheck(resultFile = None, hasCircularized = False, skipTRNA = False, 
 			except KeyError:
 				pass
 			except:
-				print 'Arwen path is not correct. Change it in Mitofinder.config'
+				print('Arwen path is not correct. Change it in Mitofinder.config')
 			
 		if os.path.exists(outputName): #remove result file if it already exists so that tRNAscan doesn't throw another error
 			os.remove(outputName)
@@ -278,9 +278,9 @@ def tRNAscanCheck(resultFile = None, hasCircularized = False, skipTRNA = False, 
 			except:
 				if os.path.exists(out): #remove result file if it already exists so that tRNAscan doesn't throw another error
 					os.remove(out)
-				print ''
-				print "MiTFi failed."
-				print ''
+				print('')
+				print("MiTFi failed.")
+				print('')
 				return False
 
 		if tRNAscan == "trnascan":
@@ -325,9 +325,9 @@ def tRNAscanCheck(resultFile = None, hasCircularized = False, skipTRNA = False, 
 				thisSequenceResult = Assembly(resultFile, outputName, hasCircularized, tRNAscan, organismType)
 				return thisSequenceResult
 			except:
-				print ''
-				print "tRNAscan-SE failed. Check it's logs for more details."
-				print ''
+				print('')
+				print("tRNAscan-SE failed. Check it's logs for more details.")
+				print('')
 				return False
 		
 		elif tRNAscan == "arwen":
@@ -363,7 +363,7 @@ def tRNAscanCheck(resultFile = None, hasCircularized = False, skipTRNA = False, 
 					else:
 						command = "arwen " + ' ' + geneticCode + "-o "\
 							+ outputName + " -w " + scanInput
-						print command
+						print(command)
 						args = shlex.split(command)
 						tRNAscanRun = Popen(args, cwd=ArwenFolder, stdout=tRNAscanLog, stderr=tRNAscanLog)
 					tRNAscanRun.wait()
@@ -371,9 +371,9 @@ def tRNAscanCheck(resultFile = None, hasCircularized = False, skipTRNA = False, 
 				thisSequenceResult = Assembly(resultFile, outputName, hasCircularized, tRNAscan, organismType)
 				return thisSequenceResult
 			except:
-				print ''
-				print "Arwen failed. Check log files for more details."
-				print ''
+				print('')
+				print("Arwen failed. Check log files for more details.")
+				print('')
 				return False
 	else: #if tRNA = True
 		return Assembly(resultFile, None, hasCircularized)

@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/groups/looger/home/loogerl/ORFFinder/Turtle_Transcriptome/Jackie/Assembly_stats_py_virtenv/bin/python
 #Version: 1.4
 #Authors: Allio Remi & Schomaker-Bastos Alex
 #ISEM - CNRS - LAMPADA - IBQM - UFRJ
@@ -39,13 +39,13 @@ def runMegahit(processName = 'teste', shortestContig = 100, inputFile = 'teste.i
 	pathToMegahit = megahitFolder
 	bestBuild = None
 
-	print 'Starting Assembly step with MEGAHIT '
+	print('Starting Assembly step with MEGAHIT ')
 	logfile=open(logfile,"a")
 	logfile.write('Starting Assembly step with MEGAHIT '+"\n")
 
 	pathToWork = os.getcwd()+"/"
-	print 'Result files will be saved here: '
-	print pathToWork+processName+"_megahit/"
+	print('Result files will be saved here: ')
+	print(pathToWork+processName+"_megahit/")
 	logfile.write('Result files will be saved here: '+"\n"+pathToWork+processName+"_megahit/"+"\n")
 		
 	#copy input file to secondary folder to keep it organized
@@ -79,11 +79,11 @@ def runMegahit(processName = 'teste', shortestContig = 100, inputFile = 'teste.i
 	out=processName+"_megahit"
 	megahit="yes"
 	if os.path.isdir(out) and override == False:
-		print "\n####################################"
-		print "\n WARNING : "+pathToWork+out+" already exists. (use --override option)" 
-		print "Mitofinder will skip MEGAHIT step"
-		print "\nIf you want to run MEGAHIT again, kill the mitofinder process, remove (or use --override) or rename the MEGAHIT result folder, and restart mitofinder\n"
-		print "#####################################\n"
+		print("\n####################################")
+		print("\n WARNING : "+pathToWork+out+" already exists. (use --override option)") 
+		print("Mitofinder will skip MEGAHIT step")
+		print("\nIf you want to run MEGAHIT again, kill the mitofinder process, remove (or use --override) or rename the MEGAHIT result folder, and restart mitofinder\n")
+		print("#####################################\n")
 		logfile.write("\n####################################"+"\n"+"\n WARNING : "+pathToWork+out+" already exists. (use --override option)" +"\n"+"Mitofinder will skip MEGAHIT step"+"\n"+"\nIf you want to run MEGAHIT again, kill the mitofinder process, remove (or use --override) or rename the MEGAHIT result folder, and restart mitofinder\n"+"\n"+"#####################################\n"+"\n")
 		time.sleep(2)
 		megahit="no"
@@ -99,8 +99,8 @@ def runMegahit(processName = 'teste', shortestContig = 100, inputFile = 'teste.i
 				megahit = Popen(command, stdout=megahitLogFile, stderr=megahitLogFile, shell=True)
 				megahit.wait()
 				if not os.path.isfile(pathToWork+"/"+out+"/"+out+".contigs.fa") == True:
-					print "\n ERROR: MEGAHIT didn't run well"
-					print "Please check log file : "+ pathToWork + 'megahit.log'
+					print("\n ERROR: MEGAHIT didn't run well")
+					print("Please check log file : "+ pathToWork + 'megahit.log')
 					logfile.write("\n ERROR: MEGAHIT didn't run well"+"\n"+"Please check log file : "+ pathToWork + 'megahit.log'+"\n")
 					exit()
 				#copyfile(pathToWork+"/"+out+"/"+out+".contigs.fa", pathToWork+"/"+processName+".scafSeq")
@@ -115,8 +115,8 @@ def runMegahit(processName = 'teste', shortestContig = 100, inputFile = 'teste.i
 				megahit = Popen(command, stdout=megahitLogFile, stderr=megahitLogFile, shell=True)
 				megahit.wait()
 				if not os.path.isfile(pathToWork+"/"+out+"/"+out+".contigs.fa") == True:
-					print "\n MEGAHIT didn't run well"
-					print "Please check log file : "+ pathToWork + 'megahit.log'
+					print("\n MEGAHIT didn't run well")
+					print("Please check log file : "+ pathToWork + 'megahit.log')
 					logfile.write("\n ERROR: MEGAHIT didn't run well"+"\n"+"Please check log file : "+ pathToWork + 'megahit.log'+"\n")
 					exit()
 				#copyfile(pathToWork+"/"+out+"/"+out+".contigs.fa", pathToWork+"/"+processName+".scafSeq")

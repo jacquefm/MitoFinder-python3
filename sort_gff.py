@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/groups/looger/home/loogerl/ORFFinder/Turtle_Transcriptome/Jackie/Assembly_stats_py_virtenv/bin/python
 #Version: 1.4
 #Authors: Allio Remi & Schomaker-Bastos Alex
 #ISEM - CNRS - LAMPADA - IBQM - UFRJ
@@ -42,7 +42,7 @@ for feature in record.features:
 					if feature.location.strand == -1:
 						start=Seq(str(record.seq[feature.location.end-3 :feature.location.end]),IUPAC.unambiguous_dna)
 						
-						if not dico_lstart.has_key(feature.qualifiers['gene'][0].split("_")[0]):
+						if feature.qualifiers['gene'][0].split("_")[0] not in dico_lstart:
 							dico_lstart[feature.qualifiers['gene'][0].split("_")[0]]=feature.location.end
 							dico_start[feature.qualifiers['gene'][0].split("_")[0]]=str(start.reverse_complement())
 						else:
@@ -50,7 +50,7 @@ for feature in record.features:
 								dico_lstart[feature.qualifiers['gene'][0].split("_")[0]]=feature.location.end
 								dico_start[feature.qualifiers['gene'][0].split("_")[0]]=str(start.reverse_complement())
 						stop=Seq(str(record.seq[feature.location.start :feature.location.start+3]),IUPAC.unambiguous_dna)
-						if not dico_lend.has_key(feature.qualifiers['gene'][0].split("_")[0]):
+						if feature.qualifiers['gene'][0].split("_")[0] not in dico_lend:
 							dico_lend[feature.qualifiers['gene'][0].split("_")[0]]=feature.location.start
 							dico_end[feature.qualifiers['gene'][0].split("_")[0]]=str(stop.reverse_complement())
 						else:
@@ -58,14 +58,14 @@ for feature in record.features:
 								dico_lend[feature.qualifiers['gene'][0].split("_")[0]]=feature.location.start
 								dico_end[feature.qualifiers['gene'][0].split("_")[0]]=str(stop.reverse_complement())
 					else:
-						if not dico_lstart.has_key(feature.qualifiers['gene'][0].split("_")[0]):
+						if feature.qualifiers['gene'][0].split("_")[0] not in dico_lstart:
 							dico_lstart[feature.qualifiers['gene'][0].split("_")[0]]=feature.location.start
 							dico_start[feature.qualifiers['gene'][0].split("_")[0]]=str(Seq(str(record.seq[feature.location.start :feature.location.start+3]),IUPAC.unambiguous_dna))
 						else:
 							if dico_lstart.get(feature.qualifiers['gene'][0].split("_")[0]) > feature.location.start:
 								dico_lstart[feature.qualifiers['gene'][0].split("_")[0]]=feature.location.start
 								dico_start[feature.qualifiers['gene'][0].split("_")[0]]=str(Seq(str(record.seq[feature.location.start :feature.location.start+3]),IUPAC.unambiguous_dna))
-						if not dico_lend.has_key(feature.qualifiers['gene'][0].split("_")[0]):
+						if feature.qualifiers['gene'][0].split("_")[0] not in dico_lend:
 							dico_lend[feature.qualifiers['gene'][0].split("_")[0]]=feature.location.end
 							dico_end[feature.qualifiers['gene'][0].split("_")[0]]=str(Seq(str(record.seq[feature.location.end-3 :feature.location.end]),IUPAC.unambiguous_dna))
 						else:
@@ -76,7 +76,7 @@ for feature in record.features:
 					if feature.location.strand == -1:
 						start=Seq(str(record.seq[feature.location.end-3 :feature.location.end]),IUPAC.unambiguous_dna)
 						
-						if not dico_lstart.has_key(feature.qualifiers['gene'][0].split("_")[0]):
+						if feature.qualifiers['gene'][0].split("_")[0] not in dico_lstart:
 							dico_lstart[feature.qualifiers['gene'][0].split("_")[0]]=feature.location.end
 							dico_start[feature.qualifiers['gene'][0].split("_")[0]]=str(start.reverse_complement())
 						else:
@@ -84,7 +84,7 @@ for feature in record.features:
 								dico_lstart[feature.qualifiers['gene'][0].split("_")[0]]=feature.location.end
 								dico_start[feature.qualifiers['gene'][0].split("_")[0]]=str(start.reverse_complement())
 						stop=Seq(str(record.seq[feature.location.start :feature.location.start+3]),IUPAC.unambiguous_dna)
-						if not dico_lend.has_key(feature.qualifiers['gene'][0].split("_")[0]):
+						if feature.qualifiers['gene'][0].split("_")[0] not in dico_lend:
 							dico_lend[feature.qualifiers['gene'][0].split("_")[0]]=feature.location.start
 							dico_end[feature.qualifiers['gene'][0].split("_")[0]]=str(stop.reverse_complement())
 						else:
@@ -92,14 +92,14 @@ for feature in record.features:
 								dico_lend[feature.qualifiers['gene'][0].split("_")[0]]=feature.location.start
 								dico_end[feature.qualifiers['gene'][0].split("_")[0]]=str(stop.reverse_complement())
 					else:
-						if not dico_lstart.has_key(feature.qualifiers['gene'][0].split("_")[0]):
+						if feature.qualifiers['gene'][0].split("_")[0] not in dico_lstart:
 							dico_lstart[feature.qualifiers['gene'][0].split("_")[0]]=feature.location.start
 							dico_start[feature.qualifiers['gene'][0].split("_")[0]]=str(Seq(str(record.seq[feature.location.start :feature.location.start+3]),IUPAC.unambiguous_dna))
 						else:
 							if dico_lstart.get(feature.qualifiers['gene'][0].split("_")[0]) > feature.location.start:
 								dico_lstart[feature.qualifiers['gene'][0].split("_")[0]]=feature.location.start
 								dico_start[feature.qualifiers['gene'][0].split("_")[0]]=str(Seq(str(record.seq[feature.location.start :feature.location.start+3]),IUPAC.unambiguous_dna))
-						if not dico_lend.has_key(feature.qualifiers['gene'][0].split("_")[0]):
+						if feature.qualifiers['gene'][0].split("_")[0] not in dico_lend:
 							dico_lend[feature.qualifiers['gene'][0].split("_")[0]]=feature.location.end
 							dico_end[feature.qualifiers['gene'][0].split("_")[0]]=str(Seq(str(record.seq[feature.location.end-3 :feature.location.end]),IUPAC.unambiguous_dna))
 						else:
@@ -146,21 +146,21 @@ for line in open(sys.argv[1]):
 	start=int(line.split("\t")[3])
 	stop=int(line.split("\t")[4])
 	if "tRNA" in gene:
-		for k, v in dico.items():
+		for k, v in list(dico.items()):
 			v=v.rstrip()
 			tchro=v.split("\t")[0]
 			tgene=v.split("\t")[8]
 			tstart=int(v.split("\t")[3])
 			tstop=int(v.split("\t")[4])
 			if tgene != gene and tchro == chro and tstart <= start and tstop >= stop:
-					print gene+" = "+str(start)+","+str(stop)
-					print tgene+" = "+str(tstart)+","+str(tstop)
+					print(gene+" = "+str(start)+","+str(stop))
+					print(tgene+" = "+str(tstart)+","+str(tstop))
 					t=0
 					dicotrna[gene]=gene
 					break
 			elif tgene != gene and tchro == chro and tstart >= start and tstop <= stop:
-					print gene+" = "+str(start)+","+str(stop)
-					print tgene+" = "+str(tstart)+","+str(tstop)
+					print(gene+" = "+str(start)+","+str(stop))
+					print(tgene+" = "+str(tstart)+","+str(tstop))
 					t=0
 					dicotrna[gene]=gene
 					break		
@@ -201,7 +201,7 @@ for line in open(sys.argv[1]):
 				dicogl[gene.split("_")[0]]=dicogl.get(gene.split("_")[0])+";"+line
 
 
-sorted_x = sorted(dicof.items(), key=operator.itemgetter(0))
+sorted_x = sorted(list(dicof.items()), key=operator.itemgetter(0))
 sorted_dict = collections.OrderedDict(sorted_x)
 gout=sys.argv[1].split("_raw.gff")[0]+".gff"
 gout=open(gout, "w")
@@ -229,8 +229,8 @@ dico_product["ATP8"]="ATP synthase F0 subunit 8"
 dico_product["rrnL"]="16S ribosomal RNA"
 dico_product["rrnS"]="12S ribosomal RNA"
 
-for k, v in sorted_dict.items():
-	if not dicotrna.has_key(v.split("\t")[8]):
+for k, v in list(sorted_dict.items()):
+	if v.split("\t")[8] not in dicotrna:
 		col1=seqID
 		col2=v.split("\t")[1]
 		col3=v.split("\t")[2]
@@ -262,7 +262,7 @@ for k, v in sorted_dict.items():
 						tout.write(start+"\t"+stop+"\t"+"gene\n")
 						tout.write("\t\t\tgene\t"+col9+"\n")
 						tout.write(start+"\t"+stop+"\t"+"CDS\n")
-						if dico_product.has_key(col9):
+						if col9 in dico_product:
 							tout.write("\t\t\tproduct\t"+dico_product.get(col9)+"\n")
 						else:
 							tout.write("\t\t\tproduct\tunknown\n")
@@ -286,7 +286,7 @@ for k, v in sorted_dict.items():
 						tout.write(start+"\t"+stop+"\t"+"gene\n")
 						tout.write("\t\t\tgene\t"+col9+"\n")
 						tout.write(start+"\t"+stop+"\t"+"CDS\n")
-						if dico_product.has_key(col9):
+						if col9 in dico_product:
 							tout.write("\t\t\tproduct\t"+dico_product.get(col9)+"\n")
 						else:
 							tout.write("\t\t\tproduct\t"+col9+"\n")
@@ -404,17 +404,17 @@ for k, v in sorted_dict.items():
 				for line in list_tmp_cds:
 					tout.write(line+"\n")
 
-				if dico_product.has_key(col9):
+				if col9 in dico_product:
 					tout.write("\t\t\tproduct\t"+dico_product.get(col9)+"\n")
 				else:
 					tout.write("\t\t\tproduct\t"+col9+"\n")
 				tout.write("\t\t\ttransl_table\t"+sys.argv[3]+"\n")
 				if ext != "":
 					tout.write("\t\t\tnote\t"+ext+"\n")
-				sorted_y = sorted(dico_tmp_gff.items(), key=operator.itemgetter(0))
+				sorted_y = sorted(list(dico_tmp_gff.items()), key=operator.itemgetter(0))
 				sorted_dico = collections.OrderedDict(sorted_y)
 				
-				for key, val in sorted_dico.items():
+				for key, val in list(sorted_dico.items()):
 					gout.write(val+"\n")
 								
 		if "tRNA" in col9:
@@ -472,7 +472,7 @@ for k, v in sorted_dict.items():
 					tout.write("\t\t\tgene\t"+col9+"\n")
 					tout.write(col4+"\t"+col5+"\t"+"rRNA\n")
 					tout.write("\t\t\tgene\t"+col9+"\n")
-					if dico_product.has_key(col9):
+					if col9 in dico_product:
 						tout.write("\t\t\tproduct\t"+dico_product.get(col9)+"\n")
 					else:
 						tout.write("\t\t\tproduct\tunknown\n")
@@ -481,7 +481,7 @@ for k, v in sorted_dict.items():
 					tout.write("\t\t\tgene\t"+col9+"\n")
 					tout.write(col5+"\t"+col4+"\t"+"rRNA\n")
 					tout.write("\t\t\tgene\t"+col9+"\n")
-					if dico_product.has_key(col9):
+					if col9 in dico_product:
 						tout.write("\t\t\tproduct\t"+dico_product.get(col9)+"\n")
 					else:
 						tout.write("\t\t\tproduct\tunknown\n")				
@@ -554,16 +554,16 @@ for k, v in sorted_dict.items():
 				for line in list_tmp_cds:
 					tout.write(line+"\n")
 
-				if dico_product.has_key(col9):
+				if col9 in dico_product:
 					tout.write("\t\t\tproduct\t"+dico_product.get(col9)+"\n")
 				else:
 					tout.write("\t\t\tproduct\t"+col9+"\n")
 				if ext != "":
 					tout.write("\t\t\tnote\t"+ext+"\n")
-				sorted_y = sorted(dico_tmp_gff.items(), key=operator.itemgetter(0))
+				sorted_y = sorted(list(dico_tmp_gff.items()), key=operator.itemgetter(0))
 				sorted_dico = collections.OrderedDict(sorted_y)
 				
-				for key, val in sorted_dico.items():
+				for key, val in list(sorted_dico.items()):
 					gout.write(val+"\n")
 	
 		if "rrnS" in col9:
@@ -573,7 +573,7 @@ for k, v in sorted_dict.items():
 					tout.write("\t\t\tgene\t"+col9+"\n")
 					tout.write(col4+"\t"+col5+"\t"+"rRNA\n")
 					tout.write("\t\t\tgene\t"+col9+"\n")
-					if dico_product.has_key(col9):
+					if col9 in dico_product:
 						tout.write("\t\t\tproduct\t"+dico_product.get(col9)+"\n")
 					else:
 						tout.write("\t\t\tproduct\tunknown\n")
@@ -582,7 +582,7 @@ for k, v in sorted_dict.items():
 					tout.write("\t\t\tgene\t"+col9+"\n")
 					tout.write(col5+"\t"+col4+"\t"+"rRNA\n")
 					tout.write("\t\t\tgene\t"+col9+"\n")
-					if dico_product.has_key(col9):
+					if col9 in dico_product:
 						tout.write("\t\t\tproduct\t"+dico_product.get(col9)+"\n")
 					else:
 						tout.write("\t\t\tproduct\tunknown\n")				
@@ -655,16 +655,16 @@ for k, v in sorted_dict.items():
 				for line in list_tmp_cds:
 					tout.write(line+"\n")
 
-				if dico_product.has_key(col9):
+				if col9 in dico_product:
 					tout.write("\t\t\tproduct\t"+dico_product.get(col9)+"\n")
 				else:
 					tout.write("\t\t\tproduct\t"+col9+"\n")
 				if ext != "":
 					tout.write("\t\t\tnote\t"+ext+"\n")
-				sorted_y = sorted(dico_tmp_gff.items(), key=operator.itemgetter(0))
+				sorted_y = sorted(list(dico_tmp_gff.items()), key=operator.itemgetter(0))
 				sorted_dico = collections.OrderedDict(sorted_y)
 				
-				for key, val in sorted_dico.items():
+				for key, val in list(sorted_dico.items()):
 					gout.write(val+"\n")
 gout.close()
 tout.close()

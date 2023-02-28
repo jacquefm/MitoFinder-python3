@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/groups/looger/home/loogerl/ORFFinder/Turtle_Transcriptome/Jackie/Assembly_stats_py_virtenv/bin/python
 #Version: 1.0
 #Author: Alex Schomaker - alexschomaker@ufrj.br
 #LAMPADA - IBQM - UFRJ
@@ -118,51 +118,51 @@ def checkResults(processName, pathToWork, sizeToLook, refSeqFile = None, cutoffV
 		presentFeatures = checktRNA.checkFeatures[0]
 		importantFeatures = checktRNA.checkFeatures[1]
 		splitFeatures = checktRNA.checkFeatures[2]
-		print 'Features found: %s / %s' % (len(presentFeatures) - len(splitFeatures), len(importantFeatures))
+		print('Features found: %s / %s' % (len(presentFeatures) - len(splitFeatures), len(importantFeatures)))
 	else:
 		checktRNA.checkFeatures = ([],[])
 		presentFeatures = checktRNA.checkFeatures[0]
 		importantFeatures = checktRNA.checkFeatures[1]
-		print 'Ignoring genomic checks, since --relaxed is on.'
+		print('Ignoring genomic checks, since --relaxed is on.')
 
-	print "Assessing checks..."
+	print("Assessing checks...")
 	if (len(checktRNA) == 21 and buildCloroplast == False) or (len(checktRNA) == 37 and buildCloroplast == True):
-		print 'All ' + str(len(checktRNA)) + ' tRNAs were found!'
+		print('All ' + str(len(checktRNA)) + ' tRNAs were found!')
 		if circularCheck[0] == True:
-			print 'And this build is circular.'
+			print('And this build is circular.')
 			if len(presentFeatures) == len(importantFeatures):
-				print 'And all genes, tRNAs and rRNAs were found.'
+				print('And all genes, tRNAs and rRNAs were found.')
 				if skipTrnaScan == True:
 					return True
 			elif len(presentFeatures) >= len(importantFeatures):
-				print 'And all genes, tRNAs and rRNAs were found, but some were split or duplicated.'
+				print('And all genes, tRNAs and rRNAs were found, but some were split or duplicated.')
 			else:
-				print 'But not all genes, tRNAs and rRNAs were found, storing info and rebuilding...'
-				print ''
+				print('But not all genes, tRNAs and rRNAs were found, storing info and rebuilding...')
+				print('')
 				return checktRNA
-			print ''
+			print('')
 			#if all tRNAs were found, all features were found and it's circular, just return true and stop the recursive part
 			return True
 		else:
-			print 'But circularization could not be found yet, storing this info...'
+			print('But circularization could not be found yet, storing this info...')
 			if len(presentFeatures) == len(importantFeatures):
-				print 'And all genes, tRNAs and rRNAs were found.'
+				print('And all genes, tRNAs and rRNAs were found.')
 			elif len(presentFeatures) >= len(importantFeatures):
-				print 'And all genes, tRNAs and rRNAs were found, but some were split or duplicated.'
+				print('And all genes, tRNAs and rRNAs were found, but some were split or duplicated.')
 			else:
-				print 'But not all genes, tRNAs and rRNAs were found, storing info...'
-			print 'Rebuilding...'
-			print ''
+				print('But not all genes, tRNAs and rRNAs were found, storing info...')
+			print('Rebuilding...')
+			print('')
 			return checktRNA
 	else:
-		print str(len(checktRNA)) + ' tRNAs were built.'
+		print(str(len(checktRNA)) + ' tRNAs were built.')
 		if len(presentFeatures) == len(importantFeatures):
-			print 'And all genes and rRNAs were found.'
+			print('And all genes and rRNAs were found.')
 		elif len(presentFeatures) >= len(importantFeatures):
-			print 'And all genes, tRNAs and rRNAs were found, but some were split or duplicated.'
+			print('And all genes, tRNAs and rRNAs were found, but some were split or duplicated.')
 		else:
-			print 'But not all genes and rRNAs were found, storing info...'
-		print ''
+			print('But not all genes and rRNAs were found, storing info...')
+		print('')
 		return checktRNA
 
 def checkSoapOutput(processName, pathToWork, sizeToLook, refSeqFile = None, cutoffValue = (2500,18000), blasteVal = 10.0,
@@ -189,8 +189,8 @@ def checkSoapOutput(processName, pathToWork, sizeToLook, refSeqFile = None, cuto
 			blastFastaFile = refSeqFile
 			sizeToLook = len(refSeq)
 	
-	print ''
-	print "Checking DeNovo results for possible hits!\nLogs being saved to " + pathToWork
+	print('')
+	print("Checking DeNovo results for possible hits!\nLogs being saved to " + pathToWork)
 	if usingSOAP == True:
 		scafFile = pathToWork + processName + '.scafSeq'
 	elif usingSOAP == 'Spades':
@@ -211,7 +211,7 @@ def checkSoapOutput(processName, pathToWork, sizeToLook, refSeqFile = None, cuto
 			# Add this record to our list
 			possible_sequences.append(record)
  
-	print "Found %i possible sequences due to size." % len(possible_sequences)
+	print("Found %i possible sequences due to size." % len(possible_sequences))
 	
 	possible_sequences = sorted(possible_sequences)
 	output_handle = open("possible_hits.fasta", "w")
@@ -220,11 +220,11 @@ def checkSoapOutput(processName, pathToWork, sizeToLook, refSeqFile = None, cuto
 	
 	#Blast part of checker!
 	if len(possible_sequences) == 0:
-		print "No possible sequences were found according to size check. Skipping the other checks."
-		print ''
+		print("No possible sequences were found according to size check. Skipping the other checks.")
+		print('')
 		return False
 	elif refSeqFile != None:
-		print "Formatting database for blast..."
+		print("Formatting database for blast...")
 		if blastFolder == 'installed':
 			command = "formatdb -i " + blastFastaFile + " -p F" #need to formatdb refseq first
 		else:
@@ -234,7 +234,7 @@ def checkSoapOutput(processName, pathToWork, sizeToLook, refSeqFile = None, cuto
 		formatDB = Popen(args, stdout=open(os.devnull, 'wb'))
 		formatDB.wait()
 		
-		print "Running blast against refSeq to determine if a hit was built..."
+		print("Running blast against refSeq to determine if a hit was built...")
 		with open("possible_hits.blast.xml",'w') as blastResultFile:
 			if blastFolder == 'installed':
 				command = "blastall -p blastn -d " + refSeqFile + " -i possible_hits.fasta -e " + str(blasteVal) + " -m 7" #call BLAST with XML output
@@ -257,15 +257,15 @@ def checkSoapOutput(processName, pathToWork, sizeToLook, refSeqFile = None, cuto
 				dictOfBlastResults[totalSpan] = qresult
 
 		#sort the dicionary keys, which are the span sizes, in decrescent order
-		orderedSpanSizes = sorted(dictOfBlastResults.keys(), reverse=True)
+		orderedSpanSizes = sorted(list(dictOfBlastResults.keys()), reverse=True)
 
 		#get the best result, the one which aligned more and use it as backbone for the rest of the process
 		if len(orderedSpanSizes) > 0:
 			qresult = dictOfBlastResults[orderedSpanSizes[0]]
 			listOfValidResults.append(qresult)
-			print("Best contig found: %s" % qresult.id)
+			print(("Best contig found: %s" % qresult.id))
 		else:
-			print 'Could not find a sequence that is good enough...\n'
+			print('Could not find a sequence that is good enough...\n')
 			return False
 
 		'''
@@ -279,7 +279,7 @@ def checkSoapOutput(processName, pathToWork, sizeToLook, refSeqFile = None, cuto
 				final_Record = record
 				
 				if len(final_Record.seq) < sizeToLook * 0.925 and noExtension == False: #if lower than 92.5%, try to increase this sequence
-					print 'Trying to find other contigs that match the target reference...\nSize before extension: ', len(final_Record.seq)
+					print('Trying to find other contigs that match the target reference...\nSize before extension: ', len(final_Record.seq))
 					totalSize = 0 #totalSize will be increased until we get as far as 1.05 * the reference sequence in size
 					extraSeqsFound = '' #the final sequence is going to be built here
 					#triesToExtend = 0 #limiting to 4 tries, so we don't overdo it
@@ -361,8 +361,8 @@ def checkSoapOutput(processName, pathToWork, sizeToLook, refSeqFile = None, cuto
 					If it is insided an already covered region, ignore it.
 					'''
 					lastInsertEnding = 0
-					for n in xrange(len(listOfValidResults)):
-						print 'Found contig/scaffold with id: ', dictOfStarts[listOfValidResults[n]].id
+					for n in range(len(listOfValidResults)):
+						print('Found contig/scaffold with id: ', dictOfStarts[listOfValidResults[n]].id)
 						for record2 in SeqIO.parse(open("possible_hits.fasta", "rU"), "fasta", generic_dna):
 							startVal = listOfValidResults[n]
 							blastResult = dictOfStarts[startVal]
@@ -394,10 +394,10 @@ def checkSoapOutput(processName, pathToWork, sizeToLook, refSeqFile = None, cuto
 						#if numberOfReverseComplementsAdded > 0: #since we had to reverse many sequences to properly inser it
 											#in the final sequence, reverse again to turn it back to original
 							#final_Record.seq = final_Record.seq.reverse_complement()
-						print 'Size after extension: ', len(final_Record.seq)
-						print 'Size after extension (without Ns): ', len(final_Record.seq) - final_Record.seq.lower().count('n')
+						print('Size after extension: ', len(final_Record.seq))
+						print('Size after extension (without Ns): ', len(final_Record.seq) - final_Record.seq.lower().count('n'))
 					else:
-						print 'Extension was not possible, keeping original sequence.\n'
+						print('Extension was not possible, keeping original sequence.\n')
 				
 				SeqIO.write(final_Record, output_handle, "fasta")
 				output_handle.close()
@@ -413,8 +413,8 @@ def checkSoapOutput(processName, pathToWork, sizeToLook, refSeqFile = None, cuto
 				'''
 
 				#Checking if there is circularization...
-				print "A possible hit was found. Going to next step..."
-				print 'Checking for circularization...'
+				print("A possible hit was found. Going to next step...")
+				print('Checking for circularization...')
 				#call this function to check for circularization, genomic features and tRNAs
 				return checkResults(processName, pathToWork, sizeToLook, refSeqFile, cutoffValue, blasteVal, blastHitSizePercentage, 
                                     usingSOAP, numberOfReadGroups, buildCloroplast, skipTrnaScan, circularSize, circularOffSet, 
@@ -426,7 +426,7 @@ def checkSoapOutput(processName, pathToWork, sizeToLook, refSeqFile = None, cuto
 		Do a bisection search to look for the contig with the closest size to target size, since no
 		reference was given.
 		'''
-		pos = bisect_left(map(len,possible_sequences), sizeToLook)
+		pos = bisect_left(list(map(len,possible_sequences)), sizeToLook)
 		if pos == 0:
 			SeqIO.write(possible_sequences[0], output_handle, "fasta")
 		elif pos == len(possible_sequences):
@@ -440,8 +440,8 @@ def checkSoapOutput(processName, pathToWork, sizeToLook, refSeqFile = None, cuto
 				SeqIO.write(before, output_handle, "fasta")
 		output_handle.close()
 
-		print "Possible hits were found. Grabbing sequence closest to optimum size... Going to next step..."
-		print ''
+		print("Possible hits were found. Grabbing sequence closest to optimum size... Going to next step...")
+		print('')
 		#check for circularization, tRNAs and genomic features
 		#return True, False or Assembly class holding this build's information
 		return checkResults(processName, pathToWork, sizeToLook, refSeqFile, cutoffValue, blasteVal, blastHitSizePercentage, usingSOAP,

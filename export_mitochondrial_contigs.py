@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/groups/looger/home/loogerl/ORFFinder/Turtle_Transcriptome/Jackie/Assembly_stats_py_virtenv/bin/python
 #Version: 1.4
 #Authors: Allio Remi & Schomaker-Bastos Alex
 #ISEM - CNRS - LAMPADA - IBQM - UFRJ
@@ -44,7 +44,7 @@ for line in f:
 
 
 
-for cle, valeur in dico.items():
+for cle, valeur in list(dico.items()):
 	for line in open(sys.argv[1]):
 		if cle in line:
 			blast=line.split("	")[2]
@@ -57,8 +57,8 @@ for cle, valeur in dico.items():
 			test=test.split(" ")[0]
 			if blast > float(test) and float(eVal) > float(evalmin):
 				dicof[cle]=str(float(blast))+" ("+cibl+")"
-for cle, valeur in dicof.items():
-	print cle+" === "+str(valeur)
+for cle, valeur in list(dicof.items()):
+	print(cle+" === "+str(valeur))
 	
 
 

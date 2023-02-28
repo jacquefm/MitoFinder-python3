@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/groups/looger/home/loogerl/ORFFinder/Turtle_Transcriptome/Jackie/Assembly_stats_py_virtenv/bin/python
 #Version: 1.4
 #Authors: Allio Remi & Schomaker-Bastos Alex
 #ISEM - CNRS - LAMPADA - IBQM - UFRJ
@@ -46,12 +46,12 @@ dico={}
 for name, seq in read_fasta(allCDS):
     gene=name.split("@")[1]
     sp=name.split("@")[0]
-    if dico.has_key(gene):
+    if gene in dico:
         if len(seq) > len(dico.get(gene)):
             dico[gene]=seq
     else:
         dico[gene]=seq
 
-for cle, valeur in dico.items():
+for cle, valeur in list(dico.items()):
     fout=open(cle+"_all_sp.fasta","a")
     fout.write(sp+"\n"+valeur+"\n")

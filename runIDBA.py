@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/groups/looger/home/loogerl/ORFFinder/Turtle_Transcriptome/Jackie/Assembly_stats_py_virtenv/bin/python
 #Version: 1.4
 #Authors: Allio Remi & Schomaker-Bastos Alex
 #ISEM - CNRS - LAMPADA - IBQM - UFRJ
@@ -40,13 +40,13 @@ def runIDBA(processName = 'teste', shortestContig = 100, inputFile = 'teste.inpu
 	pathToIdba = idbaFolder
 	bestBuild = None
 
-	print 'Starting Assembly step with IDBA-UD '
+	print('Starting Assembly step with IDBA-UD ')
 	logfile=open(logfile,"a")
 	logfile.write('Starting Assembly phase with IDBA-UD '+"\n")
 	
 	pathToWork = os.getcwd()+"/"
-	print 'Result files will be saved here: '
-	print pathToWork+processName+"_idba/"
+	print('Result files will be saved here: ')
+	print(pathToWork+processName+"_idba/")
 	logfile.write('Result files will be saved here: '+"\n"+pathToWork+processName+"_idba/"+"\n")
 		
 	#copy input file to secondary folder to keep it organized
@@ -63,11 +63,11 @@ def runIDBA(processName = 'teste', shortestContig = 100, inputFile = 'teste.inpu
 	out=processName+"_idba"
 	idba="yes"
 	if os.path.isdir(out) and override == False:
-		print "\n####################################"
-		print "\n WARNING : "+pathToWork+out+" already exists. (use --override option)" 
-		print "Mitofinder will skip idba step"
-		print "\nIf you want to run idba again, kill the mitofinder process, remove (or use --override) or rename the idba result folder, and restart mitofinder\n"
-		print "#####################################\n"
+		print("\n####################################")
+		print("\n WARNING : "+pathToWork+out+" already exists. (use --override option)") 
+		print("Mitofinder will skip idba step")
+		print("\nIf you want to run idba again, kill the mitofinder process, remove (or use --override) or rename the idba result folder, and restart mitofinder\n")
+		print("#####################################\n")
 		logfile.write("\n####################################"+"\n"+"\n WARNING : "+pathToWork+out+" already exists. (use --override option)" +"\n"+"Mitofinder will skip idba step"+"\n"+"\nIf you want to run idba again, kill the mitofinder process, remove (or use --override) or rename the idba result folder, and restart mitofinder\n"+"\n"+"#####################################\n"+"\n")
 		time.sleep(2)
 		idba="no"
@@ -104,41 +104,41 @@ def runIDBA(processName = 'teste', shortestContig = 100, inputFile = 'teste.inpu
 
 		with open(pathToWork + 'idba.log','a') as idbaLogFile:
 			if t == "PE":
-				print "Paired-end"
+				print("Paired-end")
 				logfile.write("Paired-end"+"\n")
 				read=processName+"_idba_read.fasta"
 				command = '%sfq2fa --merge --filter %s %s %s' %(pathToIdba, read1, read2, read)
-				print "Preparing data for IDBA-UD assembly" 
+				print("Preparing data for IDBA-UD assembly") 
 				logfile.write("Preparing data for IDBA-UD assembly"+"\n")
 				fq2fa = Popen(command, stdout=idbaLogFile, stderr=idbaLogFile, shell=True)
 				fq2fa.wait()
 				if not os.path.isfile(pathToWork+"/"+read) == True:
-					print "\n ERROR: IDBA-UD didn't run well"
-					print "Please check log file : "+ pathToWork + 'idba.log'
+					print("\n ERROR: IDBA-UD didn't run well")
+					print("Please check log file : "+ pathToWork + 'idba.log')
 					logfile.write("\n ERROR: IDBA-UD didn't run well"+"\n"+"Please check log file : "+ pathToWork + 'idba.log'+"\n")
 					exit()
 				command = '%sidba -r %s -o %s --num_threads %s' %(pathToIdba, read, out, processorsToUse)
-				print "Running assembly" 
+				print("Running assembly") 
 				idba = Popen(command, stdout=idbaLogFile, stderr=idbaLogFile, shell=True)
 				idba.wait()
 				#copyfile(pathToWork+"/"+out+"/contig.fa", pathToWork+"/"+processName+".scafSeq")
 				
 			if t == "SE":
-				print "Single-end"
+				print("Single-end")
 				logfile.write("Single-end"+"\n")
 				read=processName+"_idba_read.fasta"
 				command = '%sfq2fa --filter %s %s' %(pathToIdba, read1, read)
-				print "Preparing data for IDBA-UD assembly" 
+				print("Preparing data for IDBA-UD assembly") 
 				logfile.write("Preparing data for IDBA-UD assembly"+"\n")
 				fq2fa = Popen(command, stdout=idbaLogFile, stderr=idbaLogFile, shell=True)
 				fq2fa.wait()
 				if not os.path.isfile(pathToWork+"/"+read) == True:
-					print "\n ERROR : IDBA-UD didn't run well"
-					print "Please check log file : "+ pathToWork + 'idba.log'
+					print("\n ERROR : IDBA-UD didn't run well")
+					print("Please check log file : "+ pathToWork + 'idba.log')
 					logfile.write("\n ERROR: IDBA-UD didn't run well"+"\n"+"Please check log file : "+ pathToWork + 'idba.log'+"\n")
 					exit()
 				command = '%sidba -r %s -o %s --num_threads %s' %(pathToIdba, read, out, processorsToUse)
-				print "Running assembly"
+				print("Running assembly")
 				logfile.write("Running assembly"+"\n") 
 				idba = Popen(command, stdout=idbaLogFile, stderr=idbaLogFile, shell=True)
 				idba.wait()

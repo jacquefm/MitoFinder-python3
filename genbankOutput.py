@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/groups/looger/home/loogerl/ORFFinder/Turtle_Transcriptome/Jackie/Assembly_stats_py_virtenv/bin/python
 #Version: 1.4
 #Authors: Allio Remi & Schomaker-Bastos Alex
 #ISEM - CNRS - LAMPADA - IBQM - UFRJ
@@ -51,7 +51,7 @@ def genbankOutput(resultGbFile, resultFile, listOfFeaturesToOutput, buildCloropl
 	for thisFeatureAlignment in listOfFeaturesToOutput:
 		if not ('trn' in thisFeatureAlignment.seq2.lower() or 'rrn' in thisFeatureAlignment.seq2.lower() \
 			or 'ribosomal' in thisFeatureAlignment.seq2.lower() or 'rnr' in thisFeatureAlignment.seq2.lower()):
-			if dico_intron.has_key(thisFeatureAlignment.seq2.split("_")[0]):
+			if thisFeatureAlignment.seq2.split("_")[0] in dico_intron:
 				dico_intron[thisFeatureAlignment.seq2.split("_")[0]]+=1
 			else:
 				dico_intron[thisFeatureAlignment.seq2.split("_")[0]]=1
@@ -76,7 +76,7 @@ def genbankOutput(resultGbFile, resultFile, listOfFeaturesToOutput, buildCloropl
 				main_feature_qualifiers['gene'] = thisFeatureAlignment.seq2
 				main_feature_type = "gene"
 			gene=thisFeatureAlignment.seq2.split("_")[0]
-			if dico_gene.has_key(gene):
+			if gene in dico_gene:
 				dico_gene[gene]+=1	
 			else:
 				dico_gene[gene]=1	

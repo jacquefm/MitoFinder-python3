@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/groups/looger/home/loogerl/ORFFinder/Turtle_Transcriptome/Jackie/Assembly_stats_py_virtenv/bin/python
 #Version: 1.4
 #Authors: Allio Remi & Schomaker-Bastos Alex
 #ISEM - CNRS - LAMPADA - IBQM - UFRJ
@@ -77,7 +77,7 @@ def geneCheck(fastaReference, resultFile, cutoffEquality_prot, cutoffEquality_nu
 #	record = SeqIO.read(genBankReference, "genbank", generic_dna)
 	refSeq = SeqIO.read(resultFile, "fasta", generic_dna)
 	listOfImportantFeatures = {}
-	print 'Checking protein-coding genes, tRNAs and rRNAs from reference with organismType=%s...' % organismType
+	print('Checking protein-coding genes, tRNAs and rRNAs from reference with organismType=%s...' % organismType)
 	listOfPresentFeatures = {}
 	listOfSplits = []
 	listOfCompleteGenes = []
@@ -100,7 +100,7 @@ def geneCheck(fastaReference, resultFile, cutoffEquality_prot, cutoffEquality_nu
 	dico_feature={}
 	if nbrgene > 0:
 		
-		print "Formatting database for blast..."
+		print("Formatting database for blast...")
 		command = blastFolder + "/makeblastdb -in important_features.fasta -dbtype prot" #need to formatdb refseq first
 	
 		args = shlex.split(command)
@@ -112,7 +112,7 @@ def geneCheck(fastaReference, resultFile, cutoffEquality_prot, cutoffEquality_nu
 			if usedOwnGenBankReference == True: #using a personal genbank reference
 				command = blastFolder+"/blastx -db important_features.fasta -query " + resultFile + " -evalue " + str(blasteVal) + " -outfmt 5 -num_threads 2 -query_gencode " + str(organismType) + " -seg no" #call BLAST with XML output
 			else: #using a non personal genbank reference
-				print('Genetic code: ', str(organismType))
+				print(('Genetic code: ', str(organismType)))
 				command = blastFolder+"/blastx -db important_features.fasta -query " + resultFile + "-evalue " + str(blasteVal) + " -outfmt 5 -num_threads 2 -query_gencode " + str(organismType) + " -seg no" #call BLAST with XML output
 			args = shlex.split(command)
 			blastAll = Popen(args, stdout=blastResultFile)
@@ -121,7 +121,7 @@ def geneCheck(fastaReference, resultFile, cutoffEquality_prot, cutoffEquality_nu
 			if usedOwnGenBankReference == True: #using a personal genbank reference
 				command = blastFolder+"/blastx -db important_features.fasta -query " + resultFile + " -evalue " + str(blasteVal) + " -outfmt 6 -num_threads 2 -query_gencode " + str(organismType) + " -seg no" #call BLAST with XML output
 			else: #using a non personal genbank reference
-				print('Genetic code: ', str(organismType))
+				print(('Genetic code: ', str(organismType)))
 				command = blastFolder+"/blastx -db important_features.fasta -query " + resultFile + "-evalue " + str(blasteVal) + " -outfmt 6 -num_threads 2 -query_gencode " + str(organismType) + " -seg no" #call BLAST with XML output
 			args = shlex.split(command)
 			blastAll = Popen(args, stdout=blastResultFile)
@@ -148,12 +148,12 @@ def geneCheck(fastaReference, resultFile, cutoffEquality_prot, cutoffEquality_nu
 									mainFeatureFoundAlignment = mainFeatureFound[1] 
 									#check if it's close in order to consider it a split sequence
 									if (abs(startBase - mainFeatureFoundAlignment.endBase) <= float(gapsize) or abs(endBase - mainFeatureFoundAlignment.startBase) <= float(gapsize)) and (abs(abs(mainFeatureFoundAlignment.endBase - mainFeatureFoundAlignment.startBase) + abs(endBase - startBase)) <= len(targetFeature*3)+33) and intron == 1 and numt == 0:
-										print '%s is split' % featureName
+										print('%s is split' % featureName)
 										if not (startBase > mainFeatureFoundAlignment.startBase and \
 											endBase < mainFeatureFoundAlignment.endBase):
 											if featureName not in listOfSplits:
 												listOfSplits.append(featureName)
-											print featureName
+											print(featureName)
 											dico_feature[featureName]=dico_feature.get(featureName)+1
 											featureName += '_' + str(dico_feature.get(featureName))
 											featureFrame = hsp.query_frame
@@ -167,7 +167,7 @@ def geneCheck(fastaReference, resultFile, cutoffEquality_prot, cutoffEquality_nu
 											alignment.seqFound = refSeq.seq[startBase-1:endBase]
 											listOfPresentFeatures[featureName] = (listOfImportantFeatures[qhit.id], alignment,featureFrame <= -1)
 									if ((abs(abs(mainFeatureFoundAlignment.endBase - mainFeatureFoundAlignment.startBase) + abs(endBase - startBase)) >= len(targetFeature*3)+33) or (abs(endBase - startBase) - (len(targetFeature*3)+3) <= 200)) and numt == 1 and intron == 0:
-										print '%s is duplicated.' % featureName
+										print('%s is duplicated.' % featureName)
 										if not (startBase > mainFeatureFoundAlignment.startBase and \
 											endBase < mainFeatureFoundAlignment.endBase):
 											if featureName not in listOfSplits:
@@ -189,8 +189,8 @@ def geneCheck(fastaReference, resultFile, cutoffEquality_prot, cutoffEquality_nu
 											endBase < mainFeatureFoundAlignment.endBase):
 											if featureName not in listOfSplits:
 												listOfSplits.append(featureName)
-											print intron
-											print featureName
+											print(intron)
+											print(featureName)
 											dico_feature[featureName]=dico_feature.get(featureName)+1
 											featureName += '@' + str(dico_feature.get(featureName))
 											featureFrame = hsp.query_frame
@@ -260,7 +260,7 @@ def geneCheck(fastaReference, resultFile, cutoffEquality_prot, cutoffEquality_nu
 
 	#running blast
 	if nbrRNA > 0:
-		print "Formatting database for blast..."
+		print("Formatting database for blast...")
 		command = blastFolder+"/makeblastdb -in important_features.fasta -dbtype nucl" #need to formatdb refseq first
 	
 		args = shlex.split(command)
@@ -325,18 +325,18 @@ def geneCheck(fastaReference, resultFile, cutoffEquality_prot, cutoffEquality_nu
 								endBase = max(hsp.query_range[0],hsp.query_range[1])
 								alignLen = (endBase-startBase)+1
 								if featureName in listOfPresentFeatures:
-									print '%s is split or duplicated' % featureName
+									print('%s is split or duplicated' % featureName)
 									mainFeatureName = featureName
 									mainFeatureFound = listOfPresentFeatures[mainFeatureName]
 									mainFeatureFoundAlignment = mainFeatureFound[1] 
 									#check if it's close in order to consider it a split sequence
 									if (abs(startBase - mainFeatureFoundAlignment.endBase) <= float(gapsize) or abs(endBase - mainFeatureFoundAlignment.startBase) <= float(gapsize)) and (abs(abs(mainFeatureFoundAlignment.endBase - mainFeatureFoundAlignment.startBase) + abs(endBase - startBase)) <= len(targetFeature)+33) and intron == 1 and numt == 0:
-										print '%s is split' % featureName
+										print('%s is split' % featureName)
 										if not (startBase > mainFeatureFoundAlignment.startBase and \
 											endBase < mainFeatureFoundAlignment.endBase):
 											if featureName not in listOfSplits:
 												listOfSplits.append(featureName)
-											featureName += '_' + str(listOfPresentFeatures.keys().count(featureName) + 1)
+											featureName += '_' + str(list(listOfPresentFeatures.keys()).count(featureName) + 1)
 											featureFrame = hsp.hit_frame
 											seqName = featureName
 											alignment = Alignment(featureName, seqName, alignLen)
@@ -348,7 +348,7 @@ def geneCheck(fastaReference, resultFile, cutoffEquality_prot, cutoffEquality_nu
 											alignment.seqFound = refSeq.seq[startBase-1:endBase]
 											listOfPresentFeatures[featureName] = (listOfImportantFeatures[qhit.id], alignment,featureFrame <= -1)
 									if (abs(abs(mainFeatureFoundAlignment.endBase - mainFeatureFoundAlignment.startBase) + abs(endBase - startBase)) >= len(targetFeature)+33) and numt == 1 and intron == 0:
-										print '%s is duplicated.' % featureName
+										print('%s is duplicated.' % featureName)
 										if not (startBase > mainFeatureFoundAlignment.startBase and \
 											endBase < mainFeatureFoundAlignment.endBase):
 											if featureName not in listOfSplits:
@@ -410,8 +410,8 @@ def createImageOfAnnotation(sequenceObject, outputFile):
 	try:
 		import ImageFont, Image, ImageDraw
 	except:
-		print ''
-		print 'Could not import Image or ImageDraw library, no image of result being created.'
+		print('')
+		print('Could not import Image or ImageDraw library, no image of result being created.')
 		return False
 
 	horizontalSize = 1224
@@ -516,8 +516,8 @@ if __name__ == "__main__":
 	intron=int(sys.argv[14])
 	tRNAscan=sys.argv[15]
 	if sys.argv[1] == '-h' or sys.argv[1] == '--help':
-		print 'Usage: genbank_reference fasta_file output_file organism_type(integer, default=2) alignCutOff(float, default=45) coveCutOff(7)'
-		print 'Only the first, second, and third arguments are required.'
+		print('Usage: genbank_reference fasta_file output_file organism_type(integer, default=2) alignCutOff(float, default=45) coveCutOff(7)')
+		print('Only the first, second, and third arguments are required.')
 	else:
 		module_dir = os.path.dirname(__file__)
 		module_dir = os.path.abspath(module_dir)
@@ -540,27 +540,27 @@ if __name__ == "__main__":
 		outputFile = sys.argv[3]
 		try:
 			organismType = int(sys.argv[4])
-			print('Organism type specified: %s' % organismType)
+			print(('Organism type specified: %s' % organismType))
 		except:
 			organismType = 2
-			print "organism_type was not specified, assuming 2 (vertebrate mitochondria)"
+			print("organism_type was not specified, assuming 2 (vertebrate mitochondria)")
 		try:
 			alignCutOff = float(sys.argv[5])
-			print('alignCutOff: %s' % alignCutOff)
+			print(('alignCutOff: %s' % alignCutOff))
 		except:
 			alignCutOff = 45
-			print "alignCutOff was not specified, assuming 0.5"
+			print("alignCutOff was not specified, assuming 0.5")
 		try:
 			coveCutOff = int(sys.argv[6])
-			print('coveCutOff: %s' % coveCutOff)
+			print(('coveCutOff: %s' % coveCutOff))
 		except:
 			coveCutOff = 7
-			print "coveCutOff was not specified, assuming 7"
+			print("coveCutOff was not specified, assuming 7")
 		x = geneCheck(fastaReference, resultFile, percent_equality_prot, percent_equality_nucl, True, blastFolder, organismType, alignCutOff)
-		print 'Features found: %s' % len(x[0])
-		print 'Total features: %s' % len(x[1])
-		print ''
-		print('Running tRNA annotation with '+tRNAscan)
+		print('Features found: %s' % len(x[0]))
+		print('Total features: %s' % len(x[1]))
+		print('')
+		print(('Running tRNA annotation with '+tRNAscan))
 		presentFeatures = x[0]
 		assemblyCheck = tRNAscanChecker.tRNAscanCheck(resultFile, True, False, organismType, coveCutOff, False, False, tRNAscan) #returns a Assembly object with statistics and alignment info 
 		tRNAs = assemblyCheck.tRNAs
@@ -595,7 +595,7 @@ if __name__ == "__main__":
 		for tRNAFound in tRNAs:
 			tRNAName = 'trna-' + tRNAFound.tRNAtype.lower()
 			if tRNAFound.tRNAintronBegin > 0:
-				print 'WARNING: %s was found with an intron!' % prettyRNAName(tRNAName)
+				print('WARNING: %s was found with an intron!' % prettyRNAName(tRNAName))
 			if tRNAName not in tRNAconvert(listOfFoundTRNAs) and 'trna-sec' not in tRNAName and 'trna-sup' not in tRNAName:
 				newTRNAStart = tRNAFound.tRNAcoordinates[0]
 				newTRNAEnd = tRNAFound.tRNAcoordinates[1]
@@ -615,7 +615,7 @@ if __name__ == "__main__":
 				listOfFeaturesToOutput.append(thisFeatureFound)
 
 		listOfFeaturesToOutput.sort()
-		print 'Total features found after '+str(tRNAscan)+': ',len(listOfFeaturesToOutput)
+		print('Total features found after '+str(tRNAscan)+': ',len(listOfFeaturesToOutput))
 
 		finalResults = genbankOutput.genbankOutput(outputFile, resultFile, listOfFeaturesToOutput, False, 900, nWalk)
 
@@ -635,7 +635,7 @@ if __name__ == "__main__":
 						direction="+"
 					if gbkFeature.location.strand == -1:
 						direction="-"
-					if not genes.has_key(gbkFeature.qualifiers[qualifier]):
+					if gbkFeature.qualifiers[qualifier] not in genes:
 						outputFile.write(seq_name+"\t"+"mitofinder"+"\t"+str(gbkFeature.type)+"\t"+str(gbkFeature.location.start+1)+"\t"+str(gbkFeature.location.end)+"\t"+"."+"\t"+direction+"\t"+"0"+"\t"+str(gbkFeature.qualifiers[qualifier])+"\n")
 						genes[gbkFeature.qualifiers[qualifier]]=gbkFeature.qualifiers[qualifier]
 		outputFile.close()

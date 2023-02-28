@@ -94,9 +94,9 @@ mitofinder -v
 
 ## Run MitoFinder with Singularity
 
-There are many cases where using a singularity container would be easier than installing MitoFinder from source. In particular, if you are working on a server (without administrator rights) or if your default version of python is python 3.x, I recommend you to use the singularity container available [here](https://cloud.sylabs.io/library/remiallio/default/mitofinder) to run MitoFinder.  
+There are many cases where using a singularity container would be easier than installing MitoFinder from source. In particular, if you are working on a server (without administrator rights) or if your default version of python is python 3.x, I recommend you to use the singularity container available [here](https://cloud.sylabs.io/library/_container/61557b8a7163109769dfaf38) to run MitoFinder.  
 
-**→** [How to install Singularity version >= 3.0](https://github.com/RemiAllio/MitoFinder_container/blob/main/README.md#get-and-install-singularity)  
+**→** [How to install singularity Singularity version >= 3.0](https://github.com/RemiAllio/MitoFinder_container/blob/main/README.md#get-and-install-singularity)  
 
 Since you have [Singularity version >= 3.0](https://sylabs.io/guides/3.0/user-guide/quick_start.html) installed, you can clone MitoFinder's container directly using singularity with the following command:
 
@@ -177,16 +177,16 @@ Once installed, you need to indicate the paths to the directory containing the e
 
 ### BLAST
 
-Given that MitoFinder uses makeblastdb, blastn, and blastx, you need to download the associated binaries available [here](https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/).
-**TIP**: ```wget``` can be install with Homebrew using ```brew install wget```
+Given that MitoFinder uses makeblastdb, blastn, and blastx, you need to download the associated binaries available [here](ftp://ftp.ncbi.nlm.nih.gov/blast/executables/LATEST/).
 
 ```shell
-wget https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/LATEST/ncbi-blast-2.12.0+-x64-macosx.tar.gz  
+wget ftp://ftp.ncbi.nlm.nih.gov/blast/executables/LATEST/ncbi-blast-*-x64-macosx.tar.gz 
 tar -xvf ncbi-blast-*-x64-macosx.tar.gz 
 cd ncbi-blast-*+/bin/
 ```  
 
 Once downloaded, you need to indicate the PATH to the directory containing the binaries ```makeblastdb```, ```blastn```, etc. in the **Mitofinder.config** file.  
+**TIP**: ```wget``` can be install with Homebrew using ```brew install wget```  
 
 ### Assemblers 
 
@@ -259,19 +259,17 @@ Second, you can choose the tool for the tRNA annotation step of MitoFinder using
 
 ## Mitochondrial genome assembly and annotation 
 
-**TIP**: use mitofinder --example to print basic usage examples.    
+TIP: use mitofinder --example to print basic usage examples  
 
 ### Trimmed paired-end reads
 ```shell
 mitofinder -j [seqid] -1 [left_reads.fastq.gz] -2 [right_reads.fastq.gz] -r [genbank_reference.gb] -o [genetic_code] -p [threads] -m [memory]   
 ```
-**WARNING**: If you are using capture data (e.g. UCE), consider specifying the ```--min-contig-size``` parameter. The default value is 1,000 bp which may be too high for mitochondrial contigs assembled from off-target reads. The same applies for the parameter ```--blast-size``` (default: 30%).  
 
 ### Trimmed single-end reads
 ```shell
 mitofinder -j [seqid] -s [SE_reads.fastq.gz] -r [genbank_reference.gb] -o [genetic_code] -p [threads] -m [memory]
 ```
-**WARNING**: If you are using capture data (e.g. UCE), consider specifying the ```--min-contig-size``` parameter. The default value is 1,000 bp which may be too high for mitochondrial contigs assembled from off-target reads. The same applies for the parameter ```--blast-size``` (default: 30%).  
 
 ## Find and/or annotate a mitochondrial genome
 
@@ -279,7 +277,6 @@ MitoFinder can also be run directly on a previously computed assembly (one or se
 ```shell
 mitofinder -j [seqid] -a [assembly.fasta] -r [genbank_reference.gb] -o [genetic_code] -p [threads] -m [memory]
 ```
-**WARNING**: If you are using capture data (e.g. UCE), consider specifying the ```--min-contig-size``` parameter. The default value is 1,000 bp which may be too high for mitochondrial contigs assembled from off-target reads. The same applies for the parameter ```--blast-size``` (default: 30%).  
 
 ## Restart
 Use the same command line.  

@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/groups/looger/home/loogerl/ORFFinder/Turtle_Transcriptome/Jackie/Assembly_stats_py_virtenv/bin/python
 #Version: 1.4
 #Authors: Allio Remi & Schomaker-Bastos Alex
 #ISEM - CNRS - LAMPADA - IBQM - UFRJ
@@ -40,12 +40,12 @@ def runMetaspades(processName = 'teste', shortestContig = 100, inputFile = 'test
 	bestBuild = None
 	
 	logfile=open(logfile,"a")
-	print 'Starting Assembly step with MetaSPAdes '
+	print('Starting Assembly step with MetaSPAdes ')
 	logfile.write('Starting Assembly step with MetaSPAdes '+"\n")
 
 	pathToWork = os.getcwd()+"/"
-	print 'Result files will be saved here: '
-	print pathToWork+processName+"_metaspades/"
+	print('Result files will be saved here: ')
+	print(pathToWork+processName+"_metaspades/")
 	logfile.write('Result files will be saved here: '+"\n"+pathToWork+processName+"_metaspades/"+"\n")	
 	#copy input file to secondary folder to keep it organized
 	if "/" in inputFile:
@@ -79,11 +79,11 @@ def runMetaspades(processName = 'teste', shortestContig = 100, inputFile = 'test
 	out=processName+"_metaspades"
 	metaspades="yes"
 	if os.path.isdir(out) and override == False:
-		print "\n####################################"
-		print "\n WARNING : "+pathToWork+out+" already exists. (use --override option)" 
-		print "Mitofinder will skip MetaSPAdes step"
-		print "\nIf you want to run MetaSPAdes again, kill the mitofinder process, remove (or use --override) or rename the MetaSPAdes result folder, and restart mitofinder\n"
-		print "#####################################\n"
+		print("\n####################################")
+		print("\n WARNING : "+pathToWork+out+" already exists. (use --override option)") 
+		print("Mitofinder will skip MetaSPAdes step")
+		print("\nIf you want to run MetaSPAdes again, kill the mitofinder process, remove (or use --override) or rename the MetaSPAdes result folder, and restart mitofinder\n")
+		print("#####################################\n")
 		logfile.write("\n####################################"+"\n"+"\n WARNING : "+pathToWork+out+" already exists. (use --override option)" +"\n"+"Mitofinder will skip MetaSPAdes step"+"\n"+"\nIf you want to run MetaSPAdes again, kill the mitofinder process, remove (or use --override) or rename the MetaSPAdes result folder, and restart mitofinder\n"+"\n"+"#####################################\n"+"\n")
 		time.sleep(2)
 		metaspades="no"
@@ -99,8 +99,8 @@ def runMetaspades(processName = 'teste', shortestContig = 100, inputFile = 'test
 				metaspades = Popen(command, stdout=metaspadesLogFile, stderr=metaspadesLogFile, shell=True)
 				metaspades.wait()
 				if not os.path.isfile(pathToWork+"/"+out+"/"+"scaffolds.fasta") == True:
-					print "\n ERROR: MetaSPAdes didn't run well"
-					print "Please check log file : "+ pathToWork + 'metaspades.log'
+					print("\n ERROR: MetaSPAdes didn't run well")
+					print("Please check log file : "+ pathToWork + 'metaspades.log')
 					logfile.write("\n ERROR: MetaSPAdes didn't run well"+"\n"+"Please check log file : "+ pathToWork + 'metaspades.log'+"\n")
 					exit()
 				#copyfile(pathToWork+"/"+out+"/"+"scaffolds.fasta", pathToWork+"/"+processName+".scafSeq")
@@ -115,8 +115,8 @@ def runMetaspades(processName = 'teste', shortestContig = 100, inputFile = 'test
 				metaspades = Popen(command, stdout=metaspadesLogFile, stderr=metaspadesLogFile, shell=True)
 				metaspades.wait()
 				if not os.path.isfile(pathToWork+"/"+out+"/"+"scaffolds.fasta") == True:
-					print "\n MetaSPAdes didn't run well"
-					print "Please check log file : "+ pathToWork + 'metaspades.log'
+					print("\n MetaSPAdes didn't run well")
+					print("Please check log file : "+ pathToWork + 'metaspades.log')
 					logfile.write("\n MetaSPAdes didn't run well"+"\n"+"Please check log file : "+ pathToWork + 'metaspades.log'+"\n")
 					exit()
 				#copyfile(pathToWork+"/"+out+"/"+"scaffolds.fasta", pathToWork+"/"+processName+".scafSeq")

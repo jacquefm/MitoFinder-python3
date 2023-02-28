@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/groups/looger/home/loogerl/ORFFinder/Turtle_Transcriptome/Jackie/Assembly_stats_py_virtenv/bin/python
 #Version: 1.0
 #Author: Alex Schomaker - alexschomaker@ufrj.br
 #LAMPADA - IBQM - UFRJ
@@ -65,7 +65,7 @@ def geneCheck(genBankReference, resultFile, cutoffEquality, usedOwnGenBankRefere
 	record = SeqIO.read(genBankReference, "genbank", generic_dna)
 	refSeq = SeqIO.read(resultFile, "fasta", generic_dna)
 	listOfImportantFeatures = {}
-	print 'Checking genes, tRNAs and rRNAs from reference with organismType=%s...' % organismType
+	print('Checking genes, tRNAs and rRNAs from reference with organismType=%s...' % organismType)
 
 	'''
 	Do protein coding genes first!
@@ -80,19 +80,19 @@ def geneCheck(genBankReference, resultFile, cutoffEquality, usedOwnGenBankRefere
 					featureName = feature.qualifiers['product'][0]
 				featureName = ''.join(featureName.split())
 				if featureName in listOfImportantFeatures:
-					featureName += '_' + str(listOfImportantFeatures.keys().count(featureName) + 1)
+					featureName += '_' + str(list(listOfImportantFeatures.keys()).count(featureName) + 1)
 					
 				importantFeaturesFile.write('>' + featureName + '\n')
 				if 'translation' in feature.qualifiers:
 					importantFeaturesFile.write(str(feature.qualifiers['translation'][0]) + '\n')
 				else:
 					importantFeaturesFile.write(str(feature.extract(record).seq.translate(table=organismType,to_stop=True))+'\n')
-					print '		WARNING: reference did not give a CDS translation for %s. Creating our own from refSeq.' \
-						% featureName
+					print('		WARNING: reference did not give a CDS translation for %s. Creating our own from refSeq.' \
+						% featureName)
 				listOfImportantFeatures[featureName] = feature
 
 	#running blast
-	print "Formatting database for blast..."
+	print("Formatting database for blast...")
 	if blastFolder == 'installed':
 		command = "formatdb -i important_features.fasta -p T" #need to formatdb refseq first
 	else:
@@ -113,7 +113,7 @@ def geneCheck(genBankReference, resultFile, cutoffEquality, usedOwnGenBankRefere
 			if blastFolder == 'installed':
 				command = "blastall -p blastx -d important_features.fasta -i" + resultFile + " -e 0.1 -m 7" #call BLAST with XML output
 			else:
-				print('Genetic code: ', str(organismType))
+				print(('Genetic code: ', str(organismType)))
 				command = blastFolder + "/bin/blastx -db important_features.fasta -query " + resultFile + " -outfmt 5 -num_threads 2 -query_gencode " + str(organismType) + " -evalue 0.1" #call BLAST with XML output
 		args = shlex.split(command)
 		blastAll = Popen(args, stdout=blastResultFile)
@@ -130,7 +130,7 @@ def geneCheck(genBankReference, resultFile, cutoffEquality, usedOwnGenBankRefere
 				featureName = qhit.id
 				if featureName in listOfImportantFeatures:
 					targetFeature = listOfImportantFeatures[featureName]
-					print len(targetFeature)
+					print(len(targetFeature))
 					startBase = min(hsp.query_range[0],hsp.query_range[1])
 					endBase = max(hsp.query_range[0],hsp.query_range[1])
 					alignLen = endBase - startBase
@@ -140,12 +140,12 @@ def geneCheck(genBankReference, resultFile, cutoffEquality, usedOwnGenBankRefere
 						mainFeatureFoundAlignment = mainFeatureFound[1]
 						#check if it's close in order to consider it a split sequence
 						if (abs(startBase - mainFeatureFoundAlignment.endBase) < 100 or abs(endBase - mainFeatureFoundAlignment.startBase) < 100) or (mainFeatureFoundAlignment.startBase <= 60 and endBase >= len(refSeq.seq) - 60):
-							print '%s is split or duplicated.' % featureName
+							print('%s is split or duplicated.' % featureName)
 							if not (startBase > mainFeatureFoundAlignment.startBase and \
 								endBase < mainFeatureFoundAlignment.endBase):
 								if featureName not in listOfSplits:
 									listOfSplits.append(featureName)
-								featureName += '_' + str(listOfPresentFeatures.keys().count(featureName) + 1)
+								featureName += '_' + str(list(listOfPresentFeatures.keys()).count(featureName) + 1)
 								featureFrame = hsp.query_frame
 								seqName = featureName
 								alignment = Alignment(featureName, seqName, alignLen)
@@ -189,7 +189,7 @@ def geneCheck(genBankReference, resultFile, cutoffEquality, usedOwnGenBankRefere
 					featureName = feature.qualifiers['product'][0]
 					featureName = ''.join(featureName.split())
 				if featureName in listOfImportantFeatures:
-					featureName += str(listOfImportantFeatures.keys().count(featureName) + 1)
+					featureName += str(list(listOfImportantFeatures.keys()).count(featureName) + 1)
 					importantFeaturesFile.write('>' + featureName + '\n')
 					importantFeaturesFile.write(str(feature.extract(record).seq) + '\n')
 					listOfImportantFeatures[featureName] = feature
@@ -199,7 +199,7 @@ def geneCheck(genBankReference, resultFile, cutoffEquality, usedOwnGenBankRefere
 					listOfImportantFeatures[featureName] = feature
 
 	#running blast
-	print "Formatting database for blast..."
+	print("Formatting database for blast...")
 	if blastFolder == 'installed':
 		command = "formatdb -i " + resultFile + " -p F" #need to formatdb refseq first
 	else:
@@ -261,8 +261,8 @@ def createImageOfAnnotation(sequenceObject, outputFile):
 	try:
 		import ImageFont, Image, ImageDraw
 	except:
-		print ''
-		print 'Could not import Image or ImageDraw library, no image of result being created.'
+		print('')
+		print('Could not import Image or ImageDraw library, no image of result being created.')
 		return False
 
 	horizontalSize = 1224
@@ -358,8 +358,8 @@ def createImageOfAnnotation(sequenceObject, outputFile):
 
 if __name__ == "__main__":
 	if sys.argv[1] == '-h' or sys.argv[1] == '--help':
-		print 'Usage: genbank_reference fasta_file output_file organism_type(integer, default=2) alignCutOff(float, default=0.45) coveCutOff(7)'
-		print 'Only the first, second and third arguments are required.'
+		print('Usage: genbank_reference fasta_file output_file organism_type(integer, default=2) alignCutOff(float, default=0.45) coveCutOff(7)')
+		print('Only the first, second and third arguments are required.')
 	else:
 		module_dir = os.path.dirname(__file__)
 		module_dir = os.path.abspath(module_dir)
@@ -381,26 +381,26 @@ if __name__ == "__main__":
 		outputFile = sys.argv[3]
 		try:
 			organismType = int(sys.argv[4])
-			print('Organism type given: %s' % organismType)
+			print(('Organism type given: %s' % organismType))
 		except:
 			organismType = 2
-			print "organism_type was't given, assuming 2 (vertebrate mitochondria)"
+			print("organism_type was't given, assuming 2 (vertebrate mitochondria)")
 		try:
 			alignCutOff = float(sys.argv[5])
-			print('alignCutOff: %s' % alignCutOff)
+			print(('alignCutOff: %s' % alignCutOff))
 		except:
 			alignCutOff = 0.45
-			print "alignCutOff wasn't given, assuming 0.5"
+			print("alignCutOff wasn't given, assuming 0.5")
 		try:
 			coveCutOff = int(sys.argv[6])
-			print('coveCutOff: %s' % coveCutOff)
+			print(('coveCutOff: %s' % coveCutOff))
 		except:
 			coveCutOff = 7
-			print "coveCutOff wasn't given, assuming 7"
+			print("coveCutOff wasn't given, assuming 7")
 		x = geneCheck(genBankReference, resultFile, 0.50, True, blastFolder, organismType, alignCutOff)
-		print 'Features found: %s' % len(x[0])
-		print 'Total features: %s' % len(x[1])
-		print ''
+		print('Features found: %s' % len(x[0]))
+		print('Total features: %s' % len(x[1]))
+		print('')
 		print('Running tRNAscan-SE...')
 		presentFeatures = x[0]
 
@@ -437,7 +437,7 @@ if __name__ == "__main__":
 		for tRNAFound in tRNAs:
 			tRNAName = 'trna-' + tRNAFound.tRNAtype.lower()
 			if tRNAFound.tRNAintronBegin > 0:
-				print 'WARNING: %s was found with an intron!' % prettyRNAName(tRNAName)
+				print('WARNING: %s was found with an intron!' % prettyRNAName(tRNAName))
 			if tRNAName not in tRNAconvert(listOfFoundTRNAs) and 'trna-sec' not in tRNAName and 'trna-sup' not in tRNAName:
 				newTRNAStart = tRNAFound.tRNAcoordinates[0]
 				newTRNAEnd = tRNAFound.tRNAcoordinates[1]
@@ -457,7 +457,7 @@ if __name__ == "__main__":
 				listOfFeaturesToOutput.append(thisFeatureFound)
 
 		listOfFeaturesToOutput.sort()
-		print 'Total features found after tRNAscan-SE: ',len(listOfFeaturesToOutput)
+		print('Total features found after tRNAscan-SE: ',len(listOfFeaturesToOutput))
 
 		finalResults = genbankOutput.genbankOutput(outputFile, resultFile, listOfFeaturesToOutput, False, 900)
 
@@ -477,10 +477,10 @@ if __name__ == "__main__":
 					if qualifier == 'product' or qualifier == 'gene':
 						outputSeqIn.write(str(qualifier) + ' ' + str(gbkFeature.qualifiers[qualifier]) + '\n')
 				outputSeqIn.write('\n')
-			print '.tbl (Sequin) file created.'
+			print('.tbl (Sequin) file created.')
 
 		if ('TRNF' in presentFeatures) or ('tRNA-Phe' in presentFeatures) or ('trnf' in presentFeatures) or ('trnF' in presentFeatures):
-			print 'Creating ordered genbank file (with tRNA-Phe at the start)...'
+			print('Creating ordered genbank file (with tRNA-Phe at the start)...')
 			resultOrderedGbFile = outputFile.replace('.gb','') + '.ordered.gb'
 
 			if 'TRNF' in presentFeatures:
@@ -513,9 +513,9 @@ if __name__ == "__main__":
 						if qualifier == 'product' or qualifier == 'gene':
 							outputSeqIn.write(str(qualifier) + ' ' + str(gbkFeature.qualifiers[qualifier]) + '\n')
 					outputSeqIn.write('\n')
-				print 'Ordered .tbl file created.'
+				print('Ordered .tbl file created.')
 		else:
-			print "Since tRNA-Phe couldn't be found, ordered genbank file wasn't created."
+			print("Since tRNA-Phe couldn't be found, ordered genbank file wasn't created.")
 		
 		exit()
 		os.remove("important_features.fasta")
