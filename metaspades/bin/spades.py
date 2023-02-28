@@ -295,7 +295,7 @@ def get_command_line(args):
     for v in args:
         # substituting relative paths with absolute ones (read paths, output dir path, etc)
         v, prefix = support.get_option_prefix(v)
-        if v in options_storage.dict_of_rel2abs.keys():
+        if v in list(options_storage.dict_of_rel2abs.keys()):
             v = options_storage.dict_of_rel2abs[v]
         if prefix:
             command += prefix + ":"
