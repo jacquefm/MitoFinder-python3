@@ -8,7 +8,7 @@
 """Represent a Sequence Record, a sequence with annotation."""
 
 
-from Bio._py3k import basestring
+from Bio._py3k import str
 
 __docformat__ = "epytext en"  # Simple markup to show doctests nicely
 
@@ -85,7 +85,7 @@ class _RestrictedDict(dict):
 
     def update(self, new_dict):
         #Force this to go via our strict __setitem__ method
-        for (key, value) in new_dict.items():
+        for (key, value) in list(new_dict.items()):
             self[key] = value
 
 
@@ -181,12 +181,12 @@ class SeqRecord(object):
         You can create a 'blank' SeqRecord object, and then populate the
         attributes later.
         """
-        if id is not None and not isinstance(id, basestring):
+        if id is not None and not isinstance(id, str):
             #Lots of existing code uses id=None... this may be a bad idea.
             raise TypeError("id argument should be a string")
-        if not isinstance(name, basestring):
+        if not isinstance(name, str):
             raise TypeError("name argument should be a string")
-        if not isinstance(description, basestring):
+        if not isinstance(description, str):
             raise TypeError("description argument should be a string")
         self._seq = seq
         self.id = id
@@ -459,7 +459,7 @@ class SeqRecord(object):
 
             #Slice all the values to match the sliced sequence
             #(this should also work with strides, even negative strides):
-            for key, value in self.letter_annotations.items():
+            for key, value in list(self.letter_annotations.items()):
                 answer._per_letter_annotations[key] = value[index]
 
             return answer
@@ -598,7 +598,7 @@ class SeqRecord(object):
             lines.append("/%s=%s" % (a, str(self.annotations[a])))
         if self.letter_annotations:
             lines.append("Per letter annotation for: "
-                         + ", ".join(self.letter_annotations.keys()))
+                         + ", ".join(list(self.letter_annotations.keys())))
         #Don't want to include the entire sequence,
         #and showing the alphabet is useful:
         lines.append(repr(self.seq))
@@ -828,11 +828,11 @@ class SeqRecord(object):
             answer.name = self.name
         if self.description == other.description:
             answer.description = self.description
-        for k, v in self.annotations.items():
+        for k, v in list(self.annotations.items()):
             if k in other.annotations and other.annotations[k] == v:
                 answer.annotations[k] = v
         #Can append matching per-letter-annotation
-        for k, v in self.letter_annotations.items():
+        for k, v in list(self.letter_annotations.items()):
             if k in other.letter_annotations:
                 answer.letter_annotations[k] = v + other.letter_annotations[k]
         return answer
@@ -1075,15 +1075,15 @@ class SeqRecord(object):
             answer = SeqRecord(self.seq.toseq().reverse_complement())
         else:
             answer = SeqRecord(self.seq.reverse_complement())
-        if isinstance(id, basestring):
+        if isinstance(id, str):
             answer.id = id
         elif id:
             answer.id = self.id
-        if isinstance(name, basestring):
+        if isinstance(name, str):
             answer.name = name
         elif name:
             answer.name = self.name
-        if isinstance(description, basestring):
+        if isinstance(description, str):
             answer.description = description
         elif description:
             answer.description = self.description
@@ -1113,7 +1113,7 @@ class SeqRecord(object):
             answer.letter_annotations = letter_annotations
         elif letter_annotations:
             #Copy the old per letter annotations, reversing them
-            for key, value in self.letter_annotations.items():
+            for key, value in list(self.letter_annotations.items()):
                 answer._per_letter_annotations[key] = value[::-1]
         return answer
 

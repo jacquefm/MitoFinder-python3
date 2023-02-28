@@ -49,7 +49,7 @@ o OneOfPosition - Specify a position where the location can be multiple position
 o UnknownPosition - Represents missing information like '?' in UniProt.
 """
 
-from __future__ import print_function
+
 
 from Bio.Seq import MutableSeq, reverse_complement
 
@@ -290,7 +290,7 @@ class SeqFeature(object):
                             type = self.type,
                             location_operator = self.location_operator,
                             id = self.id,
-                            qualifiers = dict(self.qualifiers.items()))
+                            qualifiers = dict(list(self.qualifiers.items())))
         #This is to avoid the deprecation warning:
         answer._sub_features = [f._shift(offset) for f in self._sub_features]
         return answer
@@ -309,7 +309,7 @@ class SeqFeature(object):
                             type = self.type,
                             location_operator = self.location_operator,
                             id = self.id,
-                            qualifiers = dict(self.qualifiers.items()))
+                            qualifiers = dict(list(self.qualifiers.items())))
         #This is to avoid the deprecation warning: 
         answer._sub_features = [f._flip(length) for f in self._sub_features[::-1]]
         return answer
@@ -638,13 +638,13 @@ class FeatureLocation(object):
         #TODO - Check 0 <= start <= end (<= length of reference)
         if isinstance(start, AbstractPosition):
             self._start = start
-        elif isinstance(start, int) or isinstance(start, long):
+        elif isinstance(start, int) or isinstance(start, int):
             self._start = ExactPosition(start)
         else:
             raise TypeError("start=%r %s" % (start, type(start)))
         if isinstance(end, AbstractPosition):
             self._end = end
-        elif isinstance(end, int) or isinstance(end, long):
+        elif isinstance(end, int) or isinstance(end, int):
             self._end = ExactPosition(end)
         else:
             raise TypeError("end=%r %s" % (end, type(end)))
@@ -753,7 +753,7 @@ class FeatureLocation(object):
         else:
             return NotImplemented
 
-    def __nonzero__(self):
+    def __bool__(self):
         """Returns True regardless of the length of the feature.
 
         This behaviour is for backwards compatibility, since until the
@@ -1120,7 +1120,7 @@ class CompoundLocation(object):
                 return True
         return False
 
-    def __nonzero__(self):
+    def __bool__(self):
         """Returns True regardless of the length of the feature.
 
         This behaviour is for backwards compatibility, since until the

@@ -16,7 +16,7 @@ Additional private classes used in Bio.SeqIO and Bio.SearchIO for indexing
 files are also defined under Bio.File but these are not intended for direct
 use.
 """
-from __future__ import print_function
+
 
 import codecs
 import os
@@ -24,7 +24,7 @@ import sys
 import contextlib
 import itertools
 
-from Bio._py3k import basestring
+from Bio._py3k import str
 
 try:
     from collections import UserDict as _dict_base
@@ -72,7 +72,7 @@ def as_handle(handleish, mode='r', **kwargs):
     False
     >>> fp.close()
     """
-    if isinstance(handleish, basestring):
+    if isinstance(handleish, str):
         if 'encoding' in kwargs:
             with codecs.open(handleish, mode, **kwargs) as fp:
                 yield fp

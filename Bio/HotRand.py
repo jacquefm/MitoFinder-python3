@@ -8,7 +8,7 @@
    support biosimulations that rely on random numbers.
 """
 
-from __future__ import print_function
+
 
 #Importing these functions with leading underscore as not intended for reuse
 from Bio._py3k import urlopen as _urlopen

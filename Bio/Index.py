@@ -19,7 +19,7 @@ import array
 import shelve
 
 try:
-    import cPickle as pickle # Only available under Python 2
+    import pickle as pickle # Only available under Python 2
 except ImportError:
     import pickle # Python 3
 
@@ -123,7 +123,7 @@ class _InMemoryIndex(dict):
         if self.__changed:
             with open(self._indexname, 'w') as handle:
                 handle.write("%s\n" % self._tostr(self.__version))
-                for key, value in self.items():
+                for key, value in list(self.items()):
                     handle.write("%s %s\n" %
                                  (self._tostr(key), self._tostr(value)))
 

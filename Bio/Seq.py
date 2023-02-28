@@ -11,7 +11,7 @@ See also U{http://biopython.org/wiki/Seq} and the chapter in our tutorial:
  - U{http://biopython.org/DIST/docs/tutorial/Tutorial.html}
  - U{http://biopython.org/DIST/docs/tutorial/Tutorial.pdf}
 """
-from __future__ import print_function
+
 
 __docformat__ ="epytext en"  # Don't just use plain text in epydoc API pages!
 
@@ -21,7 +21,7 @@ import sys
 import warnings
 
 from Bio._py3k import range
-from Bio._py3k import basestring
+from Bio._py3k import str
 
 from Bio import Alphabet
 from Bio.Alphabet import IUPAC
@@ -43,8 +43,8 @@ def _maketrans(complement_mapping):
 
     For internal use only.
     """
-    before = ''.join(complement_mapping.keys())
-    after = ''.join(complement_mapping.values())
+    before = ''.join(list(complement_mapping.keys()))
+    after = ''.join(list(complement_mapping.values()))
     before = before + before.lower()
     after = after + after.lower()
     if sys.version_info[0] == 3:
@@ -102,7 +102,7 @@ class Seq(object):
 
         """
         # Enforce string storage
-        if not isinstance(data, basestring):
+        if not isinstance(data, str):
             raise TypeError("The sequence data given to a Seq object should "
                             "be a string (not another Seq object etc)")
         self._data = data
@@ -254,7 +254,7 @@ class Seq(object):
             #They should be the same sequence type (or one of them is generic)
             a = Alphabet._consensus_alphabet([self.alphabet, other.alphabet])
             return self.__class__(str(self) + str(other), a)
-        elif isinstance(other, basestring):
+        elif isinstance(other, str):
             #other is a plain string - use the current alphabet
             return self.__class__(str(self) + other, self.alphabet)
         from Bio.SeqRecord import SeqRecord  # Lazy to avoid circular imports
@@ -285,7 +285,7 @@ class Seq(object):
             #They should be the same sequence type (or one of them is generic)
             a = Alphabet._consensus_alphabet([self.alphabet, other.alphabet])
             return self.__class__(str(other) + str(self), a)
-        elif isinstance(other, basestring):
+        elif isinstance(other, str):
             #other is a plain string - use the current alphabet
             return self.__class__(other + str(self), self.alphabet)
         else:
@@ -1573,7 +1573,7 @@ class MutableSeq(object):
                 return cmp(self.data, other.data)
             else:
                 return cmp(str(self), str(other))
-        elif isinstance(other, basestring):
+        elif isinstance(other, str):
             return cmp(str(self), other)
         else:
             raise TypeError
@@ -1635,7 +1635,7 @@ class MutableSeq(object):
                 return self.__class__(self.data + other.data, a)
             else:
                 return self.__class__(str(self) + str(other), a)
-        elif isinstance(other, basestring):
+        elif isinstance(other, str):
             #other is a plain string - use the current alphabet
             return self.__class__(str(self) + str(other), self.alphabet)
         else:
@@ -1656,7 +1656,7 @@ class MutableSeq(object):
                 return self.__class__(other.data + self.data, a)
             else:
                 return self.__class__(str(other) + str(self), a)
-        elif isinstance(other, basestring):
+        elif isinstance(other, str):
             #other is a plain string - use the current alphabet
             return self.__class__(str(other) + str(self), self.alphabet)
         else:
@@ -1726,7 +1726,7 @@ class MutableSeq(object):
         except AttributeError:
             search = sub
 
-        if not isinstance(search, basestring):
+        if not isinstance(search, str):
             raise TypeError("expected a string, Seq or MutableSeq")
 
         if len(search) == 1:
@@ -1774,7 +1774,7 @@ class MutableSeq(object):
             d = ambiguous_rna_complement
         else:
             d = ambiguous_dna_complement
-        c = dict([(x.lower(), y.lower()) for x, y in d.items()])
+        c = dict([(x.lower(), y.lower()) for x, y in list(d.items())])
         d.update(c)
         self.data = [d[c] for c in self.data]
         self.data = array.array(self.array_indicator, self.data)

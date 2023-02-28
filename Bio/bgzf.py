@@ -225,7 +225,7 @@ NC_000932.1
 
 """
 
-from __future__ import print_function
+
 
 import sys # to detect when under Python 2
 import zlib

@@ -15,7 +15,7 @@ calculate    Calculate the probabilities of each class, given an observation.
 classify     Classify an observation into a class.
 """
 
-from __future__ import print_function
+
 
 import numpy
 import numpy.linalg

@@ -151,7 +151,7 @@ type help(pairwise2.align.localds) at the Python prompt.
 # - one_alignment_only: boolean
 #   Only recover one alignment.
 
-from __future__ import print_function
+
 
 MAX_ALIGNMENTS = 1000   # maximum alignments recovered in traceback
 
