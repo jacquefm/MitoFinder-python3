@@ -6,8 +6,8 @@
 """Command line wrapper for bwa
 """
 
-from __future__ import print_function
-from Bio._py3k import basestring
+
+from Bio._py3k import str
 
 __docformat__ = "epytext en"
 
@@ -290,7 +290,7 @@ class BwaSampeCommandline(AbstractCommandline):
                             checker_function=lambda x: isinstance(x, int),
                             equate=False),
                     _Option(["-r", "r"], "Specify the read group in a format like '@RG\tID:foo\tSM:bar'. [null]",
-                            checker_function=lambda x: isinstance(x, basestring),
+                            checker_function=lambda x: isinstance(x, str),
                             equate=False),
                   ]
         AbstractCommandline.__init__(self, cmd, **kwargs)

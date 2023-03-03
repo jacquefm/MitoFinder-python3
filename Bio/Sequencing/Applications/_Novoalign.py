@@ -5,7 +5,7 @@
 # as part of this package.
 """Command line wrapper for the short read aligner Novoalign by Novocraft."""
 
-from __future__ import print_function
+
 
 import types
 from Bio.Application import _Option, AbstractCommandline
