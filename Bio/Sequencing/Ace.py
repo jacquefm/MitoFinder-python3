@@ -53,7 +53,7 @@ Thus an ace file does not entirerly suit the concept of iterating. If WA, CT, RT
 are needed, the 'read' function rather than the 'parse' function might be more appropriate.
 """
 
-from __future__ import print_function
+
 from Bio._py3k import zip
 
 class rd(object):
@@ -97,7 +97,7 @@ class ds(object):
         if line:
             tags = ['CHROMAT_FILE', 'PHD_FILE', 'TIME', 'CHEM', 'DYE', 'TEMPLATE', 'DIRECTION']
             poss = [line.find(x) for x in tags]
-            tagpos = dict(zip(poss, tags))
+            tagpos = dict(list(zip(poss, tags)))
             if -1 in tagpos:
                 del tagpos[-1]
             ps = sorted(tagpos) # the keys
