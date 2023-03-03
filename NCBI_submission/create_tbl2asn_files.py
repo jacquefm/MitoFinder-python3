@@ -59,7 +59,7 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 
 	if args.versionCheck == True:
-		print "MitoFinder version 1.2"
+		print("MitoFinder version 1.2")
 		exit()
 
 
@@ -71,11 +71,11 @@ if __name__ == "__main__":
 	for line in list(df.columns):
 		dico[line]=line
 	
-	if not dico.has_key("Directory path"):
-		print "ERROR: The column \"Directory path\" is not found in the index files"
+	if "Directory path" not in dico:
+		print("ERROR: The column \"Directory path\" is not found in the index files")
 		exit()
-	if not dico.has_key("Seq ID"):
-		print "ERROR: The column \"Seq ID\" is not found in the index files"
+	if "Seq ID" not in dico:
+		print("ERROR: The column \"Seq ID\" is not found in the index files")
 		exit()
 	
 	dico_seqid={}
@@ -108,7 +108,7 @@ if __name__ == "__main__":
 		if os.path.isfile(os.path.join(path,seqid+".tbl")):
 			os.remove(os.path.join(path,seqid+".tbl"))
 		c=0
-		print "Formatting "+str(seqid)+" FASTA file\n"
+		print("Formatting "+str(seqid)+" FASTA file\n")
 		for f in sorted(glob.glob(seq+"*.fasta")):
 			c += 1
 			tmp=open(f)
@@ -126,12 +126,12 @@ if __name__ == "__main__":
 				tmp.close()
 				tblout.close()
 			else:
-				print "WARNING: no tbl files (.tbl) were found for "+str(seqid)+ " at the following path:\n"+str(path)
-				print "The annoation inforamtions for the contig \""+str(f.split("/")[-1])+ "\" will not be found in the final tbl file : \""+ str(f.split(".fasta")[0].split("/")[-1]+".tbl")+"\"\n"
+				print("WARNING: no tbl files (.tbl) were found for "+str(seqid)+ " at the following path:\n"+str(path))
+				print("The annoation inforamtions for the contig \""+str(f.split("/")[-1])+ "\" will not be found in the final tbl file : \""+ str(f.split(".fasta")[0].split("/")[-1]+".tbl")+"\"\n")
 			fout.close()
 		if c == 0:
-			print "WARNING: no fasta files (.fasta) were found for "+str(seqid)+ " at the following path:\n"+str(path)+"\n"
-			print "WARNING: no tbl files (.tbl) were found for "+str(seqid)+ " at the following path:\n"+str(path)+"\n"
+			print("WARNING: no fasta files (.fasta) were found for "+str(seqid)+ " at the following path:\n"+str(path)+"\n")
+			print("WARNING: no tbl files (.tbl) were found for "+str(seqid)+ " at the following path:\n"+str(path)+"\n")
 
 
 
