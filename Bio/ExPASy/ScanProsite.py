@@ -45,7 +45,7 @@ def scan(seq="", mirror='http://www.expasy.org', output='xml', **keywords):
     """
     parameters = {'seq': seq,
                   'output': output}
-    for key, value in keywords.items():
+    for key, value in list(keywords.items()):
         if value is not None:
             parameters[key] = value
     command = _urlencode(parameters)
