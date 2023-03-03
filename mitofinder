@@ -1,4 +1,4 @@
-#!/groups/looger/home/loogerl/ORFFinder/Turtle_Transcriptome/Jackie/Assembly_stats_py_virtenv/bin/python
+#!/usr/bin/env python3
 #Version: 1.4.1
 #Authors: Allio Remi & Schomaker-Bastos Alex
 #ISEM - CNRS - LAMPADA - IBQM - UFRJ
