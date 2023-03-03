@@ -3,7 +3,7 @@
 # license. Please see the LICENSE file that should have been included
 # as part of this package.
 
-from __future__ import print_function
+
 
 import os
 import os.path
@@ -78,7 +78,7 @@ class Codeml(Paml):
                 ctl_handle.write("seqfile = %s\n" % self._rel_alignment)
                 ctl_handle.write("outfile = %s\n" % self._rel_out_file)
                 ctl_handle.write("treefile = %s\n" % self._rel_tree)
-                for option in self._options.items():
+                for option in list(self._options.items()):
                     if option[1] is None:
                         # If an option has a value of None, there's no need
                         # to write it in the control file; it's normally just
@@ -148,7 +148,7 @@ class Codeml(Paml):
 
     def print_options(self):
         """Print out all of the options and their current settings."""
-        for option in self._options.items():
+        for option in list(self._options.items()):
             if option[0] == "NSsites" and option[1] is not None:
                 # NSsites is stored in Python as a list but in the
                 # control file it is specified as a series of numbers

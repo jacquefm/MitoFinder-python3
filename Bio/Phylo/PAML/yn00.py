@@ -46,7 +46,7 @@ class Yn00(Paml):
         with open(self.ctl_file, 'w') as ctl_handle:
             ctl_handle.write("seqfile = %s\n" % self._rel_alignment)
             ctl_handle.write("outfile = %s\n" % self._rel_out_file)
-            for option in self._options.items():
+            for option in list(self._options.items()):
                 if option[1] is None:
                     # If an option has a value of None, there's no need
                     # to write it in the control file; it's normally just

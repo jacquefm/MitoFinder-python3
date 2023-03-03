@@ -3,7 +3,7 @@
 # license. Please see the LICENSE file that should have been included
 # as part of this package.
 
-from __future__ import print_function
+
 
 import os
 import subprocess
@@ -67,7 +67,7 @@ class Paml(object):
 
     def print_options(self):
         """Print out all of the options and their current settings."""
-        for option in self._options.items():
+        for option in list(self._options.items()):
             print("%s = %s" % (option[0], option[1]))
 
     def set_options(self, **kwargs):
@@ -76,7 +76,7 @@ class Paml(object):
         This function abstracts the options dict to prevent the user from
         adding options that do not exist or mispelling options.
         """
-        for option, value in kwargs.items():
+        for option, value in list(kwargs.items()):
             if not option in self._options:
                 raise KeyError("Invalid option: " + option)
             else:
