@@ -93,7 +93,7 @@ class CorrectionStage(stage.Stage):
         to_correct["scaffolds"] = \
             (self.output_files["result_scaffolds_filename"], self.output_files["assembled_scaffolds_filename"])
 
-        for assembly_type, (corrected, assembled) in to_correct.items():
+        for assembly_type, (corrected, assembled) in list(to_correct.items()):
             self.stages.append(CorrectionIterationStage(cfg, assembly_type, corrected, assembled,
                                                         "mc_%s" % assembly_type,
                                                         self.output_files,

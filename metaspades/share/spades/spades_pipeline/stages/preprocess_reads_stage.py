@@ -27,7 +27,7 @@ class PreprocessInterlacedReads(stage.Stage):
         self.dst = dst
         for reads_library in dataset_data:
             copy_reads_library = dict(reads_library)
-            for key, value in copy_reads_library.items():
+            for key, value in list(copy_reads_library.items()):
                 if key == "interlaced reads":
                     if "left reads" not in reads_library:
                         reads_library["left reads"] = []
