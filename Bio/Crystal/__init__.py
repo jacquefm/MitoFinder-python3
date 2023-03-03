@@ -15,7 +15,7 @@ import copy
 from functools import reduce
 
 from Bio._py3k import map
-from Bio._py3k import basestring
+from Bio._py3k import str
 
 
 class CrystalError(Exception):
@@ -114,7 +114,7 @@ class Chain(object):
     def __eq__(self, other):
         if len(self.data) != len(other.data):
             return 0
-        ok = reduce(lambda x, y: x and y, map(lambda x, y: x == y, self.data, other.data))
+        ok = reduce(lambda x, y: x and y, list(map(lambda x, y: x == y, self.data, other.data)))
         return ok
 
     def __ne__(self, other):
@@ -144,7 +144,7 @@ class Chain(object):
                 self.data[index] = value.data
             elif isinstance(value, type(self.data)):
                 self.data[index] = value
-            elif isinstance(value, basestring):
+            elif isinstance(value, str):
                 self.data[index] = Chain(value).data
             else:
                 raise TypeError
@@ -280,13 +280,13 @@ class Crystal(object):
         return copy.copy(self)
 
     def keys(self):
-        return self.data.keys()
+        return list(self.data.keys())
 
     def items(self):
-        return self.data.items()
+        return list(self.data.items())
 
     def values(self):
-        return self.data.values()
+        return list(self.data.values())
 
     def __contains__(self, value):
         return value in self.data
