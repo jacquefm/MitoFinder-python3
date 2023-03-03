@@ -68,7 +68,7 @@ def _adjust_aa_seq(fraglist):
 
         # update alignment annotation
         # by turning them into list of triplets
-        for annot, annotseq in frag.aln_annotation.items():
+        for annot, annotseq in list(frag.aln_annotation.items()):
             frag.aln_annotation[annot] = _make_triplets(annotseq)
 
         # update values for next iteration
@@ -160,7 +160,7 @@ def _create_hsp(hid, qid, hspd):
         # alignment annotation
         try:
             aln_annot = hspd.get('aln_annotation', {})
-            for key, value in aln_annot.items():
+            for key, value in list(aln_annot.items()):
                 frag.aln_annotation[key] = value[idx]
         except IndexError:
             pass
@@ -363,7 +363,7 @@ class _BaseExonerateParser(object):
 
                 if hit_state == state_HIT_NEW:
                     hit = Hit(hsp_list)
-                    for attr, value in prev['hit'].items():
+                    for attr, value in list(prev['hit'].items()):
                         setattr(hit, attr, value)
                     hit_list.append(hit)
                     hsp_list = []
@@ -374,7 +374,7 @@ class _BaseExonerateParser(object):
                         # not using append since Exonerate may separate the
                         # same hit if it has different strands
                         qresult.absorb(hit)
-                    for attr, value in prev['qresult'].items():
+                    for attr, value in list(prev['qresult'].items()):
                         setattr(qresult, attr, value)
                     yield qresult
                     if file_state == state_EOF:
