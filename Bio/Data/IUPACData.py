@@ -38,9 +38,9 @@ protein_letters_1to3_extended = dict(list(protein_letters_1to3.items()) + list({
 }.items()))
 
 protein_letters_3to1 = dict((x[1], x[0]) for x in
-                            protein_letters_1to3.items())
+                            list(protein_letters_1to3.items()))
 protein_letters_3to1_extended = dict((x[1], x[0]) for x in
-                                     protein_letters_1to3_extended.items())
+                                     list(protein_letters_1to3_extended.items()))
 
 ambiguous_dna_letters = "GATCRYWSMKHBVDN"
 unambiguous_dna_letters = "GATC"
@@ -134,7 +134,7 @@ ambiguous_rna_complement = {
 
 def _make_ranges(mydict):
     d = {}
-    for key, value in mydict.items():
+    for key, value in list(mydict.items()):
         d[key] = (value, value)
     return d
 
@@ -159,7 +159,7 @@ unambiguous_rna_weight_ranges = _make_ranges(unambiguous_rna_weights)
 def _make_ambiguous_ranges(mydict, weight_table):
     range_d = {}
     avg_d = {}
-    for letter, values in mydict.items():
+    for letter, values in list(mydict.items()):
         #Following line is a quick hack to skip undefined weights for U and O
         if len(values) == 1 and values[0] not in weight_table:
             continue

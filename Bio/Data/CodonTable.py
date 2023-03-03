@@ -9,7 +9,7 @@ ftp://ftp.ncbi.nih.gov/entrez/misc/data/gc.prt
 Last updated for Version 3.9
 """
 
-from __future__ import print_function
+
 
 from Bio import Alphabet
 from Bio.Alphabet import IUPAC
@@ -223,13 +223,13 @@ def list_ambiguous_codons(codons, ambiguous_nucleotide_values):
     #This will generate things like 'TRR' from ['TAG', 'TGA'], which
     #we don't want to include:
     c1_list = sorted(letter for (letter, meanings)
-               in ambiguous_nucleotide_values.items()
+               in list(ambiguous_nucleotide_values.items())
                if set(codon[0] for codon in codons).issuperset(set(meanings)))
     c2_list = sorted(letter for (letter, meanings)
-               in ambiguous_nucleotide_values.items()
+               in list(ambiguous_nucleotide_values.items())
                if set(codon[1] for codon in codons).issuperset(set(meanings)))
     c3_list = sorted(letter for (letter, meanings)
-               in ambiguous_nucleotide_values.items()
+               in list(ambiguous_nucleotide_values.items())
                if set(codon[2] for codon in codons).issuperset(set(meanings)))
     #candidates is a list (not a set) to preserve the iteration order
     candidates = []
@@ -288,12 +288,12 @@ class AmbiguousForwardTable(object):
         self.ambiguous_protein = ambiguous_protein
 
         inverted = {}
-        for name, val in ambiguous_protein.items():
+        for name, val in list(ambiguous_protein.items()):
             for c in val:
                 x = inverted.get(c, {})
                 x[name] = 1
                 inverted[c] = x
-        for name, val in inverted.items():
+        for name, val in list(inverted.items()):
             inverted[name] = list(val.keys())
         self._inverted = inverted
 
@@ -351,7 +351,7 @@ class AmbiguousForwardTable(object):
 
         n = len(possible)
         possible = []
-        for amino, val in ambiguous_possible.items():
+        for amino, val in list(ambiguous_possible.items()):
             if val == n:
                 possible.append(amino)
 
@@ -396,7 +396,7 @@ def register_ncbi_table(name, alt_name, id,
     # replace all T's with U's for the RNA tables
     rna_table = {}
     generic_table = {}
-    for codon, val in table.items():
+    for codon, val in list(table.items()):
         generic_table[codon] = val
         codon = codon.replace("T", "U")
         generic_table[codon] = val
@@ -420,7 +420,7 @@ def register_ncbi_table(name, alt_name, id,
                              generic_start_codons, generic_stop_codons)
 
     #The following isn't very elegant, but seems to work nicely.
-    _merged_values = dict(IUPACData.ambiguous_rna_values.items())
+    _merged_values = dict(list(IUPACData.ambiguous_rna_values.items()))
     _merged_values["T"] = "U"
     ambig_generic = AmbiguousCodonTable(generic,
                                         Alphabet.NucleotideAlphabet(),
@@ -861,9 +861,9 @@ register_ncbi_table(name = 'Thraustochytrium Mitochondrial',
                     )
 
 #Basic sanity test,
-for key, val in generic_by_name.items():
+for key, val in list(generic_by_name.items()):
     assert key in ambiguous_generic_by_name[key].names
-for key, val in generic_by_id.items():
+for key, val in list(generic_by_id.items()):
     assert ambiguous_generic_by_id[key].id == key
 del key, val
 
