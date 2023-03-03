@@ -14,7 +14,7 @@ parse            Allows you to iterate over a bunch of Medline records
 """
 
 
-from __future__ import print_function
+
 
 class Record(dict):
     """A dictionary holding information from a Medline record.
