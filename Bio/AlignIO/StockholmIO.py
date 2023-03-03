@@ -129,7 +129,7 @@ secondary structure string here, are also sliced:
     >>> print(sub_record.letter_annotations['secondary_structure'])
     -------<<<
 """
-from __future__ import print_function
+
 
 __docformat__ = "epytext en"  # not just plaintext
 from Bio.Seq import Seq
@@ -240,7 +240,7 @@ class StockholmWriter(SequentialAlignmentWriter):
                 % (seq_name, self.clean(xref)))
 
         #GS = other per sequence annotation
-        for key, value in record.annotations.items():
+        for key, value in list(record.annotations.items()):
             if key in self.pfam_gs_mapping:
                 data = self.clean(str(value))
                 if data:
@@ -254,7 +254,7 @@ class StockholmWriter(SequentialAlignmentWriter):
                 pass
 
         #GR = per row per column sequence annotation
-        for key, value in record.letter_annotations.items():
+        for key, value in list(record.letter_annotations.items()):
             if key in self.pfam_gr_mapping and len(str(value)) == len(record.seq):
                 data = self.clean(str(value))
                 if data:

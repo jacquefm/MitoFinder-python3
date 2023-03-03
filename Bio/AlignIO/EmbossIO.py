@@ -12,7 +12,7 @@ This module contains a parser for the EMBOSS pairs/simple file format, for
 example from the alignret, water and needle tools.
 """
 
-from __future__ import print_function
+
 
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
