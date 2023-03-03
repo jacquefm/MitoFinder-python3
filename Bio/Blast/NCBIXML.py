@@ -21,7 +21,7 @@ parse               Incremental parser, this is an iterator that returns
                     Blast records.  It uses the BlastParser internally.
 read                Returns a single Blast record. Uses the BlastParser internally.
 """
-from __future__ import print_function
+
 
 from Bio.Blast import Record
 import xml.sax
