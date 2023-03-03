@@ -5,7 +5,7 @@
 """Command-line wrapper for the tree inference program PhyML."""
 __docformat__ = "restructuredtext en"
 
-from Bio._py3k import basestring
+from Bio._py3k import str
 
 from Bio.Application import _Option, _Switch, AbstractCommandline
 
@@ -247,7 +247,7 @@ class PhymlCommandline(AbstractCommandline):
                 This option may be useful when running simulations involving
                 PhyML.
                 """,
-                checker_function=lambda x: isinstance(x, basestring),
+                checker_function=lambda x: isinstance(x, str),
                 equate=False,
                 ),
 
