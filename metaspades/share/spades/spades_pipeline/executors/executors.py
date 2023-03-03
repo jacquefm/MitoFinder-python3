@@ -14,9 +14,7 @@ import support
 import commands_parser
 
 
-class ExecutorBase(object):
-    __metaclass__ = ABCMeta
-
+class ExecutorBase(object, metaclass=ABCMeta):
     def __init__(self, log):
         self.log = log
 
