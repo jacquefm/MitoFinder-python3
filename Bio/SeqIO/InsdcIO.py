@@ -31,7 +31,7 @@ http://www.ebi.ac.uk/imgt/hla/docs/manual.html
 
 """
 
-from __future__ import print_function
+
 
 from Bio.Seq import UnknownSeq
 from Bio.GenBank.Scanner import GenBankScanner, EmblScanner, _ImgtScanner
@@ -40,7 +40,7 @@ from .Interfaces import SequentialSequenceWriter
 from Bio import SeqFeature
 
 from Bio._py3k import _is_int_or_long
-from Bio._py3k import basestring
+from Bio._py3k import str
 
 # NOTE
 # ====
@@ -342,7 +342,7 @@ class _InsdcWriter(SequentialSequenceWriter):
                + self._wrap_location(location) + "\n"
         self.handle.write(line)
         #Now the qualifiers...
-        for key, values in feature.qualifiers.items():
+        for key, values in list(feature.qualifiers.items()):
             if isinstance(values, list) or isinstance(values, tuple):
                 for value in values:
                     self._write_feature_qualifier(key, value)
@@ -464,7 +464,7 @@ class GenBankWriter(_InsdcWriter):
         if isinstance(date, list) and len(date) == 1:
             date = date[0]
         #TODO - allow a Python date object
-        if not isinstance(date, basestring) or len(date) != 11 \
+        if not isinstance(date, str) or len(date) != 11 \
             or date[2] != "-" or date[6] != "-" \
             or not date[:2].isdigit() or not date[7:].isdigit() \
             or int(date[:2]) > 31 \
@@ -679,7 +679,7 @@ class GenBankWriter(_InsdcWriter):
         #A single (long) string is perhaps the most natural of all.
         #This means we may need to deal with line wrapping.
         comment = record.annotations["comment"]
-        if isinstance(comment, basestring):
+        if isinstance(comment, str):
             lines = comment.split("\n")
         elif isinstance(comment, list) or isinstance(comment, tuple):
             lines = comment
@@ -1046,7 +1046,7 @@ class EmblWriter(_InsdcWriter):
         #A single (long) string is perhaps the most natural of all.
         #This means we may need to deal with line wrapping.
         comment = record.annotations["comment"]
-        if isinstance(comment, basestring):
+        if isinstance(comment, str):
             lines = comment.split("\n")
         elif isinstance(comment, list) or isinstance(comment, tuple):
             lines = comment

@@ -416,7 +416,7 @@ class Parser(object):
 
         def _parse_feature(element):
             feature = SeqFeature.SeqFeature()
-            for k, v in element.attrib.items():
+            for k, v in list(element.attrib.items()):
                 feature.qualifiers[k] = v
             feature.type = element.attrib.get('type', '')
             if 'id' in element.attrib:
@@ -445,12 +445,12 @@ class Parser(object):
             append_to_annotations('proteinExistence', element.attrib['type'])
 
         def _parse_evidence(element):
-            for k, v in element.attrib.items():
+            for k, v in list(element.attrib.items()):
                 ann_key = k
                 append_to_annotations(ann_key, v)
 
         def  _parse_sequence(element):
-            for k, v in element.attrib.items():
+            for k, v in list(element.attrib.items()):
                 if k in ("length", "mass", "version"):
                     self.ParsedSeqRecord.annotations['sequence_%s' % k] = int(v)
                 else:
@@ -466,7 +466,7 @@ class Parser(object):
         #Unknown dataset should not happen!
         self.dbname = self.entry.attrib.get('dataset', 'UnknownDataset')
         #add attribs to annotations
-        for k, v in self.entry.attrib.items():
+        for k, v in list(self.entry.attrib.items()):
             if k in ("version"):
                 #original
                 #self.ParsedSeqRecord.annotations["entry_%s" % k] = int(v)

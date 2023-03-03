@@ -109,7 +109,7 @@ def AbiIterator(handle, alphabet=None, trim=False):
     times = {'RUND1': '', 'RUND2': '', 'RUNT1': '', 'RUNT2': '', }
 
     # initialize annotations
-    annot = dict(zip(_EXTRACT.values(), [None] * len(_EXTRACT)))
+    annot = dict(list(zip(list(_EXTRACT.values()), [None] * len(_EXTRACT))))
 
     # parse header and extract data from directories
     header = struct.unpack(_HEADFMT,
