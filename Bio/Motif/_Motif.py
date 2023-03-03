@@ -5,7 +5,7 @@
 """Implementation of sequence motifs (PRIVATE).
 """
 
-from __future__ import print_function
+
 
 from Bio._py3k import range
 
@@ -285,7 +285,7 @@ class Motif(object):
         for i in range(max(self.length, offset+other.length)):
             f1=self[i]
             f2=other[i-offset]
-            for n, b in self.background.items():
+            for n, b in list(self.background.items()):
                 s+=b*f1[n]*f2[n]
         return s/i
 
@@ -664,7 +664,7 @@ class Motif(object):
                   'color6': 'orange',
                   'color1': 'black',
                   }
-        for k, v in kwds.items():
+        for k, v in list(kwds.items()):
             values[k]=str(v)
             
         data = urlencode(values)

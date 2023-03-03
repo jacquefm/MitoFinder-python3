@@ -13,7 +13,7 @@ well as methods for motif comparisons and motif searching in sequences.
 It also inlcudes functionality for parsing AlignACE and MEME programs.
 """
 
-from __future__ import print_function
+
 
 import warnings
 from Bio import BiopythonDeprecationWarning
