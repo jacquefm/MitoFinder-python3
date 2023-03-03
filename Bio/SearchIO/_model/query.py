@@ -5,8 +5,8 @@
 
 """Bio.SearchIO object to model search results from a single query."""
 
-from __future__ import print_function
-from Bio._py3k import basestring
+
+from Bio._py3k import str
 
 from copy import deepcopy
 from itertools import chain
@@ -219,31 +219,31 @@ class QueryResult(_BaseSearchObject):
         @property
         def hits(self):
             """Hit objects contained in the QueryResult."""
-            return self._items.values()
+            return list(self._items.values())
 
         @property
         def hit_keys(self):
             """Hit IDs of the Hit objects contained in the QueryResult."""
-            return self._items.keys()
+            return list(self._items.keys())
 
         @property
         def items(self):
             """List of tuples of Hit IDs and Hit objects."""
-            return self._items.items()
+            return list(self._items.items())
 
         def iterhits(self):
             """Returns an iterator over the Hit objects."""
-            for hit in self._items.values():
+            for hit in list(self._items.values()):
                 yield hit
 
         def iterhit_keys(self):
             """Returns an iterator over the ID of the Hit objects."""
-            for hit_id in self._items.keys():
+            for hit_id in list(self._items.keys()):
                 yield hit_id
 
         def iteritems(self):
             """Returns an iterator yielding tuples of Hit ID and Hit objects."""
-            for item in self._items.items():
+            for item in list(self._items.items()):
                 yield item
 
     else:
@@ -268,7 +268,7 @@ class QueryResult(_BaseSearchObject):
 
         def iterhits(self):
             """Returns an iterator over the Hit objects."""
-            for hit in self._items.values():
+            for hit in list(self._items.values()):
                 yield hit
 
         def iterhit_keys(self):
@@ -278,7 +278,7 @@ class QueryResult(_BaseSearchObject):
 
         def iteritems(self):
             """Returns an iterator yielding tuples of Hit ID and Hit objects."""
-            for item in self._items.items():
+            for item in list(self._items.items()):
                 yield item
 
     def __contains__(self, hit_key):
@@ -362,7 +362,7 @@ class QueryResult(_BaseSearchObject):
 
     def __setitem__(self, hit_key, hit):
         # only accept string keys
-        if not isinstance(hit_key, basestring):
+        if not isinstance(hit_key, str):
             raise TypeError("QueryResult object keys must be a string.")
         # hit must be a Hit object
         if not isinstance(hit, Hit):

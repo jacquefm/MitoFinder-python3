@@ -5,8 +5,8 @@
 
 """Bio.SearchIO objects to model high scoring regions between query and hit."""
 
-from __future__ import print_function
-from Bio._py3k import basestring
+
+from Bio._py3k import str
 
 import warnings
 from operator import ge, le
@@ -736,7 +736,7 @@ class HSPFragment(_BaseHSP):
             # alignment annotation should be transferred, since we can compute
             # the resulting annotation
             obj.aln_annotation = {}
-            for key, value in self.aln_annotation.items():
+            for key, value in list(self.aln_annotation.items()):
                 assert len(value[idx]) == len(obj)
                 obj.aln_annotation[key] = value[idx]
             return obj
@@ -800,7 +800,7 @@ class HSPFragment(_BaseHSP):
         if seq is None:
             return seq # return immediately if seq is None
         else:
-            if not isinstance(seq, (basestring, SeqRecord)):
+            if not isinstance(seq, (str, SeqRecord)):
                 raise TypeError("%s sequence must be a string or a SeqRecord"
                         " object." % seq_type)
         # check length if the opposite sequence is not None
@@ -823,7 +823,7 @@ class HSPFragment(_BaseHSP):
             seq.name = seq_name
             seq.features = seq_feats
             seq.seq.alphabet = self.alphabet
-        elif isinstance(seq, basestring):
+        elif isinstance(seq, str):
             seq = SeqRecord(Seq(seq, self.alphabet), id=seq_id, name=seq_name,
                     description=seq_desc, features=seq_feats)
 
