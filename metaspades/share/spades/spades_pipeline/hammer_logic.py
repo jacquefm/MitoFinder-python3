@@ -29,7 +29,7 @@ def compress_dataset_files(dataset_data, ext_python_modules_home, max_threads, l
     log.info("\n== Compressing corrected reads (with " + compressor + ")")
     to_compress = []
     for reads_library in dataset_data:
-        for key, value in reads_library.items():
+        for key, value in list(reads_library.items()):
             if key.endswith('reads'):
                 compressed_reads_filenames = []
                 for reads_file in value:

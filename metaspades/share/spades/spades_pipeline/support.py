@@ -96,7 +96,7 @@ def sys_error(cmd, log, exit_code):
 def check_python_version():
     def __next_version(version):
         components = version.split('.')
-        for i in reversed(range(len(components))):
+        for i in reversed(list(range(len(components)))):
             if components[i].isdigit():
                 components[i] = str(int(components[i]) + 1)
                 break
@@ -527,7 +527,7 @@ def get_tmp_dir(prefix="", base_dir=None):
 
 # START for processing YAML files
 def get_short_reads_type(option):
-    for short_reads_type in options_storage.SHORT_READS_TYPES.keys():
+    for short_reads_type in list(options_storage.SHORT_READS_TYPES.keys()):
         if option.startswith("--" + short_reads_type):
             # additional check to except collisions with LONG_READS_TYPES, e.g. --s<#> and --sanger
             if option[len("--" + short_reads_type):len("--" + short_reads_type) + 1].isdigit():
@@ -624,12 +624,12 @@ def add_to_dataset(option, data, dataset_data):
 def correct_dataset(dataset_data):
     # removing empty reads libraries
     corrected_dataset_data = []
-    for reads_library in dataset_data.values() if isinstance(dataset_data, dict) else dataset_data:
+    for reads_library in list(dataset_data.values()) if isinstance(dataset_data, dict) else dataset_data:
         if not reads_library:
             continue
         has_reads = False
         has_paired_reads = False
-        for key in reads_library.keys():
+        for key in list(reads_library.keys()):
             if key.endswith("reads"):
                 has_reads = True
             if key in ["interlaced reads", "merged reads", "left reads", "right reads"]:
@@ -654,7 +654,7 @@ def relative2abs_paths(dataset_data, dirname):
     dirname = abspath(expanduser(dirname))
     abs_paths_dataset_data = []
     for reads_library in dataset_data:
-        for key, value in reads_library.items():
+        for key, value in list(reads_library.items()):
             if key.endswith("reads"):
                 abs_paths_reads = []
                 for reads_file in value:
@@ -697,7 +697,7 @@ def get_reads_files(dataset_data, log, ignored_types, used_types=None):
     for reads_library in dataset_data:
         if (used_types is not None) and reads_library["type"] not in used_types:
             continue
-        for key, value in reads_library.items():
+        for key, value in list(reads_library.items()):
             if key in ignored_types:
                 log.info("Files with %s were ignored." % key)
                 continue
@@ -728,7 +728,7 @@ def check_dataset_reads(dataset_data, only_assembler, iontorrent, log):
         if "number" not in reads_library:
             reads_library["number"] = id + 1
 
-        for key, value in reads_library.items():
+        for key, value in list(reads_library.items()):
             if key.endswith("reads"):
                 for reads_file in value:
                     check_file_existence(reads_file,
@@ -861,7 +861,7 @@ def read_fasta(filename, gzipped=False):
             seq += line.strip()
     res_seq.append(seq)
     file_handler.close()
-    return zip(res_name, res_seq)
+    return list(zip(res_name, res_seq))
 
 
 def write_fasta(filename, fasta):
@@ -906,7 +906,7 @@ def comp(letter):
 
 
 def rev_comp(seq):
-    return "".join(itertools.imap(comp, seq[::-1]))
+    return "".join(map(comp, seq[::-1]))
 
 
 def get_contig_id(s):

@@ -86,7 +86,7 @@ def substitute_params(filename, var_dict, log):
     lines = file_lines(filename)
     vars_in_file = vars_from_lines(lines)
 
-    for var, value in var_dict.items():
+    for var, value in list(var_dict.items()):
         if var not in vars_in_file:
             support.error("Couldn't find %s in %s" % (var, filename), log)
 
@@ -130,7 +130,7 @@ def load_config_from_vars(cfg_vars):
 
         return None
 
-    for var, meta in cfg_vars.items():
+    for var, meta in list(cfg_vars.items()):
         cfg.__dict__[var] = load_value_list(meta.value)
 
     return cfg
@@ -168,7 +168,7 @@ def load_config_from_info_file(filename):
                 blocks[cur_block_name].append(prev_line)
 
     cfg = dict()
-    for block_name in blocks.iterkeys():
+    for block_name in blocks.keys():
         cfg[block_name] = load_config_from_vars(vars_from_lines(blocks[block_name]))
 
     return cfg

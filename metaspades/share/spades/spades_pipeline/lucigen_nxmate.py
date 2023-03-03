@@ -78,7 +78,7 @@ class ParseFastQ(object):
     def __iter__(self):
         return self
 
-    def next(self):  # for both Python2 and Python3
+    def __next__(self):  # for both Python2 and Python3
         return self.__next__()
 
     def __next__(self):
