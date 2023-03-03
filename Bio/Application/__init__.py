@@ -19,8 +19,8 @@ construct command line strings by setting the values of each parameter.
 The finished command line strings are then normally invoked via the built-in
 Python module subprocess.
 """
-from __future__ import print_function
-from Bio._py3k import basestring
+
+from Bio._py3k import str
 
 import os
 import platform
@@ -243,7 +243,7 @@ class AbstractCommandline(object):
                        "argument value required." % p.names[0]
             prop = property(getter(name), setter(name), deleter(name), doc)
             setattr(self.__class__, name, prop)  # magic!
-        for key, value in kwargs.items():
+        for key, value in list(kwargs.items()):
             self.set_parameter(key, value)
 
     def _validate(self):
@@ -451,14 +451,14 @@ class AbstractCommandline(object):
         """
         if not stdout:
             stdout_arg = open(os.devnull, "w")
-        elif isinstance(stdout, basestring):
+        elif isinstance(stdout, str):
             stdout_arg = open(stdout, "w")
         else:
             stdout_arg = subprocess.PIPE
 
         if not stderr:
             stderr_arg = open(os.devnull, "w")
-        elif isinstance(stderr, basestring):
+        elif isinstance(stderr, str):
             if stdout == stderr:
                 stderr_arg = stdout_arg #Write both to the same file
             else:
@@ -501,9 +501,9 @@ class AbstractCommandline(object):
         #Particularly important to close handles on Jython and PyPy
         #(where garbage collection is less predictable) and on Windows
         #(where cannot delete files with an open handle):
-        if stdout and isinstance(stdout, basestring):
+        if stdout and isinstance(stdout, str):
             stdout_arg.close()
-        if stderr and isinstance(stderr, basestring) and stdout != stderr:
+        if stderr and isinstance(stderr, str) and stdout != stderr:
             stderr_arg.close()
 
         if return_code:
@@ -567,7 +567,7 @@ class _Option(_AbstractParameter):
     def __init__(self, names, description, filename=False, checker_function=None,
                  is_required=False, equate=True):
         self.names = names
-        assert isinstance(description, basestring), \
+        assert isinstance(description, str), \
                "%r for %s" % (description, names[-1])
         self.is_filename = filename
         self.checker_function = checker_function
@@ -654,7 +654,7 @@ class _Argument(_AbstractParameter):
         #    raise ValueError("The names argument to _Argument should be a "
         #                     "single entry list with a PEP8 property name.")
         self.names = names
-        assert isinstance(description, basestring), \
+        assert isinstance(description, str), \
                "%r for %s" % (description, names[-1])
         self.is_filename = filename
         self.checker_function = checker_function
