@@ -1,4 +1,4 @@
-note from jacquefm: All of the python scripts in this repository were modified to be compatible with python3. Make sure the shebang in each python script in the main directory (/path/to/MitoFinder) points to the correct location of python3 for your system/setup. 
+note from jacquefm: All of the python scripts in this repository were modified to be compatible with python3. Make sure the shebang in each python script in the main directory (/path/to/MitoFinder) points to the correct location of python3 for your system/setup. This includes the mitofinder executable itself.
 
 # MitoFinder version 1.4.1		
 Allio, R., Schomaker-Bastos, A., Romiguier, J., Prosdocimi, F., Nabholz, B., & Delsuc, F. (2020) Mol Ecol Resour. 20, 892-905. ([publication link](https://doi.org/10.1111/1755-0998.13160))
