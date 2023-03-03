@@ -9,7 +9,7 @@
 
 """Miscellaneous functions for dealing with sequences."""
 
-from __future__ import print_function
+
 
 import re
 from math import pi, sin, cos
@@ -110,7 +110,7 @@ def xGC_skew(seq, window=1000, zoom=100,
                          r=300, px=100, py=100):
     """Calculates and plots normal and accumulated GC skew (GRAPHICS !!!)."""
     try:
-        import Tkinter as tkinter # Python 2
+        import tkinter as tkinter # Python 2
     except ImportError:
         import tkinter # Python 3
 
@@ -305,9 +305,9 @@ def seq1(seq, custom_map={'Ter': '*'}, undef_code='X'):
     # reverse map of threecode
     # upper() on all keys to enable caps-insensitive input seq handling
     onecode = dict((k.upper(), v) for k, v in
-                   IUPACData.protein_letters_3to1_extended.items())
+                   list(IUPACData.protein_letters_3to1_extended.items()))
     # add the given termination codon code and custom maps
-    onecode.update((k.upper(), v) for (k, v) in custom_map.items())
+    onecode.update((k.upper(), v) for (k, v) in list(custom_map.items()))
     seqlist = [seq[3*i:3*(i+1)] for i in range(len(seq) // 3)]
     return ''.join(onecode.get(aa.upper(), undef_code) for aa in seqlist)
 

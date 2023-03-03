@@ -6,7 +6,7 @@
 
 """Calculate the thermodynamic melting temperatures of nucleotide sequences."""
 
-from __future__ import print_function
+
 
 import math
 
