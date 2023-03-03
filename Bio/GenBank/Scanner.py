@@ -26,7 +26,7 @@ ftp://ftp.ncbi.nih.gov/genbank/docs/
 # for more details of this format, and an example.
 # Added by Ying Huang & Iddo Friedberg
 
-from __future__ import print_function
+
 
 import warnings
 import re
