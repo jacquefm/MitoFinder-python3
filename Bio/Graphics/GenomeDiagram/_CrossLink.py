@@ -62,7 +62,7 @@ class CrossLink(object):
             for track in tracks:
                 for feature_set in track.get_sets():
                     if hasattr(feature_set, "features"):
-                        if self.featureA in feature_set.features.values():
+                        if self.featureA in list(feature_set.features.values()):
                             return track
             return None
 
@@ -91,6 +91,6 @@ class CrossLink(object):
             for track in tracks:
                 for feature_set in track.get_sets():
                     if hasattr(feature_set, "features"):
-                        if self.featureB in feature_set.features.values():
+                        if self.featureB in list(feature_set.features.values()):
                             return track
             return None

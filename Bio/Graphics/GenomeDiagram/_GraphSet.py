@@ -30,7 +30,7 @@
 """
 
 # ReportLab imports
-from __future__ import print_function
+
 
 from reportlab.lib import colors
 
@@ -158,7 +158,7 @@ class GraphSet(object):
             Returns the lowest and highest base (or mark) numbers as a tuple
         """
         lows, highs = [], []
-        for graph in self._graphs.values():
+        for graph in list(self._graphs.values()):
             low, high = graph.range()
             lows.append(low)
             highs.append(high)
@@ -171,7 +171,7 @@ class GraphSet(object):
             a tuple
         """
         data = []
-        for graph in self._graphs.values():
+        for graph in list(self._graphs.values()):
             data += list(graph.data.values())
         data.sort()
         datalen = len(data)

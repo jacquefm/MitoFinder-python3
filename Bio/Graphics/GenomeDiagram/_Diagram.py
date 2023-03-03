@@ -237,7 +237,7 @@ class Diagram(object):
             Set the passed attribute of all tracks in the set to the
             passed value
         """
-        for track in self.tracks.values():
+        for track in list(self.tracks.values()):
             if hasattr(track, attr):          # If the feature has the attribute
                 if getattr(track, attr) != value:
                     setattr(track, attr, value)   # set it to the passed value
@@ -440,7 +440,7 @@ class Diagram(object):
             track features as a tuple
         """
         lows, highs = [], []
-        for track in self.tracks.values(): # Get ranges for each track
+        for track in list(self.tracks.values()): # Get ranges for each track
             low, high = track.range()
             lows.append(low)
             highs.append(high)

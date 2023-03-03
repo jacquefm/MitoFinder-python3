@@ -27,7 +27,7 @@
 
 """
 
-from __future__ import print_function
+
 
 from reportlab.lib import colors
 
@@ -323,7 +323,7 @@ class Track(object):
             lows.append(self.start)
         if self.end is not None:
             highs.append(self.end)
-        for set in self._sets.values():
+        for set in list(self._sets.values()):
             low, high = set.range()     # Get each set range
             lows.append(low)
             highs.append(high)

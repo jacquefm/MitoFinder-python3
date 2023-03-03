@@ -27,7 +27,7 @@
 """
 
 # ReportLab imports
-from __future__ import print_function
+
 
 from reportlab.graphics.shapes import *
 from reportlab.lib import colors
@@ -382,7 +382,7 @@ class LinearDrawer(AbstractDrawer):
             and blue ones indicating tracks to be drawn.
         """
         # Add lines for each fragment
-        for fbtm, ftop in self.fragment_lines.values():
+        for fbtm, ftop in list(self.fragment_lines.values()):
             self.drawing.add(Line(self.x0, ftop, self.xlim, ftop,
                                   strokeColor=colors.red))  # top line
             self.drawing.add(Line(self.x0, fbtm, self.xlim, fbtm,
