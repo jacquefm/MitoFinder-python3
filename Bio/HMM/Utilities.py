@@ -10,7 +10,7 @@ dealing with HMMs.
 """
 
 
-from __future__ import print_function
+
 
 def pretty_print_prediction(emissions, real_state, predicted_state,
                             emission_title = "Emissions",
