@@ -13,7 +13,7 @@ specific to a particular program or format.
 Classes:
  - Alignment
 """
-from __future__ import print_function
+
 
 __docformat__ = "epytext en"  # Don't just use plain text in epydoc API pages!
 

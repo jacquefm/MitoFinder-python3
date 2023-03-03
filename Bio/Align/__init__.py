@@ -9,7 +9,7 @@ One of the most important things in this module is the MultipleSeqAlignment
 class, used in the Bio.AlignIO module.
 
 """
-from __future__ import print_function
+
 
 __docformat__ = "epytext en"  # Don't just use plain text in epydoc API pages!
 
@@ -390,7 +390,7 @@ class MultipleSeqAlignment(_Alignment):
         merged = (left+right for left, right in zip(self, other))
         # Take any common annotation:
         annotations = dict()
-        for k, v in self.annotations.items():
+        for k, v in list(self.annotations.items()):
             if k in other.annotations and other.annotations[k] == v:
                 annotations[k] = v
         return MultipleSeqAlignment(merged, alpha, annotations)
