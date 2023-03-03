@@ -23,7 +23,7 @@
 
 """Parse the header of a PDB file."""
 
-from __future__ import print_function
+
 
 import re
 
@@ -266,7 +266,7 @@ if __name__=='__main__':
         data_dict = parse_pdb_header(handle)
 
     # print the dictionary
-    for k, y in data_dict.items():
+    for k, y in list(data_dict.items()):
         print("-"*40)
         print(k)
         print(y)

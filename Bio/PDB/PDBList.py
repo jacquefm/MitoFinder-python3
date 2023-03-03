@@ -20,7 +20,7 @@
 
 """ Access the PDB over the internet (e.g. to download structures). """
 
-from __future__ import print_function
+
 
 import contextlib
 import gzip
@@ -109,9 +109,9 @@ class PDBList(object):
         """
         url = self.pdb_server + '/pub/pdb/data/status/'
         with contextlib.closing(_urlopen(url)) as handle:
-            recent = filter(str.isdigit,
+            recent = list(filter(str.isdigit,
                             (x.split()[-1] for x in handle.readlines())
-                            )[-1]
+                            ))[-1]
 
         path = self.pdb_server + '/pub/pdb/data/status/%s/' % (recent)
 

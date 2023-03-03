@@ -5,7 +5,7 @@
 
 """Superimpose two structures."""
 
-from __future__ import print_function
+
 
 import numpy
 

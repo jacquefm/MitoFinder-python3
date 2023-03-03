@@ -30,7 +30,7 @@ The library files can be found in directory 'fragment_data'.
     >>> fragment = fm[residue]
 """
 
-from __future__ import print_function
+
 
 import numpy
 

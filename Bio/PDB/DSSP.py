@@ -20,7 +20,7 @@ The DSSP codes for secondary structure used here are:
     - -        None
 """
 
-from __future__ import print_function
+
 
 __docformat__ = "epytext en"
 
@@ -331,7 +331,7 @@ if __name__ == "__main__":
     for r in d:
         print(r)
     print("Handled %i residues" % len(d))
-    print(d.keys())
+    print(list(d.keys()))
     if ('A', 1) in d:
         print(d[('A', 1)])
         print(s[0]['A'][1].xtra)

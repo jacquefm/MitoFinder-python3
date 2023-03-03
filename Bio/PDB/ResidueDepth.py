@@ -39,7 +39,7 @@ Direct MSMS interface:
         >>> rd = residue_depth(residue, surface)
 """
 
-from __future__ import print_function
+
 
 import os
 import tempfile

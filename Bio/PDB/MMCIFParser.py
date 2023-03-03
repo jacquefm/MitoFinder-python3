@@ -5,7 +5,7 @@
 
 """mmCIF parser"""
 
-from __future__ import print_function
+
 
 from string import ascii_letters
 

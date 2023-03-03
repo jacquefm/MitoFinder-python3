@@ -5,7 +5,7 @@
 
 """Half-sphere exposure and coordination number calculation."""
 
-from __future__ import print_function
+
 
 import warnings
 from math import pi

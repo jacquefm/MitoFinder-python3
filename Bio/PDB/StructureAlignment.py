@@ -7,7 +7,7 @@
 file.
 """
 
-from __future__ import print_function
+
 
 from Bio.Data import SCOPData
 

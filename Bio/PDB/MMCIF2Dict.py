@@ -5,7 +5,7 @@
 
 """Turn an mmCIF file into a dictionary."""
 
-from __future__ import print_function
+
 
 from Bio._py3k import input as _input
 
