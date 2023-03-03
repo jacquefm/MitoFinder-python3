@@ -42,7 +42,7 @@ from xml.parsers import expat
 #Importing these functions with leading underscore as not intended for reuse
 from Bio._py3k import urlopen as _urlopen
 from Bio._py3k import urlparse as _urlparse
-from Bio._py3k import unicode
+from Bio._py3k import str
 
 # The following four classes are used to add a member .attributes to integers,
 # strings, lists, and dictionaries, respectively.
@@ -68,9 +68,9 @@ class StringElement(str):
         return "StringElement(%s, attributes=%s)" % (text, repr(attributes))
 
 
-class UnicodeElement(unicode):
+class UnicodeElement(str):
     def __repr__(self):
-        text = unicode.__repr__(self)
+        text = str.__repr__(self)
         try:
             attributes = self.attributes
         except AttributeError:
