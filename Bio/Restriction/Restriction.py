@@ -78,7 +78,7 @@
     ----------------------------------------------------------------------------
         """
 
-from __future__ import print_function
+
 from Bio._py3k import zip
 from Bio._py3k import filter
 from Bio._py3k import range
@@ -478,7 +478,7 @@ class AbstractCut(RestrictionType):
     @classmethod
     def all_suppliers(self):
         """RE.all_suppliers -> print all the suppliers of R"""
-        supply = sorted(x[0] for x in suppliers_dict.values())
+        supply = sorted(x[0] for x in list(suppliers_dict.values()))
         print(",\n".join(supply))
         return
 
@@ -1785,7 +1785,7 @@ class Commercially_available(AbstractCut):
         """RE.supplier_list() -> list.
 
         list of the supplier names for RE."""
-        return [v[0] for k, v in suppliers_dict.items() if k in self.suppl]
+        return [v[0] for k, v in list(suppliers_dict.items()) if k in self.suppl]
 
     @classmethod
     def buffers(self, supplier):
@@ -1899,7 +1899,7 @@ class RestrictionBatch(set):
         func return True."""
         d = [x for x in filter(func, self)]
         new = RestrictionBatch()
-        new._data = dict(zip(d, [True]*len(d)))
+        new._data = dict(list(zip(d, [True]*len(d))))
         return new
 
     def add_supplier(self, letter):
@@ -2001,7 +2001,7 @@ class RestrictionBatch(set):
             return True
         d = [k for k in filter(splittest, self)]
         new = RestrictionBatch()
-        new._data = dict(zip(d, [True]*len(d)))
+        new._data = dict(list(zip(d, [True]*len(d))))
         return new
 
     def elements(self):
@@ -2022,13 +2022,13 @@ class RestrictionBatch(set):
         """B.suppl_codes() -> dict
 
         letter code for the suppliers"""
-        supply = dict((k, v[0]) for k, v in suppliers_dict.items())
+        supply = dict((k, v[0]) for k, v in list(suppliers_dict.items()))
         return supply
 
     @classmethod
     def show_codes(self):
         """B.show_codes() -> letter codes for the suppliers"""
-        supply = [' = '.join(i) for i in self.suppl_codes().items()]
+        supply = [' = '.join(i) for i in list(self.suppl_codes().items())]
         print('\n'.join(supply))
         return
 
@@ -2100,7 +2100,7 @@ class Analysis(RestrictionBatch, PrintFormat):
         screen the results through wanted set.
         Keep only the results for which the enzymes is in wanted set.
         """
-        return dict((k, v) for k, v in self.mapping.items() if k in wanted)
+        return dict((k, v) for k, v in list(self.mapping.items()) if k in wanted)
 
     def _boundaries(self, start, end):
         """A._boundaries(start, end) -> tuple.
@@ -2164,7 +2164,7 @@ class Analysis(RestrictionBatch, PrintFormat):
         you expect. In which case, you can settle back to a 80 columns shell
         or try to change self.Cmodulo and self.PrefWidth in PrintFormat until
         you get it right."""
-        for k, v in what.items():
+        for k, v in list(what.items()):
             if k in ('NameWidth', 'ConsoleWidth'):
                 setattr(self, k, v)
                 self.Cmodulo   = self.ConsoleWidth % self.NameWidth
@@ -2200,7 +2200,7 @@ class Analysis(RestrictionBatch, PrintFormat):
         Only the enzymes which have a 3'overhang restriction site."""
         if not dct:
             dct = self.mapping
-        return dict((k, v) for k, v in dct.items() if k.is_blunt())
+        return dict((k, v) for k, v in list(dct.items()) if k.is_blunt())
 
     def overhang5(self, dct=None):
         """A.overhang5([dct]) -> dict.
@@ -2208,7 +2208,7 @@ class Analysis(RestrictionBatch, PrintFormat):
         Only the enzymes which have a 5' overhang restriction site."""
         if not dct:
             dct = self.mapping
-        return dict((k, v) for k, v in dct.items() if k.is_5overhang())
+        return dict((k, v) for k, v in list(dct.items()) if k.is_5overhang())
 
     def overhang3(self, dct=None):
         """A.Overhang3([dct]) -> dict.
@@ -2216,7 +2216,7 @@ class Analysis(RestrictionBatch, PrintFormat):
         Only the enzymes which have a 3'overhang restriction site."""
         if not dct:
             dct = self.mapping
-        return dict((k, v) for k, v in dct.items() if k.is_3overhang())
+        return dict((k, v) for k, v in list(dct.items()) if k.is_3overhang())
 
     def defined(self, dct=None):
         """A.defined([dct]) -> dict.
@@ -2224,7 +2224,7 @@ class Analysis(RestrictionBatch, PrintFormat):
         Only the enzymes that have a defined restriction site in Rebase."""
         if not dct:
             dct = self.mapping
-        return dict((k, v) for k, v in dct.items() if k.is_defined())
+        return dict((k, v) for k, v in list(dct.items()) if k.is_defined())
 
     def with_sites(self, dct=None):
         """A.with_sites([dct]) -> dict.
@@ -2232,7 +2232,7 @@ class Analysis(RestrictionBatch, PrintFormat):
         Enzymes which have at least one site in the sequence."""
         if not dct:
             dct = self.mapping
-        return dict((k, v) for k, v in dct.items() if v)
+        return dict((k, v) for k, v in list(dct.items()) if v)
 
     def without_site(self, dct=None):
         """A.without_site([dct]) -> dict.
@@ -2240,7 +2240,7 @@ class Analysis(RestrictionBatch, PrintFormat):
         Enzymes which have no site in the sequence."""
         if not dct:
             dct = self.mapping
-        return dict((k, v) for k, v in dct.items() if not v)
+        return dict((k, v) for k, v in list(dct.items()) if not v)
 
     def with_N_sites(self, N, dct=None):
         """A.With_N_Sites(N [, dct]) -> dict.
@@ -2248,12 +2248,12 @@ class Analysis(RestrictionBatch, PrintFormat):
         Enzymes which cut N times the sequence."""
         if not dct:
             dct = self.mapping
-        return dict((k, v) for k, v in dct.items()if len(v) == N)
+        return dict((k, v) for k, v in list(dct.items())if len(v) == N)
 
     def with_number_list(self, list, dct= None):
         if not dct:
             dct = self.mapping
-        return dict((k, v) for k, v in dct.items() if len(v) in list)
+        return dict((k, v) for k, v in list(dct.items()) if len(v) in list)
 
     def with_name(self, names, dct=None):
         """A.with_name(list_of_names [, dct]) ->
@@ -2274,7 +2274,7 @@ class Analysis(RestrictionBatch, PrintFormat):
         sites = [name for name in self if name.size == site_size]
         if not dct:
             return RestrictionBatch(sites).search(self.sequence)
-        return dict((k, v) for k, v in dct.items() if k in site_size)
+        return dict((k, v) for k, v in list(dct.items()) if k in site_size)
 
     def only_between(self, start, end, dct=None):
         """A.only_between(start, end[, dct]) -> dict.
@@ -2284,7 +2284,7 @@ class Analysis(RestrictionBatch, PrintFormat):
         if not dct:
             dct = self.mapping
         d = dict(dct)
-        for key, sites in dct.items():
+        for key, sites in list(dct.items()):
             if not sites:
                 del d[key]
                 continue
@@ -2305,7 +2305,7 @@ class Analysis(RestrictionBatch, PrintFormat):
         d = {}
         if not dct:
             dct = self.mapping
-        for key, sites in dct.items():
+        for key, sites in list(dct.items()):
             for site in sites:
                 if test(start, end, site):
                     d[key] = sites
@@ -2336,7 +2336,7 @@ class Analysis(RestrictionBatch, PrintFormat):
         if not dct:
             dct = self.mapping
         d = dict(dct)
-        for key, sites in dct.items():
+        for key, sites in list(dct.items()):
             if not sites:
                 del d[key]
                 continue
@@ -2357,7 +2357,7 @@ class Analysis(RestrictionBatch, PrintFormat):
         if not dct:
             dct = self.mapping
         d = {}
-        for key, sites in dct.items():
+        for key, sites in list(dct.items()):
             for site in sites:
                 if test(start, end, site):
                     continue
@@ -2400,7 +2400,7 @@ class Analysis(RestrictionBatch, PrintFormat):
 #
 CommOnly = RestrictionBatch()    # commercial enzymes
 NonComm = RestrictionBatch()     # not available commercially
-for TYPE, (bases, enzymes) in typedict.items():
+for TYPE, (bases, enzymes) in list(typedict.items()):
     #
     #   The keys are the pseudo-types TYPE (stored as type1, type2...)
     #   The names are not important and are only present to differentiate
@@ -2453,6 +2453,6 @@ try:
 except NameError:
     #Scoping changed in Python 3, the variable isn't leaked
     pass
-locals().update(dict(zip(names, AllEnzymes)))
+locals().update(dict(list(zip(names, AllEnzymes))))
 __all__=['FormattedSeq', 'Analysis', 'RestrictionBatch', 'AllEnzymes', 'CommOnly', 'NonComm']+names
 del k, enzymes, TYPE, bases, names

@@ -8,7 +8,7 @@
 # as part of this package.
 #
 
-from __future__ import print_function
+
 
 import re
 
@@ -115,7 +115,7 @@ class PrintFormat(object):
         if not dct:
             dct = self.results
         ls, nc = [], []
-        for k, v in dct.items():
+        for k, v in list(dct.items()):
             if v:
                 ls.append((k, v))
             else:
