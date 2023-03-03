@@ -356,7 +356,7 @@ class FastaM10Parser(object):
                     if desc is not None:
                         qresult.description = desc
                     # set values from preamble
-                    for key, value in self._preamble.items():
+                    for key, value in list(self._preamble.items()):
                         setattr(qresult, key, value)
 
                 elif qres_state == state_QRES_CONTENT:

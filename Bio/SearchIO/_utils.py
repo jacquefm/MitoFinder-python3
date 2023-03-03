@@ -4,7 +4,7 @@
 # as part of this package.
 """Common SearchIO utility functions."""
 
-from Bio._py3k import basestring
+from Bio._py3k import str
 
 
 def get_processor(format, mapping):
@@ -22,7 +22,7 @@ def get_processor(format, mapping):
         # handle the errors with helpful messages
         if format is None:
             raise ValueError("Format required (lower case string)")
-        elif not isinstance(format, basestring):
+        elif not isinstance(format, str):
             raise TypeError("Need a string for the file format (lower case)")
         elif format != format.lower():
             raise ValueError("Format string %r should be lower case" %

@@ -194,8 +194,8 @@ of the format's documentation.
 
 """
 
-from __future__ import print_function
-from Bio._py3k import basestring
+
+from Bio._py3k import str
 
 __docformat__ = 'epytext en'
 
@@ -480,7 +480,7 @@ def index(filename, format=None, key_function=None, **kwargs):
     It only changes the key value used to retrieve the associated QueryResult.
 
     """
-    if not isinstance(filename, basestring):
+    if not isinstance(filename, str):
         raise TypeError("Need a filename (not a handle)")
 
     from Bio.File import _IndexedSeqFileDict
@@ -547,7 +547,7 @@ def index_db(index_filename, filenames=None, format=None,
     """
     # cast filenames to list if it's a string
     # (can we check if it's a string or a generator?)
-    if isinstance(filenames, basestring):
+    if isinstance(filenames, str):
         filenames = [filenames]
 
     from Bio.File import _SQLiteManySeqFilesDict
