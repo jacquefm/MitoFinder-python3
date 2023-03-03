@@ -146,9 +146,9 @@ class SamIter:
 
     # Python 3 compatibility
     def __next__(self):
-        return self.next()
+        return next(self)
 
-    def next(self):
+    def __next__(self):
         while self.iter_index < self.sam.NumEntries():
             entry = self.sam.entries[self.iter_index]
             tid = self.sam.target_map[entry.target_name]
