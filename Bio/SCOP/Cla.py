@@ -69,7 +69,7 @@ class Record(object):
         s.append(self.sunid)
 
         s.append(','.join('='.join((key, str(value))) for key, value
-                          in self.hierarchy.items()))
+                          in list(self.hierarchy.items())))
 
         return "\t".join(map(str, s)) + "\n"
 

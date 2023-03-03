@@ -48,7 +48,7 @@ _open         -- Internally used function.
 
 """
 
-from __future__ import print_function
+
 
 import os
 import re
@@ -313,20 +313,20 @@ class Scop(object):
     def write_hie(self, handle):
         """Build an HIE SCOP parsable file from this object"""
         # We order nodes to ease comparison with original file
-        for n in sorted(self._sunidDict.values(), key=lambda n: n.sunid):
+        for n in sorted(list(self._sunidDict.values()), key=lambda n: n.sunid):
             handle.write(str(n.toHieRecord()))
 
     def write_des(self, handle):
         """Build a DES SCOP parsable file from this object"""
         # Origional SCOP file is not ordered?
-        for n in sorted(self._sunidDict.values(), key=lambda n: n.sunid):
+        for n in sorted(list(self._sunidDict.values()), key=lambda n: n.sunid):
             if n != self.root:
                 handle.write(str(n.toDesRecord()))
 
     def write_cla(self, handle):
         """Build a CLA SCOP parsable file from this object"""
         # We order nodes to ease comparison with original file
-        for n in sorted(self._sidDict.values(), key=lambda n: n.sunid):
+        for n in sorted(list(self._sidDict.values()), key=lambda n: n.sunid):
             handle.write(str(n.toClaRecord()))
 
     def getDomainFromSQL(self, sunid=None, sid=None):
@@ -463,7 +463,7 @@ class Scop(object):
         cur.execute("CREATE TABLE hie (parent INT, child INT, PRIMARY KEY (child),\
         INDEX (parent) )")
 
-        for p in self._sunidDict.values():
+        for p in list(self._sunidDict.values()):
             for c in p.children:
                 cur.execute("INSERT INTO hie VALUES (%s,%s)" % (p.sunid, c.sunid))
 
@@ -476,7 +476,7 @@ class Scop(object):
         residues VARCHAR(50), sccs CHAR(10), cl INT, cf INT, sf INT, fa INT,\
         dm INT, sp INT, px INT, PRIMARY KEY (sunid), INDEX (SID) )")
 
-        for n in self._sidDict.values():
+        for n in list(self._sidDict.values()):
             c = n.toClaRecord()
             cur.execute( "INSERT INTO cla VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
                          (n.sunid, n.sid, c.residues.pdbid, c.residues, n.sccs,
@@ -494,7 +494,7 @@ class Scop(object):
         description VARCHAR(255),\
         PRIMARY KEY (sunid) )")
 
-        for n in self._sunidDict.values():
+        for n in list(self._sunidDict.values()):
             cur.execute( "INSERT INTO des VALUES (%s,%s,%s,%s)",
                          ( n.sunid, n.type, n.sccs, n.description ) )
 
@@ -864,7 +864,7 @@ def search(pdb=None, key=None, sid=None, disp=None, dir=None, loc=None,
     params = {'pdb' : pdb, 'key' : key, 'sid' : sid, 'disp' : disp,
               'dir' : dir, 'loc' : loc}
     variables = {}
-    for k, v in params.items():
+    for k, v in list(params.items()):
         if v is not None:
             variables[k] = v
     variables.update(keywds)

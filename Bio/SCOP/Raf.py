@@ -26,8 +26,8 @@ protein_letters_3to1 -- A mapping from the 3-letter amino acid codes found
                         include chemically modified residues.
 """
 
-from __future__ import print_function
-from Bio._py3k import basestring
+
+from Bio._py3k import str
 
 from copy import copy
 
@@ -94,7 +94,7 @@ class SeqMapIndex(dict):
         residues -- A Residues instance, or a string that can be converted into
                     a Residues instance.
         """
-        if isinstance(residues, basestring):
+        if isinstance(residues, str):
             residues = Residues(residues)
 
         pdbid = residues.pdbid
