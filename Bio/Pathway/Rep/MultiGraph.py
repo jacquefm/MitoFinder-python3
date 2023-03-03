@@ -41,7 +41,7 @@ class MultiGraph(object):
         """Returns a concise string description of this graph."""
         nodenum = len(self._adjacency_list)
         edgenum = reduce(lambda x, y: x+y,
-                         [len(v) for v in self._adjacency_list.values()])
+                         [len(v) for v in list(self._adjacency_list.values())])
         labelnum = len(self._label_map)
         return "<MultiGraph: " + \
                str(nodenum) + " node(s), " + \
@@ -94,7 +94,7 @@ class MultiGraph(object):
         if child not in self._adjacency_list:
             raise ValueError("Unknown <child> node: " + str(child))
         parents = []
-        for parent, children in self._adjacency_list.items():
+        for parent, children in list(self._adjacency_list.items()):
             for x in children:
                 if x[0] is child:
                     parents.append((parent, x[1]))

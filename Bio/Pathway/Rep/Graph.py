@@ -43,7 +43,7 @@ class Graph(object):
         """Returns a concise string description of this graph."""
         nodenum = len(self._adjacency_list)
         edgenum = reduce(lambda x, y: x+y,
-                         [len(v) for v in self._adjacency_list.values()])
+                         [len(v) for v in list(self._adjacency_list.values())])
         labelnum = len(self._label_map)
         return "<Graph: " + \
                str(nodenum) + " node(s), " + \
@@ -99,7 +99,7 @@ class Graph(object):
         if child not in self._adjacency_list:
             raise ValueError("Unknown <child> node: " + str(child))
         parents = []
-        for parent, children in self._adjacency_list.items():
+        for parent, children in list(self._adjacency_list.items()):
             for x in children:
                 if x is child:
                     parents.append((parent, self._edge_map[(parent, child)]))
@@ -116,7 +116,7 @@ class Graph(object):
         # remove node (and all out-edges) from adjacency list
         del self._adjacency_list[node]
         # remove all in-edges from adjacency list
-        for n in self._adjacency_list.keys():
+        for n in list(self._adjacency_list.keys()):
             self._adjacency_list[n] = set(x for x in self._adjacency_list[n]
                                           if x is not node)
         # remove all refering pairs in label map
