@@ -4,9 +4,9 @@
 # See file LICENSE for details.
 ############################################################################
 
-import break_by_coverage
-import generate_quality
-import moleculo_filter_contigs
+from . import break_by_coverage
+from . import generate_quality
+from . import moleculo_filter_contigs
 from common import SeqIO
 from common import sam_parser
 

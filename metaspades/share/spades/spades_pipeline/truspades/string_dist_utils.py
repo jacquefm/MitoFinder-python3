@@ -11,7 +11,7 @@ def calculate_dist_table(s1, s2):
     n1 = len(s1)
     n2 = len(s2)
     t = []
-    t.append(range(n2 + 1))
+    t.append(list(range(n2 + 1)))
     for i in range(1, n1 + 1):
         t_line = [i]
         for j in range(1, n2 + 1):

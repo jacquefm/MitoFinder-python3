@@ -8,7 +8,7 @@ import os.path
 import sys
 import logging
 
-from id_generation import generate_ids
+from .id_generation import generate_ids
 
 __author__ = 'anton'
 
@@ -46,7 +46,7 @@ def NormalizeR(s):
 
 def NormalizeLR(s):
     s = NormalizeR(s)
-    return RemoveLabel(s, "L", range(1, 20))
+    return RemoveLabel(s, "L", list(range(1, 20)))
 
 
 def check_int_ids(ids):
@@ -94,10 +94,10 @@ def ExtractBarcodes(dirs):
                      os.path.isfile(os.path.join(dir, file))]:
             files.append(file)
     barcode_dict = GroupBy(Normalize, files)
-    if not CheckSameSize(barcode_dict.values()):
+    if not CheckSameSize(list(barcode_dict.values())):
         return None
-    for bid in barcode_dict.keys():
-        barcode_dict[bid] = GroupBy(NormalizeR, barcode_dict[bid]).values()
+    for bid in list(barcode_dict.keys()):
+        barcode_dict[bid] = list(GroupBy(NormalizeR, barcode_dict[bid]).values())
         if not CheckSameSize(barcode_dict[bid], 2):
             return None
     short_barcodes = generate_barcode_list(list(barcode_dict.keys()))
@@ -109,7 +109,7 @@ def ReadDataset(file, log=logging.getLogger("ReadDataset")):
     if os.path.exists(file) and os.path.isfile(file):
         result = []
         f = open(file, "r")
-        lines = f.xreadlines()
+        lines = f
         for line in lines:
             line = line.strip()
             if line == "":

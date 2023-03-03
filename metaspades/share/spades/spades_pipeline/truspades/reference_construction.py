@@ -133,9 +133,9 @@ def AlignToReference(datasets, sam_dir, bwa_command, log, index, threads=1):
 def ReadDataset(dataset_file):
     dataset_file = dataset_file.split(":")
     dataset_lines = [line.strip().split(" ") for line in open(dataset_file[0], "r").readlines() if line.strip()]
-    datasets = [(line[0], zip(line[1::2], line[2::2])) for line in dataset_lines]
+    datasets = [(line[0], list(zip(line[1::2], line[2::2]))) for line in dataset_lines]
     if len(dataset_file) > 1:
-        datasets = filter(lambda x, y: x.startswith(dataset_file[1]), datasets)
+        datasets = list(filter(lambda x, y: x.startswith(dataset_file[1]), datasets))
     return datasets
 
 
