@@ -14,7 +14,7 @@ Record - A representation of a KEGG Ligand/Compound.
 """
 
 # other Biopython stuff
-from __future__ import print_function
+
 
 from Bio.KEGG import _write_kegg
 from Bio.KEGG import _wrap_kegg
