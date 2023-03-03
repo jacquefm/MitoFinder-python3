@@ -12,8 +12,8 @@ __docformat__ = "restructuredtext en"
 
 from Bio._py3k import zip
 from Bio._py3k import filter
-from Bio._py3k import basestring
-from Bio._py3k import unicode
+from Bio._py3k import str
+from Bio._py3k import str
 
 import collections
 import copy
@@ -62,7 +62,7 @@ def _sorted_attrs(elem):
     singles = []
     lists = []
     # Sort attributes for consistent results
-    for attrname, child in sorted(elem.__dict__.items(),
+    for attrname, child in sorted(list(elem.__dict__.items()),
                                   key=lambda kv: kv[0]):
         if child is None:
             continue
@@ -92,7 +92,7 @@ def _class_matcher(target_cls):
 
 def _string_matcher(target):
     def match(node):
-        return unicode(node) == target
+        return str(node) == target
     return match
 
 
@@ -120,13 +120,13 @@ def _attribute_matcher(kwargs):
                 return False
         else:
             kwa_copy = kwargs
-        for key, pattern in kwa_copy.items():
+        for key, pattern in list(kwa_copy.items()):
             # Nodes must match all other specified attributes
             if not hasattr(node, key):
                 return False
             target = getattr(node, key)
-            if isinstance(pattern, basestring):
-                return (isinstance(target, basestring) and
+            if isinstance(pattern, str):
+                return (isinstance(target, str) and
                         re.match(pattern+'$', target))
             if isinstance(pattern, bool):
                 return (pattern == bool(target))
@@ -166,7 +166,7 @@ def _object_matcher(obj):
         return _identity_matcher(obj)
     if isinstance(obj, type):
         return _class_matcher(obj)
-    if isinstance(obj, basestring):
+    if isinstance(obj, str):
         return _string_matcher(obj)
     if isinstance(obj, dict):
         return _attribute_matcher(obj)
@@ -209,7 +209,7 @@ def _combine_args(first, *rest):
     # of cases where either style is more convenient, so let's support both
     # (for backward compatibility and consistency between methods).
     if hasattr(first, '__iter__') and not (isinstance(first, TreeElement) or
-            isinstance(first, type) or isinstance(first, basestring) or
+            isinstance(first, type) or isinstance(first, str) or
             isinstance(first, dict)):
         # `terminals` is an iterable of targets
         if rest:
@@ -229,15 +229,15 @@ class TreeElement(object):
     def __repr__(self):
         """Show this object's constructor with its primitive arguments."""
         def pair_as_kwarg_string(key, val):
-            if isinstance(val, basestring):
-                return "%s='%s'" % (key, _utils.trim_str(unicode(val), 60,
-                    u'...'))
+            if isinstance(val, str):
+                return "%s='%s'" % (key, _utils.trim_str(str(val), 60,
+                    '...'))
             return "%s=%s" % (key, val)
-        return u'%s(%s)' % (self.__class__.__name__,
+        return '%s(%s)' % (self.__class__.__name__,
                             ', '.join(pair_as_kwarg_string(key, val)
-                                  for key, val in self.__dict__.items()
+                                  for key, val in list(self.__dict__.items())
                                   if val is not None and
-                                  type(val) in (str, int, float, bool, unicode)
+                                  type(val) in (str, int, float, bool, str)
                                   ))
 
     __str__ = __repr__
@@ -272,7 +272,7 @@ class TreeMixin(object):
         else:
             get_children = lambda elem: elem.clades
             root = self.root
-        return filter(filter_func, order_func(root, get_children))
+        return list(filter(filter_func, order_func(root, get_children)))
 
     def find_any(self, *args, **kwargs):
         """Return the first element found by find_elements(), or None.
@@ -876,7 +876,7 @@ class Tree(TreeElement, TreeMixin):
         tips = self.get_terminals()
         for tip in tips:
             self.root_with_outgroup(tip)
-            new_max = max(self.depths().items(), key=lambda nd: nd[1])
+            new_max = max(list(self.depths().items()), key=lambda nd: nd[1])
             if new_max[1] > max_distance:
                 tip1 = tip
                 tip2 = new_max[0]
@@ -1042,7 +1042,7 @@ class Clade(TreeElement, TreeMixin):
     def _set_color(self, arg):
         if arg is None or isinstance(arg, BranchColor):
             self._color = arg
-        elif isinstance(arg, basestring):
+        elif isinstance(arg, str):
             if arg in BranchColor.color_names:
                 # Known color name
                 self._color = BranchColor.from_name(arg)
@@ -1125,7 +1125,7 @@ class BranchColor(object):
         The string format is the same style used in HTML and CSS, such as
         '#FF8000' for an RGB value of (255, 128, 0).
         """
-        assert (isinstance(hexstr, basestring) and
+        assert (isinstance(hexstr, str) and
                 hexstr.startswith('#') and
                 len(hexstr) == 7
                 ), "need a 24-bit hexadecimal string, e.g. #000000"
@@ -1165,7 +1165,7 @@ class BranchColor(object):
 
     def __repr__(self):
         """Preserve the standard RGB order when representing this object."""
-        return (u'%s(red=%d, green=%d, blue=%d)'
+        return ('%s(red=%d, green=%d, blue=%d)'
                 % (self.__class__.__name__, self.red, self.green, self.blue))
 
     def __str__(self):

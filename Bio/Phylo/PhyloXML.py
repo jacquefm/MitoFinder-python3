@@ -17,7 +17,7 @@ __docformat__ = "restructuredtext en"
 import re
 import warnings
 
-from Bio._py3k import basestring
+from Bio._py3k import str
 
 from Bio import Alphabet
 from Bio.Align import MultipleSeqAlignment
@@ -76,7 +76,7 @@ class Phyloxml(PhyloElement):
         """Get a phylogeny by index or name."""
         if isinstance(index, int) or isinstance(index, slice):
             return self.phylogenies[index]
-        if not isinstance(index, basestring):
+        if not isinstance(index, str):
             raise KeyError("can't use %s as an index" % type(index))
         for tree in self.phylogenies:
             if tree.name == index:
@@ -671,7 +671,7 @@ class Confidence(PhyloElement):
         return int(self.value)
 
     def __long__(self):
-        return long(self.value)
+        return int(self.value)
 
 
 class Date(PhyloElement):
@@ -763,17 +763,17 @@ class Events(PhyloElement):
         self.confidence = confidence
 
     def items(self):
-        return [(k, v) for k, v in self.__dict__.items() if v is not None]
+        return [(k, v) for k, v in list(self.__dict__.items()) if v is not None]
 
     def keys(self):
-        return [k for k, v in self.__dict__.items() if v is not None]
+        return [k for k, v in list(self.__dict__.items()) if v is not None]
 
     def values(self):
-        return [v for v in self.__dict__.values() if v is not None]
+        return [v for v in list(self.__dict__.values()) if v is not None]
 
     def __len__(self):
         #TODO - Better way to do this?
-        return len(self.values())
+        return len(list(self.values()))
 
     def __getitem__(self, key):
         if not hasattr(self, key):
@@ -790,7 +790,7 @@ class Events(PhyloElement):
         setattr(self, key, None)
 
     def __iter__(self):
-        return iter(self.keys())
+        return iter(list(self.keys()))
 
     def __contains__(self, key):
         return (hasattr(self, key) and getattr(self, key) is not None)
@@ -854,7 +854,7 @@ class Point(PhyloElement):
     def __init__(self, geodetic_datum, lat, long, alt=None, alt_unit=None):
         self.geodetic_datum = geodetic_datum
         self.lat = lat
-        self.long = long
+        self.long = int
         self.alt = alt
         self.alt_unit = alt_unit
 
@@ -1121,7 +1121,7 @@ class Sequence(PhyloElement):
         """
         def clean_dict(dct):
             """Remove None-valued items from a dictionary."""
-            return dict((key, val) for key, val in dct.items()
+            return dict((key, val) for key, val in list(dct.items())
                         if val is not None)
 
         seqrec = SeqRecord(Seq(self.mol_seq.value, self.get_alphabet()),

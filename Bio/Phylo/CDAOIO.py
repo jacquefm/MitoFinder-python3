@@ -105,7 +105,7 @@ class Parser(object):
             self.graph = rdflib.Graph()
         graph = self.graph
 
-        for k, v in RDF_NAMESPACES.items():
+        for k, v in list(RDF_NAMESPACES.items()):
             graph.bind(k, v)
 
         self.rooted = rooted
@@ -264,7 +264,7 @@ class Writer(object):
         trees = self.trees
 
         if tree_uri: handle.write('@base <%s>\n' % tree_uri)
-        for k, v in self.prefixes.items():
+        for k, v in list(self.prefixes.items()):
             handle.write('@prefix %s: <%s> .\n' % (k, v))
 
         handle.write('<%s> a owl:Ontology .\n' % self.prefixes['cdao'])
@@ -287,7 +287,7 @@ class Writer(object):
             if isinstance(part, rdflib.URIRef):
                 node_uri = str(part)
                 changed = False
-                for prefix, uri in self.prefixes.items():
+                for prefix, uri in list(self.prefixes.items()):
                     if node_uri.startswith(uri):
                         node_uri = node_uri.replace(uri, '%s:'%prefix, 1)
                         if node_uri == 'rdf:type': node_uri = 'a'

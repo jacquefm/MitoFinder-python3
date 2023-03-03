@@ -31,5 +31,5 @@ class Clade(BaseTree.Clade):
                 name=name, clades=clades, confidence=confidence)
         self.comment = comment
         
-        for key, value in kwargs.items():
+        for key, value in list(kwargs.items()):
             setattr(self, key, value)

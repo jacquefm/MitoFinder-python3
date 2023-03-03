@@ -141,7 +141,7 @@ def draw_graphviz(tree, label_func=str, prog='twopi', args='',
         Gi = networkx.convert_node_labels_to_integers(G,
                                 label_attribute='label')
         int_labels = {}
-        for integer, nodeattrs in Gi.node.items():
+        for integer, nodeattrs in list(Gi.node.items()):
             int_labels[nodeattrs['label']] = integer
     except TypeError:
         # Older NetworkX versions (before 1.8)
@@ -223,7 +223,7 @@ def draw_ascii(tree, file=sys.stdout, column_width=80):
         cols_per_branch_unit = ((drawing_width - fudge_margin)
                                 / float(max(depths.values())))
         return dict((clade, int(round(blen*cols_per_branch_unit + 0.5)))
-                    for clade, blen in depths.items())
+                    for clade, blen in list(depths.items()))
 
     def get_row_positions(tree):
         positions = dict((taxon, 2*idx) for idx, taxon in enumerate(taxa))
@@ -481,7 +481,7 @@ def draw(tree, label_func=str, do_show=True, show_confidence=True,
     axes.set_ylim(max(y_posns.values()) + 0.8, 0.2)
 
     # Parse and process key word arguments as pyplot options
-    for key, value in kwargs.items():
+    for key, value in list(kwargs.items()):
         try:
             # Check that the pyplot option input is iterable, as required
             [i for i in value]

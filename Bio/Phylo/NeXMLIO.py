@@ -54,7 +54,7 @@ except AttributeError:
     def register_namespace(prefix, uri):
         ElementTree._namespace_map[uri] = prefix
 
-for prefix, uri in NAMESPACES.items():
+for prefix, uri in list(NAMESPACES.items()):
     register_namespace(prefix, uri)
 
 
@@ -233,7 +233,7 @@ class Writer(object):
         root_node.set('xmlns', DEFAULT_NAMESPACE)
         root_node.set('xsi:schemaLocation', SCHEMA)
 
-        for prefix, uri in NAMESPACES.items():
+        for prefix, uri in list(NAMESPACES.items()):
             root_node.set('xmlns:%s' % prefix, uri)
 
         otus = ElementTree.SubElement(root_node, 'otus', **{'id': 'tax', 'label': 'RootTaxaBlock'})
