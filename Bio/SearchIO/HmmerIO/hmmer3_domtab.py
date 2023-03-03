@@ -121,10 +121,10 @@ class Hmmer3DomtabParser(Hmmer3TabParser):
             if prev is not None:
                 # each line is basically an HSP with one HSPFragment
                 frag = HSPFragment(prev_hid, prev_qid)
-                for attr, value in prev['frag'].items():
+                for attr, value in list(prev['frag'].items()):
                     setattr(frag, attr, value)
                 hsp = HSP([frag])
-                for attr, value in prev['hsp'].items():
+                for attr, value in list(prev['hsp'].items()):
                     setattr(hsp, attr, value)
                 hsp_list.append(hsp)
 
@@ -132,7 +132,7 @@ class Hmmer3DomtabParser(Hmmer3TabParser):
                 # i.e. when hit state is state_HIT_NEW
                 if hit_state == state_HIT_NEW:
                     hit = Hit(hsp_list)
-                    for attr, value in prev['hit'].items():
+                    for attr, value in list(prev['hit'].items()):
                         setattr(hit, attr, value)
                     hit_list.append(hit)
                     hsp_list = []
@@ -140,7 +140,7 @@ class Hmmer3DomtabParser(Hmmer3TabParser):
                 # create qresult and yield if we're at a new qresult or EOF
                 if qres_state == state_QRES_NEW or file_state == state_EOF:
                     qresult = QueryResult(hit_list, prev_qid)
-                    for attr, value in prev['qresult'].items():
+                    for attr, value in list(prev['qresult'].items()):
                         setattr(qresult, attr, value)
                     yield qresult
                     # if current line is EOF, break

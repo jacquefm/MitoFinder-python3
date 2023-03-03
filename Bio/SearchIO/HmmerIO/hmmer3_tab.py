@@ -117,22 +117,22 @@ class Hmmer3TabParser(object):
 
                 # create fragment and HSP and set their attributes
                 frag = HSPFragment(prev_hid, prev_qid)
-                for attr, value in prev['frag'].items():
+                for attr, value in list(prev['frag'].items()):
                     setattr(frag, attr, value)
                 hsp = HSP([frag])
-                for attr, value in prev['hsp'].items():
+                for attr, value in list(prev['hsp'].items()):
                     setattr(hsp, attr, value)
 
                 # create Hit and set its attributes
                 hit = Hit([hsp])
-                for attr, value in prev['hit'].items():
+                for attr, value in list(prev['hit'].items()):
                     setattr(hit, attr, value)
                 hit_list.append(hit)
 
                 # create qresult and yield if we're at a new qresult or at EOF
                 if qres_state == state_QRES_NEW or file_state == state_EOF:
                     qresult = QueryResult(hit_list, prev_qid)
-                    for attr, value in prev['qresult'].items():
+                    for attr, value in list(prev['qresult'].items()):
                         setattr(qresult, attr, value)
                     yield qresult
                     # if we're at EOF, break

@@ -144,7 +144,7 @@ class Hmmer3TextParser(object):
                 if not hit:
                     hit.query_description = qresult.description
                 qresult.append(hit)
-            for attr, value in qresult_attrs.items():
+            for attr, value in list(qresult_attrs.items()):
                 setattr(qresult, attr, value)
             yield qresult
             self.line = read_forward(self.handle)
@@ -243,7 +243,7 @@ class Hmmer3TextParser(object):
 
                     hit_attr = hit_attrs.pop(0)
                     hit = Hit(hsp_list)
-                    for attr, value in hit_attr.items():
+                    for attr, value in list(hit_attr.items()):
                         setattr(hit, attr, value)
                     hit_list.append(hit)
                     break
