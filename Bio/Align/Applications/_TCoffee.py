@@ -5,7 +5,7 @@
 """Command line wrapper for the multiple alignment program TCOFFEE.
 """
 
-from __future__ import print_function
+
 
 __docformat__ = "epytext en"  # Don't just use plain text in epydoc API pages!
 
