@@ -67,7 +67,7 @@ class GenericPositionMatrix(dict):
                 key1, key2 = key
                 if isinstance(key1, slice):
                     start1, stop1, stride1 = key1.indices(len(self._letters))
-                    indices1 = range(start1, stop1, stride1)
+                    indices1 = list(range(start1, stop1, stride1))
                     letters1 = [self._letters[i] for i in indices1]
                     dim1 = 2
                 elif isinstance(key1, int):
@@ -86,7 +86,7 @@ class GenericPositionMatrix(dict):
                     raise KeyError("Cannot understand key %s", str(key1))
                 if isinstance(key2, slice):
                     start2, stop2, stride2 = key2.indices(self.length)
-                    indices2 = range(start2, stop2, stride2)
+                    indices2 = list(range(start2, stop2, stride2))
                     dim2 = 2
                 elif isinstance(key2, int):
                     index2 = key2
@@ -118,7 +118,7 @@ class GenericPositionMatrix(dict):
                 raise KeyError("keys should be 1- or 2-dimensional")
         if isinstance(key, slice):
             start, stop, stride = key.indices(len(self._letters))
-            indices = range(start, stop, stride)
+            indices = list(range(start, stop, stride))
             letters = [self._letters[i] for i in indices]
             dim = 2
         elif isinstance(key, int):

@@ -13,7 +13,7 @@ and MAST programs, as well as files in the TRANSFAC format.
 Bio.motifs is replacing the older and now obsolete Bio.Motif module.
 """
 
-from __future__ import print_function
+
 
 from Bio._py3k import range
 
@@ -467,7 +467,7 @@ The same rules are used by TRANSFAC."""
                   'color3': '',
                   'color4': '',
                   }
-        for k, v in kwds.items():
+        for k, v in list(kwds.items()):
             if isinstance(values[k], bool):
                 if not v:
                     v = ""
