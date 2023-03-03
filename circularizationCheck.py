@@ -1,4 +1,4 @@
-#!/groups/looger/home/loogerl/ORFFinder/Turtle_Transcriptome/Jackie/Assembly_stats_py_virtenv/bin/python
+#!/usr/bin/env python3
 #Version: 1.0
 #Author: Alex Schomaker - alexschomaker@ufrj.br
 #LAMPADA - IBQM - UFRJ
