@@ -46,8 +46,8 @@ if sys.version_info[0] >= 3:
 
     #Lots of our Python 2 code uses isinstance(x, basestring)
     #which after 2to3 becomes isinstance(x, str)
-    basestring = str
-    unicode = str
+    str = str
+    str = str
 
     _bytes_to_string = lambda b: b.decode() # bytes to unicode string
     _string_to_bytes = lambda s: s.encode() # unicode string to bytes
@@ -128,12 +128,12 @@ if sys.version_info[0] >= 3:
 
 else:
     #Python 2 code
-    from __builtin__ import open, basestring, unicode
+    from builtins import open, str, str
 
     #Import Python3 like iterator functions:
     from future_builtins import zip, map, filter
-    from __builtin__ import xrange as range
-    from __builtin__ import raw_input as input
+    from builtins import xrange as range
+    from builtins import raw_input as input
 
     _bytes_to_string = lambda b: b # bytes to string, i.e. do nothing
     _string_to_bytes = lambda s: str(s) # str (or unicode) to bytes string
@@ -141,7 +141,7 @@ else:
     def _as_unicode(s):
         """Turn a (byte) string or a unicode string into a (byte) string."""
         #Will be changed by 2to3 to "isinstance(s, str)" but doesn't matter:
-        if isinstance(s, unicode):
+        if isinstance(s, str):
             return s
         return s.decode()
 
@@ -153,7 +153,7 @@ else:
 
     def _is_int_or_long(i):
         """Check if the value is an integer or long."""
-        return isinstance(i, (int, long))
+        return isinstance(i, int)
 
     def _binary_to_string_handle(handle):
         """Treat a binary handle like a text handle."""
@@ -174,20 +174,18 @@ else:
     # Note this doesn't work as it is unicode based:
     # from io import StringIO
     try:
-        from cStringIO import StringIO
+        from io import StringIO
     except ImportError:
-        from StringIO import StringIO
+        from io import StringIO
 
     #Under urllib.request on Python 3:
-    from urllib2 import urlopen, Request
-    from urllib import urlretrieve
-    from urlparse import urlparse
-
-    #Under urllib.parse on Python 3:
-    from urllib import urlencode, quote
+    from urllib.request import urlopen, Request
+    from urllib.request import urlretrieve
+    from urllib.parse import urlparse
+    from urllib.parse import urlencode, quote
 
     #Under urllib.error on Python 3:
-    from urllib2 import HTTPError
+    from urllib.error import HTTPError
 
 
 if sys.platform == "win32":
@@ -211,4 +209,4 @@ elif sys.version_info[0] >= 3:
     from subprocess import getoutput
 else:
     # Use commands.getoutput on Python 2,
-    from commands import getoutput
+    from subprocess import getoutput
