@@ -26,7 +26,7 @@ else:
         from io import BytesIO
     except ImportError:
         # BytesIO has been added in Python 2.5
-        from cStringIO import StringIO as BytesIO
+        from io import StringIO as BytesIO
     from pickle import Unpickler
     asbytes = str
 
@@ -81,7 +81,7 @@ def write_zfile(file_handle, data, compress=1):
     """
     file_handle.write(_ZFILE_PREFIX)
     length = hex(len(data))
-    if sys.version_info[0] < 3 and type(length) is long:
+    if sys.version_info[0] < 3 and type(length) is int:
         # We need to remove the trailing 'L' in the hex representation
         length = length[:-1]
     # Store the length of the data
@@ -240,9 +240,9 @@ class NumpyPickler(pickle.Pickler):
             except:
                 self._npy_counter -= 1
                 # XXX: We should have a logging mechanism
-                print 'Failed to save %s to .npy file:\n%s' % (
+                print('Failed to save %s to .npy file:\n%s' % (
                         type(obj),
-                        traceback.format_exc())
+                        traceback.format_exc()))
         return pickle.Pickler.save(self, obj)
 
     def close(self):
@@ -348,7 +348,7 @@ def dump(value, filename, compress=0, cache_size=100):
     addition, compressed files take extra extra memory during
     dump and load.
     """
-    if not isinstance(filename, basestring):
+    if not isinstance(filename, str):
         # People keep inverting arguments, and the resulting error is
         # incomprehensible
         raise ValueError(

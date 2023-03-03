@@ -105,12 +105,12 @@ Main features
 __version__ = '0.6.5'
 
 
-from memory import Memory
-from logger import PrintTime
-from logger import Logger
-from hashing import hash
-from numpy_pickle import dump
-from numpy_pickle import load
-from parallel import Parallel
-from parallel import delayed
-from parallel import cpu_count
+from .memory import Memory
+from .logger import PrintTime
+from .logger import Logger
+from .hashing import hash
+from .numpy_pickle import dump
+from .numpy_pickle import load
+from .parallel import Parallel
+from .parallel import delayed
+from .parallel import cpu_count

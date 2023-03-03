@@ -22,8 +22,8 @@ if sys.version_info[0] == 3:
     import io
     StringIO = io.BytesIO
 else:
-    import cStringIO
-    StringIO = cStringIO.StringIO
+    import io
+    StringIO = io.StringIO
 
 
 class _ConsistentSet(object):
@@ -56,9 +56,9 @@ class Hasher(pickle.Pickler):
         if isinstance(obj, types.MethodType):
             # the Pickler cannot pickle instance methods; here we decompose
             # them into components that make them uniquely identifiable
-            func_name = obj.im_func.__name__
-            inst = obj.im_self
-            cls = obj.im_class
+            func_name = obj.__func__.__name__
+            inst = obj.__self__
+            cls = obj.__self__.__class__
             obj = (func_name, inst, cls)
         pickle.Pickler.save(self, obj)
 

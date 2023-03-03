@@ -9,12 +9,12 @@ import os
 import sys
 import warnings
 from math import sqrt
-import functools
+from . import functools
 import time
 import threading
 import itertools
 try:
-    import cPickle as pickle
+    import pickle as pickle
 except:
     import pickle
 
@@ -34,13 +34,13 @@ if multiprocessing:
     try:
         _sem = multiprocessing.Semaphore()
         del _sem # cleanup
-    except (ImportError, OSError), e:
+    except (ImportError, OSError) as e:
         multiprocessing = None
         warnings.warn('%s.  joblib will operate in serial mode' % (e,))
 
-from format_stack import format_exc, format_outer_frames
-from logger import Logger, short_format_time
-from my_exceptions import TransportableException, _mk_exception
+from .format_stack import format_exc, format_outer_frames
+from .logger import Logger, short_format_time
+from .my_exceptions import TransportableException, _mk_exception
 
 
 ###############################################################################
@@ -322,7 +322,7 @@ class Parallel(Logger):
                     self._jobs.append(job)
                     self.n_dispatched += 1
                 except AssertionError:
-                    print '[Parallel] Pool seems closed'
+                    print('[Parallel] Pool seems closed')
             finally:
                 self._lock.release()
 
@@ -334,7 +334,7 @@ class Parallel(Logger):
             try:
                 # XXX: possible race condition shuffling the order of
                 # dispatchs in the next two lines.
-                func, args, kwargs = self._iterable.next()
+                func, args, kwargs = next(self._iterable)
                 self.dispatch(func, args, kwargs)
                 self._dispatch_amount -= 1
             except ValueError:
@@ -410,7 +410,7 @@ class Parallel(Logger):
                 self._lock.release()
             try:
                 self._output.append(job.get())
-            except tuple(self.exceptions), exception:
+            except tuple(self.exceptions) as exception:
                 if isinstance(exception,
                         (KeyboardInterrupt, WorkerInterrupt)):
                     # We have captured a user interruption, clean up

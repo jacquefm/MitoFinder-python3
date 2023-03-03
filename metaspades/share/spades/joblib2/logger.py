@@ -15,7 +15,7 @@ import shutil
 import logging
 import pprint
 
-from disk import mkdirp
+from .disk import mkdirp
 
 
 def _squeeze_time(t):
@@ -100,7 +100,7 @@ class PrintTime(object):
             mkdirp(os.path.dirname(logfile))
             if os.path.exists(logfile):
                 # Rotate the logs
-                for i in xrange(1, 9):
+                for i in range(1, 9):
                     try:
                         shutil.move(logfile + '.%i' % i,
                                     logfile + '.%i' % (i + 1))
@@ -137,10 +137,10 @@ class PrintTime(object):
             time_lapse = time.time() - self.start_time
             full_msg = "%s: %.2fs, %.1f min" % (msg, time_lapse,
                                                 time_lapse / 60)
-        print >> sys.stderr, full_msg
+        print(full_msg, file=sys.stderr)
         if self.logfile is not None:
             try:
-                print >> file(self.logfile, 'a'), full_msg
+                print(full_msg, file=file(self.logfile, 'a'))
             except:
                 """ Multiprocessing writing to files can create race
                     conditions. Rather fail silently than crash the

@@ -202,7 +202,7 @@ def format_records(records):   # , print_globals=False):
             # This can happen due to a bug in python2.3.  We should be
             # able to remove this try/except when 2.4 becomes a
             # requirement.  Bug details at http://python.org/sf/1005466
-            print "\nJoblib's exception reporting continues...\n"
+            print("\nJoblib's exception reporting continues...\n")
 
         if func == '?':
             call = ''
@@ -220,7 +220,7 @@ def format_records(records):   # , print_globals=False):
                 # inspect messes up resolving the argument list of view()
                 # and barfs out. At some point I should dig into this one
                 # and file a bug report about it.
-                print "\nJoblib's exception reporting continues...\n"
+                print("\nJoblib's exception reporting continues...\n")
                 call = 'in %s(***failed resolving arguments***)' % func
 
         # Initialize a list of names on the current line, which the
@@ -279,7 +279,7 @@ def format_records(records):   # , print_globals=False):
         except (IndexError, UnicodeDecodeError):
             # signals exit of tokenizer
             pass
-        except tokenize.TokenError, msg:
+        except tokenize.TokenError as msg:
             _m = ("An unexpected error occurred while tokenizing input\n"
                   "The following traceback may be corrupted or invalid\n"
                   "The error message is: %s\n" % msg)
@@ -293,7 +293,7 @@ def format_records(records):   # , print_globals=False):
         for name_full in unique_names:
             name_base = name_full.split('.', 1)[0]
             if name_base in frame.f_code.co_varnames:
-                if name_base in locals.keys():
+                if name_base in list(locals.keys()):
                     try:
                         value = repr(eval(name_full, locals))
                     except:
@@ -362,22 +362,22 @@ def format_exc(etype, evalue, etb, context=5, tb_offset=0):
         records = _fixed_getframes(etb, context, tb_offset)
     except:
         raise
-        print '\nUnfortunately, your original traceback can not be ' + \
-              'constructed.\n'
+        print('\nUnfortunately, your original traceback can not be ' + \
+              'constructed.\n')
         return ''
 
     # Get (safely) a string form of the exception info
     try:
-        etype_str, evalue_str = map(str, (etype, evalue))
+        etype_str, evalue_str = list(map(str, (etype, evalue)))
     except:
         # User exception is improperly defined.
         etype, evalue = str, sys.exc_info()[:2]
-        etype_str, evalue_str = map(str, (etype, evalue))
+        etype_str, evalue_str = list(map(str, (etype, evalue)))
     # ... and format it
     exception = ['%s: %s' % (etype_str, evalue_str)]
     if (not PY3) and type(evalue) is types.InstanceType:
         try:
-            names = [w for w in dir(evalue) if isinstance(w, basestring)]
+            names = [w for w in dir(evalue) if isinstance(w, str)]
         except:
             # Every now and then, an object with funny inernals blows up
             # when dir() is called on it.  We do the best we can to report
@@ -385,7 +385,7 @@ def format_exc(etype, evalue, etb, context=5, tb_offset=0):
             exception.append(
                     'Exception reporting error (object with broken dir()):'
                     )
-            etype_str, evalue_str = map(str, sys.exc_info()[:2])
+            etype_str, evalue_str = list(map(str, sys.exc_info()[:2]))
             exception.append('%s: %s' % (etype_str, evalue_str))
             names = []
         for name in names:
