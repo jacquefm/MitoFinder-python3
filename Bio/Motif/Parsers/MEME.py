@@ -4,7 +4,7 @@
 # license.  Please see the LICENSE file that should have been included
 # as part of this package.
 
-from __future__ import print_function
+
 
 from Bio.Alphabet import IUPAC
 from Bio import Seq
