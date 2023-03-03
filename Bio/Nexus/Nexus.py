@@ -9,11 +9,11 @@
 Based upon 'NEXUS: An extensible file format for systematic information'
 Maddison, Swofford, Maddison. 1997. Syst. Biol. 46(4):590-621
 """
-from __future__ import print_function
+
 
 from Bio._py3k import zip
 from Bio._py3k import range
-from Bio._py3k import basestring
+from Bio._py3k import str
 
 from functools import reduce
 import copy
@@ -178,7 +178,7 @@ class StepMatrix(object):
         self.data[x + y] += value
 
     def sum(self):
-        return reduce(lambda x, y:x+y, self.data.values())
+        return reduce(lambda x, y:x+y, list(self.data.values()))
 
     def transformation(self):
         total = self.sum()
@@ -347,10 +347,10 @@ def combine(matrices):
     combined.translate = None
 
     # rename taxon sets and character sets and name them with prefix
-    for cn, cs in combined.charsets.items():
+    for cn, cs in list(combined.charsets.items()):
         combined.charsets['%s.%s' % (name, cn)]=cs
         del combined.charsets[cn]
-    for tn, ts in combined.taxsets.items():
+    for tn, ts in list(combined.taxsets.items()):
         combined.taxsets['%s.%s' % (name, tn)]=ts
         del combined.taxsets[tn]
     # previous partitions usually don't make much sense in combined matrix
@@ -370,14 +370,14 @@ def combine(matrices):
             combined.matrix[t] = Seq(combined.missing*combined.nchar, combined.alphabet) + \
                 Seq(str(m.matrix[t]).replace(m.gap, combined.gap).replace(m.missing, combined.missing), combined.alphabet)
         combined.taxlabels.extend(m_only)    # new taxon list
-        for cn, cs in m.charsets.items(): # adjust character sets for new matrix
+        for cn, cs in list(m.charsets.items()): # adjust character sets for new matrix
             combined.charsets['%s.%s' % (n, cn)] = [x+combined.nchar for x in cs]
         if m.taxsets:
             if not combined.taxsets:
                 combined.taxsets = {}
             # update taxon sets
             combined.taxsets.update(dict(('%s.%s' % (n, tn), ts)
-                                         for tn, ts in m.taxsets.items()))
+                                         for tn, ts in list(m.taxsets.items())))
         # update new charpartition
         combined.charpartitions['combined'][n] = list(range(combined.nchar, combined.nchar+m.nchar))
         # update charlabels
@@ -385,7 +385,7 @@ def combine(matrices):
             if not combined.charlabels:
                 combined.charlabels = {}
             combined.charlabels.update(dict((combined.nchar + i, label)
-                                            for (i, label) in m.charlabels.items()))
+                                            for (i, label) in list(m.charlabels.items())))
         combined.nchar += m.nchar # update nchar and ntax
         combined.ntax += len(m_only)
 
@@ -610,7 +610,7 @@ class Nexus(object):
                 self.filename = getattr(fp, 'name', 'Unknown_nexus_file')
         except (TypeError, IOError, AttributeError):
             #2 Assume we have a string from a fh.read()
-            if isinstance(input, basestring):
+            if isinstance(input, str):
                 file_contents = input
                 self.filename = 'input_string'
             else:
@@ -738,9 +738,9 @@ class Nexus(object):
                 self.valid_characters = self.valid_characters.lower() + self.valid_characters.upper()
             #we have to sort the reverse ambig coding dict key characters:
             #to be sure that it's 'ACGT':'N' and not 'GTCA':'N'
-            rev=dict((i[1], i[0]) for i in self.ambiguous_values.items() if i[0]!='X')
+            rev=dict((i[1], i[0]) for i in list(self.ambiguous_values.items()) if i[0]!='X')
             self.rev_ambiguous_values = {}
-            for (k, v) in rev.items():
+            for (k, v) in list(rev.items()):
                 key = sorted(c for c in k)
                 self.rev_ambiguous_values[''.join(key)] = v
         #overwrite symbols for datype rna,dna,nucleotide
@@ -1131,7 +1131,7 @@ class Nexus(object):
                             if options_buffer.peek_nonwhitespace() == '\\': # followd by \
                                 backslash = options_buffer.next_nonwhitespace()
                                 step = int(options_buffer.next_word()) # get backslash and step
-                            plain_list.extend(range(start, end+1, step))
+                            plain_list.extend(list(range(start, end+1, step)))
                         else:
                             if isinstance(start, list) or isinstance(end, list):
                                 raise NexusError('Name if character sets not allowed in range definition: %s'
@@ -1171,7 +1171,7 @@ class Nexus(object):
             try:
                 n = int(identifier)
             except ValueError:
-                if self.charlabels and identifier in self.charlabels.values():
+                if self.charlabels and identifier in list(self.charlabels.values()):
                     for k in self.charlabels:
                         if self.charlabels[k] == identifier:
                             return k
@@ -1408,15 +1408,15 @@ class Nexus(object):
                 offlist.append(c-offset)
         # now adjust each of the character sets
         if not codons_only:
-            for n, ns in self.charsets.items():
+            for n, ns in list(self.charsets.items()):
                 cset = [offlist[c] for c in ns if c not in exclude]
                 if cset:
                     setsb.append('charset %s = %s' % (safename(n), _compact4nexus(cset)))
-            for n, s in self.taxsets.items():
+            for n, s in list(self.taxsets.items()):
                 tset = [safename(t, mrbayes=mrbayes) for t in s if t not in delete]
                 if tset:
                     setsb.append('taxset %s = %s' % (safename(n), ' '.join(tset)))
-        for n, p in self.charpartitions.items():
+        for n, p in list(self.charpartitions.items()):
             if not include_codons and n == CODONPOSITIONS:
                 continue
             elif codons_only and n != CODONPOSITIONS:
@@ -1439,7 +1439,7 @@ class Nexus(object):
                                              ', '.join('%s: %s' % (sn, _compact4nexus(newpartition[sn]))
                                                        for sn in names if sn in newpartition)))
         # now write charpartititions, much easier than charpartitions
-        for n, p in self.taxpartitions.items():
+        for n, p in list(self.taxpartitions.items()):
             names = _sort_keys_by_values(p)
             newpartition = {}
             for sn in names:
@@ -1586,7 +1586,7 @@ class Nexus(object):
                 return dict((t, Seq('', self.alphabet)) for t in undelete)
             else:
                 m = [Seq(s, self.alphabet) for s in (''.join(x) for x in zip(*sitesm))]
-                return dict(zip(undelete, m))
+                return dict(list(zip(undelete, m)))
         else:
             return dict((t, matrix[t]) for t in self.taxlabels if t in matrix and t not in delete)
 
@@ -1610,7 +1610,7 @@ class Nexus(object):
         bootstrapseqs = [''.join(x) for x in zip(*bootstrapsitesm)]
         if seqobjects:
             bootstrapseqs = [Seq(s, alphabet) for s in bootstrapseqs]
-        return dict(zip(undelete, bootstrapseqs))
+        return dict(list(zip(undelete, bootstrapseqs)))
 
     def add_sequence(self, name, sequence):
         """Adds a sequence (string) to the matrix."""
@@ -1674,10 +1674,10 @@ class Nexus(object):
         self.matrix = dict(listed)
         self.nchar += n
         # now adjust character sets
-        for i, s in self.charsets.items():
+        for i, s in list(self.charsets.items()):
             self.charsets[i] = _adjust(s, pos, n, leftgreedy=leftgreedy)
         for p in self.charpartitions:
-            for sp, s in self.charpartitions[p].items():
+            for sp, s in list(self.charpartitions[p].items()):
                 self.charpartitions[p][sp] = _adjust(s, pos, n, leftgreedy=leftgreedy)
         # now adjust character state labels
         self.charlabels = self._adjust_charlabels(insert=[pos]*n)
@@ -1721,7 +1721,7 @@ class Nexus(object):
         gap = set(self.gap)
         if include_missing:
             gap.add(self.missing)
-        sitesm = zip(*[str(self.matrix[t]) for t in self.taxlabels])
+        sitesm = list(zip(*[str(self.matrix[t]) for t in self.taxlabels]))
         return [i for i, site in enumerate(sitesm) if set(site).issubset(gap)]
 
     def terminal_gap_to_missing(self, missing=None, skip_n=True):
