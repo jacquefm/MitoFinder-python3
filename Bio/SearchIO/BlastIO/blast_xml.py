@@ -24,7 +24,7 @@ except ImportError:
     from xml.etree import ElementTree as ElementTree
 
 
-from Bio._py3k import _as_bytes, _bytes_to_string, unicode
+from Bio._py3k import _as_bytes, _bytes_to_string, str
 _empty_bytes_string = _as_bytes("")
 
 from Bio.Alphabet import generic_dna, generic_protein
@@ -307,7 +307,7 @@ class BlastXmlParser(object):
                 qresult.description = query_desc
                 qresult.seq_len = int(query_len)
                 qresult._blast_id = blast_query_id
-                for key, value in self._meta.items():
+                for key, value in list(self._meta.items()):
                     setattr(qresult, key, value)
 
                 # statistics are stored in Iteration_stat's 'grandchildren' with the
@@ -325,7 +325,7 @@ class BlastXmlParser(object):
                 if stat_iter_elem is not None:
                     stat_elem = stat_iter_elem.find('Statistics')
 
-                    for key, val_info in _ELEM_QRESULT_OPT.items():
+                    for key, val_info in list(_ELEM_QRESULT_OPT.items()):
                         value = stat_elem.findtext(key)
                         if value is not None:
                             caster = val_info[1]
@@ -387,7 +387,7 @@ class BlastXmlParser(object):
             # blast_hit_id is only set if the hit ID is Blast-generated
             hit._blast_id = blast_hit_id
 
-            for key, val_info in _ELEM_HIT.items():
+            for key, val_info in list(_ELEM_HIT.items()):
                 value = hit_elem.findtext(key)
                 if value is not None:
                     caster = val_info[1]
@@ -439,7 +439,7 @@ class BlastXmlParser(object):
         for hsp_frag_elem in root_hsp_frag_elem:
             coords = {}  # temporary container for coordinates
             frag = HSPFragment(hit_id, query_id)
-            for key, val_info in _ELEM_FRAG.items():
+            for key, val_info in list(_ELEM_FRAG.items()):
                 value = hsp_frag_elem.findtext(key)
                 caster = val_info[1]
 
@@ -483,7 +483,7 @@ class BlastXmlParser(object):
                 frag.alphabet = generic_protein
 
             hsp = HSP([frag])
-            for key, val_info in _ELEM_HSP.items():
+            for key, val_info in list(_ELEM_HSP.items()):
                 value = hsp_frag_elem.findtext(key)
                 caster = val_info[1]
                 if value is not None:
@@ -609,7 +609,7 @@ class _BlastXmlGenerator(XMLGenerator):
 
     def startDocument(self):
         """Starts the XML document."""
-        self.write(u'<?xml version="1.0"?>\n'
+        self.write('<?xml version="1.0"?>\n'
                 '<!DOCTYPE BlastOutput PUBLIC "-//NCBI//NCBI BlastOutput/EN" '
                 '"http://www.ncbi.nlm.nih.gov/dtd/NCBI_BlastOutput.dtd">\n')
 
@@ -628,7 +628,7 @@ class _BlastXmlGenerator(XMLGenerator):
     def endElement(self, name):
         """Ends and XML element of the given name."""
         XMLGenerator.endElement(self, name)
-        self.write(u'\n')
+        self.write('\n')
 
     def startParent(self, name, attrs={}):
         """Starts an XML element which has children.
@@ -640,7 +640,7 @@ class _BlastXmlGenerator(XMLGenerator):
         """
         self.startElement(name, attrs, children=True)
         self._level += self._increment
-        self.write(u'\n')
+        self.write('\n')
         # append the element name, so we can end it later
         self._parent_stack.append(name)
 
@@ -670,8 +670,8 @@ class _BlastXmlGenerator(XMLGenerator):
         self.endElement(name)
 
     def characters(self, content):
-        content = escape(unicode(content))
-        for a, b in ((u'"', u'&quot;'), (u"'", u'&apos;')):
+        content = escape(str(content))
+        for a, b in (('"', '&quot;'), ("'", '&apos;')):
             content = content.replace(a, b)
         self.write(content)
 

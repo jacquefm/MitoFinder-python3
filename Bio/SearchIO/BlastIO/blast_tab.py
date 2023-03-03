@@ -8,7 +8,7 @@
 import re
 
 from Bio._py3k import _as_bytes, _bytes_to_string
-from Bio._py3k import basestring
+from Bio._py3k import str
 
 from Bio.SearchIO._index import SearchIndexer
 from Bio.SearchIO._model import QueryResult, Hit, HSP, HSPFragment
@@ -224,7 +224,7 @@ class BlastTabParser(object):
     def _prep_fields(self, fields):
         """Validates and formats the given fields for use by the parser."""
         # cast into list if fields is a space-separated string
-        if isinstance(fields, basestring):
+        if isinstance(fields, str):
             fields = fields.strip().split(' ')
         # blast allows 'std' as a proxy for the standard default lists
         # we want to transform 'std' to its proper column names
@@ -256,7 +256,7 @@ class BlastTabParser(object):
                     qres_iter = iter([QueryResult()])
 
                 for qresult in qres_iter:
-                    for key, value in comments.items():
+                    for key, value in list(comments.items()):
                         setattr(qresult, key, value)
                     yield qresult
 
@@ -409,7 +409,7 @@ class BlastTabParser(object):
                 # every line is essentially an HSP with one fragment, so we
                 # create both of these for every line
                 frag = HSPFragment(prev_hid, prev_qid)
-                for attr, value in prev['frag'].items():
+                for attr, value in list(prev['frag'].items()):
                     # adjust coordinates to Python range
                     # NOTE: this requires both start and end coords to be
                     # present, otherwise a KeyError will be raised.
@@ -436,7 +436,7 @@ class BlastTabParser(object):
                     setattr(frag, '%s_strand' % seq_type, strand)
 
                 hsp = HSP([frag])
-                for attr, value in prev['hsp'].items():
+                for attr, value in list(prev['hsp'].items()):
                     setattr(hsp, attr, value)
                 hsp_list.append(hsp)
 
@@ -444,14 +444,14 @@ class BlastTabParser(object):
                 # says we're not at the same hit or at a new query
                 if hit_state == state_HIT_NEW:
                     hit = Hit(hsp_list)
-                    for attr, value in prev['hit'].items():
+                    for attr, value in list(prev['hit'].items()):
                         setattr(hit, attr, value)
                     hit_list.append(hit)
                     hsp_list = []
                 # create qresult and yield if we're at a new qresult or EOF
                 if qres_state == state_QRES_NEW or file_state == state_EOF:
                     qresult = QueryResult(hit_list, prev_qid)
-                    for attr, value in prev['qresult'].items():
+                    for attr, value in list(prev['qresult'].items()):
                         setattr(qresult, attr, value)
                     yield qresult
                     # if current line is EOF, break
@@ -817,7 +817,7 @@ class BlastTabWriter(object):
         comments = []
         # inverse mapping of the long-short name map, required
         # for writing comments
-        inv_field_map = dict((v, k) for k, v in _LONG_SHORT_MAP.items())
+        inv_field_map = dict((v, k) for k, v in list(_LONG_SHORT_MAP.items()))
 
         # try to anticipate qress without version
         if not hasattr(qres, 'version'):
