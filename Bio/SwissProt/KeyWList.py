@@ -19,7 +19,7 @@ parse             Parses the keywlist.txt file and returns an iterator to
 """
 
 
-from __future__ import print_function
+
 
 class Record(dict):
     """
