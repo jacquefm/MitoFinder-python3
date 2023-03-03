@@ -135,7 +135,7 @@ def _gpi10iterator(handle):
             continue
         inrec[5] = inrec[5].split('|') # DB_Object_Synonym(s)
         inrec[8] = inrec[8].split('|') # Annotation_Target_Set
-        yield dict(zip(GPI10FIELDS, inrec))
+        yield dict(list(zip(GPI10FIELDS, inrec)))
 
 def _gpi11iterator(handle):
     """Read GPI 1.0 format files (PRIVATE).
@@ -153,7 +153,7 @@ def _gpi11iterator(handle):
         inrec[3] = inrec[3].split('|') # DB_Object_Synonym(s)
         inrec[7] = inrec[7].split('|') # DB_Xref(s)
         inrec[8] = inrec[8].split('|') # Properties
-        yield dict(zip(GPI11FIELDS, inrec))
+        yield dict(list(zip(GPI11FIELDS, inrec)))
 
 def gpi_iterator(handle):
     """Read GPI format files.
@@ -190,7 +190,7 @@ def _gpa10iterator(handle):
         inrec[4] = inrec[4].split('|') # DB:Reference(s)
         inrec[6] = inrec[6].split('|') # With
         inrec[10] = inrec[10].split('|') # Annotation extension
-        yield dict(zip(GPA10FIELDS, inrec))
+        yield dict(list(zip(GPA10FIELDS, inrec)))
 
 
 def _gpa11iterator(handle):
@@ -210,7 +210,7 @@ def _gpa11iterator(handle):
         inrec[4] = inrec[4].split('|') # DB:Reference(s)
         inrec[6] = inrec[6].split('|') # With
         inrec[10] = inrec[10].split('|') # Annotation extension
-        yield dict(zip(GPA11FIELDS, inrec))
+        yield dict(list(zip(GPA11FIELDS, inrec)))
 
 
 def gpa_iterator(handle):
@@ -241,7 +241,7 @@ def _gaf20iterator(handle):
         inrec[7] = inrec[7].split('|') # With || From
         inrec[10] = inrec[10].split('|') # Synonym
         inrec[12] = inrec[12].split('|') # Taxon
-        yield dict(zip(GAF20FIELDS, inrec))
+        yield dict(list(zip(GAF20FIELDS, inrec)))
 
 
 def _gaf10iterator(handle):
@@ -256,7 +256,7 @@ def _gaf10iterator(handle):
         inrec[7] = inrec[7].split('|') # With || From
         inrec[10] = inrec[10].split('|') # Synonym
         inrec[12] = inrec[12].split('|') # Taxon
-        yield dict(zip(GAF10FIELDS, inrec))
+        yield dict(list(zip(GAF10FIELDS, inrec)))
 
 
 def _gaf10byproteiniterator(handle):
@@ -273,7 +273,7 @@ def _gaf10byproteiniterator(handle):
         inrec[7] = inrec[7].split('|') # With || From
         inrec[10] = inrec[10].split('|') # Synonym
         inrec[12] = inrec[12].split('|') # Taxon
-        cur_rec = dict(zip(GAF10FIELDS, inrec))
+        cur_rec = dict(list(zip(GAF10FIELDS, inrec)))
         if cur_rec['DB_Object_ID'] != cur_id and cur_id:
             ret_list = copy.copy(id_rec_list)
             id_rec_list = [cur_rec]
@@ -298,7 +298,7 @@ def _gaf20byproteiniterator(handle):
         inrec[7] = inrec[7].split('|') # With || From
         inrec[10] = inrec[10].split('|') # Synonym
         inrec[12] = inrec[12].split('|') # Taxon
-        cur_rec = dict(zip(GAF20FIELDS, inrec))
+        cur_rec = dict(list(zip(GAF20FIELDS, inrec)))
         if cur_rec['DB_Object_ID'] != cur_id and cur_id:
             ret_list = copy.copy(id_rec_list)
             id_rec_list = [cur_rec]
